@@ -1,7 +1,7 @@
 {
-  "name": "OpenShift-Sample-App",
+  "name": "CreWeb-Testing-NodeJs",
   "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "description": "NOde Js Testing",
   "keywords": [
     "OpenShift",
     "Node.js",
@@ -10,7 +10,7 @@
   ],
   "author": {
     "name": "OpenShift",
-    "email": "ramr@example.org",
+    "email": "christian.revillard@centraliens.net",
     "url": "http://www.openshift.com/"
   },
   "homepage": "http://www.openshift.com/",
@@ -31,5 +31,5 @@
   "bundleDependencies": [],
 
   "private": true,
-  "main": "server.js"
+  "main": "index.js"
 }
