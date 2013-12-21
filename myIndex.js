@@ -1,5 +1,4 @@
 #!/bin/env node
-/**
 var server = require("./openShiftserver");
 var router = require("./router");
 var requestHandlers = require("./requestHandlers");
@@ -8,8 +7,8 @@ handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 handle["/upload"] = requestHandlers.upload;
 server.start(router.route, handle);
-**/
 
+/**
 	// This is working fine !
 var server = require("./openShiftServer");
 var http = require("http");
@@ -21,3 +20,4 @@ function onRequest(request, response) {
  };
 
 http.createServer(onRequest).listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP);
+**/
