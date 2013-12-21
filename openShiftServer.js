@@ -19,8 +19,7 @@ function onRequest(request, response) {
  route(handle, pathname, response, postData);
  });
 }
-
-	http.createServer(onRequest).listen(process.env.OPENSHIFT_NODEJS_PORT || 8888);
+	http.createServer(onRequest).listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP);
 	console.log("Server has started.");}
 
 exports.start = start;
