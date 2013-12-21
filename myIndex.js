@@ -11,7 +11,7 @@ server.start(router.route, handle);
 **/
 
 	// This is working fine !
-var server = require("./openShiftserver");
+var server = require("./openShiftServer");
 var http = require("http");
 
 function onRequest(request, response) {
