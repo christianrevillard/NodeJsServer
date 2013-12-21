@@ -27,4 +27,4 @@ function onRequest(request, response) {
  response.end();
  };
 
-http.createServer(onRequest).listen(process.env.OPENSHIFT_NODEJS_PORT);
+http.createServer(onRequest).listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP);
