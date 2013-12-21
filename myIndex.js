@@ -164,7 +164,9 @@ var SampleApp = function() {
 /**
  *  main():  Main code.
  */
-var zapp = new SampleApp();
+//var zapp = new SampleApp();
 //zapp.initialize();
 //zapp.start();
-
+var serv = express.createServer();
+serv.listen(process.env.OPENSHIFT_NODEJS_PORT, process.env.OPENSHIFT_NODEJS_IP, function() {
+            console.log('log');});
