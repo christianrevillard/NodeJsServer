@@ -1,5 +1,5 @@
 #!/bin/env node
-var server = require("./openShiftserver");
+var server = require("./openShiftServer");
 var router = require("./router");
 var requestHandlers = require("./requestHandlers");
 var handle = {}
