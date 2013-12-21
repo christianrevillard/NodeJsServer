@@ -1,3 +1,4 @@
+#!/bin/env node
 /**
 var server = require("./openShiftserver");
 var router = require("./router");
