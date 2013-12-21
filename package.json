@@ -31,5 +31,5 @@
   "bundleDependencies": [],
 
   "private": true,
-  "main": "myIndex.js"
+  "main": "index.js"
 }
