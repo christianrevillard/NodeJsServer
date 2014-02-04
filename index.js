@@ -10,7 +10,7 @@ var handlers = {};
 handlers["/"] = menuHandler.handle;
 handlers["/upload"] = uploadStartHandler.handle;
 handlers["/upload/start"] = uploadStartHandler.handle;
-handlers["/upload/doupload"] = uploadHandler.handle;
+handlers["/upload/upload"] = uploadHandler.handle;
 handlers["/upload/show"] = uploadShowHandler.handle;
 
 server.start(router.route, handlers);
