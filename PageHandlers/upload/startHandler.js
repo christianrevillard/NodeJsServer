@@ -7,7 +7,7 @@ function handle(response, request) {
 	'content="text/html; charset=UTF-8" />'+
 	'</head>'+
 	'<body>'+
-	'<form action="/upload" method="post" enctype="multipart/form-data">'+
+	'<form action="upload" method="post" enctype="multipart/form-data">'+
 	'<input type="file" name="upload" mutiple="multiple">'+
 	'<input type="submit" value="Upload file" />'+
 	'</form>'+
