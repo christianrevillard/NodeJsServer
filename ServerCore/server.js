@@ -1,12 +1,14 @@
 var http = require("http");
 var url = require("url");
 
-function start(route, handlers) {
+function start(route, 
+		fileHandlers,
+		pageHandlers) {
 	
 	function onRequest(request, response) {
 		var pathname = url.parse(request.url).pathname;
 		console.log("Request for " + pathname + " received.");
-		route(handlers, pathname, response, request);
+		route(fileHandlers, pageHandlers, pathname, response, request);
 	};
 	
 	http

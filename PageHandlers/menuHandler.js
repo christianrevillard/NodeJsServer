@@ -7,8 +7,9 @@ function handle(response, request) {
 	'content="text/html; charset=UTF-8" />'+
 	'</head>'+
 	'<body>'+
-	'<table>'+
-	'<a href="/upload">Upload image test</a>'+
+	'<table>'+	
+	'<tr><td><a href="/upload">Upload image test</a></td></tr>'+
+	'<tr><td><a href="/resources/html/test.html">Client script test</a></td></tr>'+
 	'</table'+
 	'</body>'+
 	'</html>';
