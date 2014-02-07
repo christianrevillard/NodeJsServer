@@ -1,25 +1,36 @@
 var server = require("./ServerCore/server");
 var router = require("./ServerCore/router");
 
-var pageHandlers = {};
-var uploadStartHandler = require("./PageHandlers/upload/startHandler");
-var uploadShowHandler = require("./PageHandlers/upload/showHandler");
-var uploadHandler = require("./PageHandlers/upload/uploadHandler");
-var menuHandler = require("./PageHandlers/menuHandler");
+///////////////////////////
+/* File extensions */
+///////////////////////////
+var fileHandlers = {};
+var fileHandler = require("./FileHandlers/FileHandler");
+fileHandlers[".js"] = new fileHandler.FileHandler('text/javascript').handle;
+fileHandlers[".png"] = new fileHandler.FileHandler('image/png').handle;
+fileHandlers[".gif"] = new fileHandler.FileHandler('image/gif').handle;
+fileHandlers[".html"] = fileHandlers[".htm"] = new fileHandler.FileHandler('text/html').handle;
+allowedFileLocations = 
+	['/tmp/',		 
+	 '/resources/'];
 
+///////////////////////////
+/* Routes */
+///////////////////////////
+var pageHandlers = {};
+
+/* menu */
+var menuHandler = require("./PageHandlers/menuHandler");
 pageHandlers["/"] = menuHandler.handle;
+
+/* image upload */
+var uploadStartHandler = require("./PageHandlers/upload/startHandler");
+var uploadHandler = require("./PageHandlers/upload/uploadHandler");
 pageHandlers["/upload"] = pageHandlers["/upload/start"] = uploadStartHandler.handle;
 pageHandlers["/upload/upload"] = uploadHandler.handle;
-pageHandlers["/upload/show"] = uploadShowHandler.handle;
 
-var fileHandlers = {};
-var resourceFileHandler = require("./FileHandlers/resourceFileHandler");
-fileHandlers[".js"] = { handler:resourceFileHandler.handle, contentType:'text/javascript'};
-fileHandlers[".png"] = { handler:resourceFileHandler.handle,  contentType:'image/png'};
-fileHandlers[".gif"] = { handler:resourceFileHandler.handle,  contentType:'image/gif'};
-fileHandlers[".html"] = fileHandlers[".htm"] = { handler:resourceFileHandler.handle,  contentType:'text/html'};
-
-server.start(
+server.start(	
 		router.route, 
+		allowedFileLocations,
 		fileHandlers,
 		pageHandlers);

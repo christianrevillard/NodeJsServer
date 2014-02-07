@@ -6,12 +6,11 @@ var handle = function(response, request, contentType) {
 	url = require('url');
 	fileName = url.parse(request.url).pathname;
 	
-	console.log("Generic file handler was called for '" + fileName + "'., ContentType is '" + contentType + "'");	
+	console.log("Generic file handler was called for '" + fileName + "', ContentType is '" + contentType + "'");	
 
-	if (fileName.slice(0,11) == "/resources/")
+	if (fileName.slice(0,5) != "/tmp/")
 	{
 		fileName = "." + fileName;
-		// /tmp/ served from local disk 
 	}
 
 	response.writeHead(200, {"Content-Type":  contentType});

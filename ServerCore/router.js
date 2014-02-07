@@ -1,31 +1,42 @@
-function route(fileHandlers, pageHandlers, pathname, response, request) {
-	var extension, isResourceFile;
+function 
+	route(
+		allowedFileLocations,
+		fileHandlers, 
+		pageHandlers, 
+		pathname, 
+		response, 
+		request) {
 	
-	isResourceFile = 
-		// server resource files
-		pathname.slice(0,11) === "/resources/"  ||
-		// temp files
-		pathname.slice(0,5) === "/tmp/" 
+	var extension;
 
-		extension = pathname.slice(pathname.lastIndexOf('.'));
-
-	if (isResourceFile && typeof fileHandlers[extension] === 'object') {
-		console.log("Found resource filehandler for extension " + extension);
-		(fileHandlers[extension].handler)(response, request, fileHandlers[extension].contentType);
-	} 
-	else if (typeof fileHandlers[extension] === 'function') {
-		console.log("Found filehandler for extension " + extension);
-		fileHandlers[extension](response, request);
-	} 
-	else if (typeof pageHandlers[pathname] === 'function') {
+	if (typeof pageHandlers[pathname] === 'function') {
 		console.log("Found filehandler for pathname " + pathname);
 		pageHandlers[pathname](response, request);
+		return;
 	} 
-	else {
-		console.log("No request handler found for " + pathname);
-		response.writeHead(404, {"Content-Type": "text/plain"});
-		return "404 Not found";
+	
+	extension = pathname.slice(pathname.lastIndexOf('.'));
+
+	if (typeof fileHandlers[extension] === 'function')
+	{
+		if (
+			allowedFileLocations.some(
+				function(allowedFileLocation)
+				{
+					return pathname.slice(0,allowedFileLocation.length) === allowedFileLocation; 
+				}))
+		{
+			console.log("Found filehandler for extension " + extension);
+			fileHandlers[extension](response, request);
+			return;
+		}
 	}
+
+	console.log("No request handler found for " + pathname);
+	response.writeHead(404, {"Content-Type": "text/plain"});
+	response.write("File not found.")
+	response.end();
+	return;
 }
 
 exports.route = route;
