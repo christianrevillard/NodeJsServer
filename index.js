@@ -5,7 +5,7 @@ var router = require("./ServerCore/router");
 /* File extensions */
 ///////////////////////////
 var fileHandlers = {};
-var fileHandler = require("./FileHandlers/fileHandler");
+var fileHandler = require("./FileHandlers/FileHandler");
 fileHandlers[".js"] = new fileHandler.FileHandler('text/javascript').handle;
 fileHandlers[".png"] = new fileHandler.FileHandler('image/png').handle;
 fileHandlers[".gif"] = new fileHandler.FileHandler('image/gif').handle;
