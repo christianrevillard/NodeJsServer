@@ -1,20 +1,51 @@
 var fs = require("fs");
 
-var handle = function(response, request, contentType) {
-	var fileName,url;
-		
-	url = require('url');
-	fileName = url.parse(request.url).pathname;
-	
-	console.log("Generic file handler was called for '" + fileName + "', ContentType is '" + contentType + "'");	
-
-	if (fileName.slice(0,5) != "/tmp/")
+var handle = 
+	function(
+		response,
+		request, 
+		fileLocations,
+		contentType) 
 	{
-		fileName = "." + fileName;
-	}
+		var fileName, url, router;
+			
+		url = require('url');
+		fileNotFound =  require('../ServerCore/fileNotFound');		
+		fileName = url.parse(request.url).pathname;
+		
+		console.log("Resource file handler was called for '" + fileName + "', contentType '" + contentType + "'");	
+	
+		var pathLocation = fileName.slice(0, fileName.indexOf('/',1));
+		
+		if (fileLocations[pathLocation]===undefined)
+		{
+			console.log("Unknown location '" + pathLocation + "', for filename '" + fileName + "'");							
+			fileNotFound.showNotFound(response);
+			return;
+		}
 
-	response.writeHead(200, {"Content-Type":  contentType});
-	fs.createReadStream(fileName).pipe(response);
-}
+		console.log("Found defined location '" + pathLocation + "' in filename '" + fileName + "'");	
+			
+		fileName = fileName.replace(new RegExp("^" + pathLocation), fileLocations[pathLocation]);
+	
+		console.log("Disk filename is '" + fileName + "'");	
+	
+		fs.exists(
+			fileName, 
+			function (exists) 
+			{
+				if (exists)
+				{
+					console.log("Serving '" + fileName + "'");	
+					response.writeHead(200, {"Content-Type":  contentType});
+					fs.createReadStream(fileName).pipe(response);					
+				}
+				else
+				{
+					console.log("File not found '" + fileName + "'");	
+					fileNotFound.showNotFound(response);
+				}			
+			});
+	};
 
 exports.handle = handle;

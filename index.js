@@ -4,33 +4,33 @@ var router = require("./ServerCore/router");
 ///////////////////////////
 /* File extensions */
 ///////////////////////////
-var fileHandlers = {};
+var fileLocations = {};
+fileLocations['/files'] = './resources';
+fileLocations['/temp'] = '/tmp';
+
+var handlers = {};
 var fileHandler = require("./FileHandlers/FileHandler");
-fileHandlers[".js"] = new fileHandler.FileHandler('text/javascript').handle;
-fileHandlers[".png"] = new fileHandler.FileHandler('image/png').handle;
-fileHandlers[".gif"] = new fileHandler.FileHandler('image/gif').handle;
-fileHandlers[".html"] = fileHandlers[".htm"] = new fileHandler.FileHandler('text/html').handle;
-allowedFileLocations = 
-	['/tmp/',		 
-	 '/resources/'];
+handlers[".js"] = new fileHandler.FileHandler(fileLocations,'text/javascript').handle;
+handlers[".png"] = new fileHandler.FileHandler(fileLocations,'image/png').handle;
+handlers[".gif"] = new fileHandler.FileHandler(fileLocations,'image/gif').handle;
+handlers[".html"] = handlers[".htm"] = new fileHandler.FileHandler(fileLocations,'text/html').handle;
 
 ///////////////////////////
 /* Routes */
 ///////////////////////////
-var pageHandlers = {};
 
 /* menu */
 var menuHandler = require("./PageHandlers/menuHandler");
-pageHandlers["/"] = menuHandler.handle;
+handlers["/"] = menuHandler.handle;
 
 /* image upload */
 var uploadStartHandler = require("./PageHandlers/upload/startHandler");
 var uploadHandler = require("./PageHandlers/upload/uploadHandler");
-pageHandlers["/upload"] = pageHandlers["/upload/start"] = uploadStartHandler.handle;
-pageHandlers["/upload/upload"] = uploadHandler.handle;
+handlers["/upload"] = handlers["/upload/start"] = uploadStartHandler.handle;
+handlers["/upload/upload"] = uploadHandler.handle;
 
-server.start(	
+server
+	.start(	
 		router.route, 
-		allowedFileLocations,
-		fileHandlers,
-		pageHandlers);
+		fileLocations,
+		handlers);

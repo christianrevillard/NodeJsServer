@@ -1,42 +1,48 @@
-function 
-	route(
-		allowedFileLocations,
-		fileHandlers, 
-		pageHandlers, 
+var 
+	route,
+	fileNotFound;
+
+var route = 
+	function (
+		fileLocations,
+		handlers, 
 		pathname, 
 		response, 
-		request) {
-	
-	var extension;
+		request) 
+	{	
+		var 
+			fileExtension,
+			pathLocation,
+			fileNotFound;	
 
-	if (typeof pageHandlers[pathname] === 'function') {
-		console.log("Found filehandler for pathname " + pathname);
-		pageHandlers[pathname](response, request);
-		return;
-	} 
-	
-	extension = pathname.slice(pathname.lastIndexOf('.'));
+		var fileNotFound =  require('./fileNotFound');		
 
-	if (typeof fileHandlers[extension] === 'function')
-	{
-		if (
-			allowedFileLocations.some(
-				function(allowedFileLocation)
-				{
-					return pathname.slice(0,allowedFileLocation.length) === allowedFileLocation; 
-				}))
-		{
-			console.log("Found filehandler for extension " + extension);
-			fileHandlers[extension](response, request);
+		if (typeof handlers[pathname] === 'function') {
+			console.log("Found router-filehandler for pathname " + pathname);
+			handlers[pathname](response, request);
 			return;
+		} 
+		
+		fileExtension = pathname.slice(pathname.lastIndexOf('.'));
+	
+		if (typeof handlers[fileExtension] !== 'function')
+		{	
+			console.log("No request handler found for " + pathname);
+			fileNotFound.showNotFound(response);
+			return ;
 		}
+	
+		firstPathLocation = pathname.slice(0, pathname.indexOf('/',1));
+	
+		if (fileLocations[firstPathLocation] === undefined)
+		{
+			console.log(pathname + "has known extension '" + fileExtension + "', but location '" + firstPathLocation + ' is  unknown.');
+			fileNotFound.showNotFound(response);
+			return ;
+		}
+		
+		console.log("Found extension-filehandler for pathname " + pathname + "('" + fileExtension + "','" + firstPathLocation + "')");
+		handlers[fileExtension](response, request);
 	}
-
-	console.log("No request handler found for " + pathname);
-	response.writeHead(404, {"Content-Type": "text/plain"});
-	response.write("File not found.")
-	response.end();
-	return;
-}
 
 exports.route = route;

@@ -9,7 +9,7 @@ function handle(response, request) {
 	'<body>'+
 	'<table>'+	
 	'<tr><td><a href="/upload">Upload image test</a></td></tr>'+
-	'<tr><td><a href="/resources/html/test.html">Client script test</a></td></tr>'+
+	'<tr><td><a href="/files/html/test.html">Client script test</a></td></tr>'+
 	'</table'+
 	'</body>'+
 	'</html>';

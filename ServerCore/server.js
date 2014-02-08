@@ -1,31 +1,35 @@
 var http = require("http");
 var url = require("url");
 
-function start(
+var start = 
+	function(
 		route,
-		allowedFileLocations,
-		fileHandlers,
-		pageHandlers) {
-	
-	function onRequest(request, response) {
-		var pathname = url.parse(request.url).pathname;
-		console.log("Request for " + pathname + " received.");
-		route(
-				allowedFileLocations,
-				fileHandlers, 
-				pageHandlers, 
-				pathname, 
-				response, 
-				request);
-	};
-	
-	http
-		.createServer(onRequest)
-		.listen(
+		fileLocations,
+		handlers) 
+	{
+		
+		var onRequest = 
+			function(
+				request, 
+				response) 
+			{
+				var pathname = url.parse(request.url).pathname;
+				console.log("Request for " + pathname + " received.");
+				route(
+					fileLocations,
+					handlers, 
+					pathname, 
+					response, 
+					request);
+			};
+		
+		http
+			.createServer(onRequest)
+			.listen(
 				process.env.OPENSHIFT_NODEJS_PORT || 8888, 
 				process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
-	
-	console.log("Server has started.");
-}
+		
+		console.log("Server has started.");
+	}
 
 exports.start = start;

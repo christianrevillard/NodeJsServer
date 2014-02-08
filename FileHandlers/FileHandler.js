@@ -1,12 +1,24 @@
 var resourceFileHandler = require("./resourceFileHandler");
 
-var FileHandler = function(contentType) {
-	this.handle = function(response, request){
-		return resourceFileHandler.handle(
-		response, 
-		request,		
-		contentType);
+var FileHandler = 
+	function(
+		fileLocations,
+		contentType) 
+	{
+		this.handle = 
+			function(
+				response, 
+				request)
+			{
+				console.log("Handling a '" + contentType + "' file");
+				
+				resourceFileHandler
+					.handle(
+						response, 
+						request,
+						fileLocations,
+						contentType);
+			};
 	};
-};
 
 exports.FileHandler= FileHandler;
