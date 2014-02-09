@@ -29,6 +29,11 @@ var uploadHandler = require("./PageHandlers/upload/uploadHandler");
 handlers["/upload"] = handlers["/upload/start"] = uploadStartHandler.handle;
 handlers["/upload/upload"] = uploadHandler.handle;
 
+/* ajax requests */
+var testAjaxHandler = require("./RequestHandlers/testAjax");
+handlers["/testAjax"] = testAjaxHandler.handle;
+
+
 server
 	.start(	
 		router.route, 
