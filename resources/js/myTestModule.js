@@ -35,5 +35,18 @@ var myTestModule =
 				"text/plain;charset=UTF-8");
 		
 		request.send(message);			
-	}
+	},
+	
+	bookmarklet: function()
+	{
+		var e="", r="";
+		do
+		{
+			e = prompt("Expression: " + e + "\n" + r + "\n", e);
+			try {
+				r = "Result: " + eval(e);
+			} catch (ex) { r = ex;}
+		} while (e)
+			void 0;
+	},
 };

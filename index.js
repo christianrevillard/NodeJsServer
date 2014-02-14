@@ -14,6 +14,7 @@ handlers[".js"] = new fileHandler.FileHandler(fileLocations,'text/javascript').h
 handlers[".png"] = new fileHandler.FileHandler(fileLocations,'image/png').handle;
 handlers[".gif"] = new fileHandler.FileHandler(fileLocations,'image/gif').handle;
 handlers[".html"] = handlers[".htm"] = new fileHandler.FileHandler(fileLocations,'text/html').handle;
+handlers[".ogg"] = new fileHandler.FileHandler(fileLocations,'audio/ogg').handle;
 
 ///////////////////////////
 /* Routes */
