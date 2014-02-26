@@ -63,19 +63,13 @@ var bodyOnLoad = function(event)
 			if (eventNode.closeAt <= Date.now())
 			{
 				eventPopUp.removeChild(eventNode);
-			}
-			else					
-			{
-				setTimeout(
-					close,
-					eventNode.closeAt - Date.now());
+				clearInterval(interval);
 			}
 		};
 
-		setTimeout(
-				close,
-				displayTime
-				);
+		var interval = setInterval(
+			close,
+			1000);
 	}
 	
 	logEvent(event);
@@ -107,4 +101,34 @@ var bodyOnLoad = function(event)
 	
 	registerEvents(document.getElementById("testControls"));
 	
+	var theDraggableDiv = document.getElementById("theDraggableDiv");
+	
+	theDraggableDiv.addEventListener(
+		"dragstart",
+		function(event)
+		{
+			var dt = event.dataTransfer;
+			dt.setData('Xxx', 'the data');
+		});
+
+	var theText = document.getElementById("theText");
+
+	theText.ondragover = 
+			function(event)
+			{
+				return false;
+			};
+
+	theText.addEventListener( 
+			"drop",
+		function(event)
+		{
+				event = event || window.event // IE trick
+				var xxx = event.dataTransfer.getData("Xxx");
+				if (xxx)
+				{
+					theText.value = xxx;
+				}
+		});
+
 };

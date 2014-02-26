@@ -10,6 +10,9 @@ function handle(response, request) {
 	'<table>'+	
 	'<tr><td><a href="/upload">Upload image test</a></td></tr>'+
 	'<tr><td><a href="/files/html/test.html">Client script test</a></td></tr>'+
+	'<tr><td><a href="/files/html/jsevents.html">Events test</a></td></tr>'+
+	'<tr><td><a href="/files/html/chess.html">JS Chess</a></td></tr>'+
+	'<tr><td><a href="/files/html/canvas.html">Canvas tests</a></td></tr>'+
 	'</table'+
 	'</body>'+
 	'</html>';

@@ -11,6 +11,7 @@ fileLocations['/temp'] = '/tmp';
 var handlers = {};
 var fileHandler = require("./FileHandlers/FileHandler");
 handlers[".js"] = new fileHandler.FileHandler(fileLocations,'text/javascript').handle;
+handlers[".css"] = new fileHandler.FileHandler(fileLocations,'text/css').handle;
 handlers[".png"] = new fileHandler.FileHandler(fileLocations,'image/png').handle;
 handlers[".gif"] = new fileHandler.FileHandler(fileLocations,'image/gif').handle;
 handlers[".html"] = handlers[".htm"] = new fileHandler.FileHandler(fileLocations,'text/html').handle;
