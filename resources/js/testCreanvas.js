@@ -19,6 +19,7 @@ var startStuff = function ()
 			controller: controller,
 			x: 400,
 			y: 300,
+			movable:true,
 			draw: function (context) 
 			{
 				context.strokeStyle = "#f00";
@@ -49,6 +50,7 @@ var startStuff = function ()
 				controller: controller,
 			x: 200,
 			y: 350,
+			movable: true,
 			draw: function (context) 
 			{
 				context.strokeStyle = "#00f";
@@ -83,6 +85,7 @@ var startStuff = function ()
 			x: 200,
 			y: 300,
 			z:-10,
+			movable: true,
 			draw: function (context) 
 			{
 				
