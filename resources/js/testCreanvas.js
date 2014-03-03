@@ -102,5 +102,6 @@ var startStuff = function ()
 			context.stroke();
 			}});
 
+	theCanvas.addEventListener('touchstart', function(){ alert('click');});
 	
 };

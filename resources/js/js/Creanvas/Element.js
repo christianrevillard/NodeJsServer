@@ -87,7 +87,7 @@ Creanvas.Element = function(elementData){
 	};
 	
 	this.controller.addEventListener('mousedown', beginMove);
-	this.controller.addEventListener('touchstart', beginMove);
+	this.controller.addEventListener('	', beginMove);
 
 
 			
