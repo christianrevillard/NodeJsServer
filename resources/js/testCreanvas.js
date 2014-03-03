@@ -104,4 +104,7 @@ var startStuff = function ()
 	
 	
 	var boundings = theCanvas.getBoundingClientRect();
+		
+	theCanvas.addEventListener('touchend', function(e){ alert(e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY);})
+
 };
