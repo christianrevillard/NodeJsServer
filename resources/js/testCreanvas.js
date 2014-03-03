@@ -110,6 +110,6 @@ var startStuff = function ()
 	
 	debug2.innerHTML = boundings.left + ',' + boundings.width + ',' +  boundings.top + ',' + boundings.height;		
 	
-	theCanvas.addEventListener('click', function(e){ alert(e.clientX + ',' + e.clientY);})
+	theCanvas.addEventListener('touchend', function(e){ alert(e.clientX + ',' + e.clientY);})
 
 };
