@@ -105,6 +105,14 @@ var startStuff = function ()
 	
 	var boundings = theCanvas.getBoundingClientRect();
 		
-	theCanvas.addEventListener('touchend', function(e){ alert(e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY);})
+	var debug = document.getElementById('debug');
+	
+	theCanvas.addEventListener('touchend', function(e){ 
+		debug.innerHTML = 'touchend: ' + e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY;});
+	
+	theCanvas.addEventListener('touchstart', function(e){ 
+		debug.innerHTML = 'touchstart: ' + e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY;});
 
+	theCanvas.addEventListener('touchmove', function(e){ 
+		debug.innerHTML = 'touchmove: ' + e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY;});
 };
