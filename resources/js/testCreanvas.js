@@ -115,4 +115,7 @@ var startStuff = function ()
 
 	theCanvas.addEventListener('touchmove', function(e){ 
 		debug.innerHTML = 'touchmove: ' + e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY;});
+
+	theCanvas.addEventListener('click', function(e){ 
+		debug.innerHTML = 'click: ' + e.clientX + ',' + e.clientY;});
 };
