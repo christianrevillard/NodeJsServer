@@ -1,8 +1,6 @@
 var startStuff = function ()
 {		
 	var theCanvas = document.getElementById('theCanvas');
-	var debug = document.getElementById('debug');
-	var debug2 = document.getElementById('debug2');
 	
 	var controller = new Creanvas.Controller(
 			{
@@ -59,7 +57,6 @@ var startStuff = function ()
 				context.beginPath();
 				context.arc(this.x,this.y,50,0,2*Math.PI);
 				context.stroke();
-				debug.innerHTML = "Redraw at (" + this.x + "," +  this.y +")";
 			}});
 
 
@@ -107,9 +104,4 @@ var startStuff = function ()
 	
 	
 	var boundings = theCanvas.getBoundingClientRect();
-	
-	debug2.innerHTML = boundings.left + ',' + boundings.width + ',' +  boundings.top + ',' + boundings.height;		
-	
-	theCanvas.addEventListener('touchend', function(e){ alert(e.clientX + ',' + e.clientY);})
-
 };

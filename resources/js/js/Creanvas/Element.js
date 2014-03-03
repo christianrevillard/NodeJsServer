@@ -173,6 +173,7 @@ Creanvas.Element = function(elementData){
 			element.y += canvasXY.y-movingFrom.y;
 			isMoved = false;
 			element.triggerRedraw();
+			alert('completed');
 		}});
 		element.triggerRedraw();
 	};
