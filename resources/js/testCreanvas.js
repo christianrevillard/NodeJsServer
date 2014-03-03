@@ -126,16 +126,13 @@ var startStuff = function ()
 
 	
 	// prevent a Galxy bug stuff
-	docment.addEventListener('touchend', function(e){ 
-		e.preventDefault();
-		});
-	
-	document.addEventListener('touchstart', function(e){ 
-		e.preventDefault();
-	});
-
-	document.addEventListener('touchmove', function(e){ 
-		e.preventDefault();
-	});
+	function touchHandlerDummy(e)
+	{
+	    e.preventDefault();
+	    return false;
+	}
+	document.addEventListener("touchstart", touchHandlerDummy, false);
+	document.addEventListener("touchmove", touchHandlerDummy, false);
+	document.addEventListener("touchend", touchHandlerDummy, false);
 
 };
