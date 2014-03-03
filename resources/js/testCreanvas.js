@@ -109,5 +109,7 @@ var startStuff = function ()
 	var boundings = theCanvas.getBoundingClientRect();
 	
 	debug2.innerHTML = boundings.left + ',' + boundings.width + ',' +  boundings.top + ',' + boundings.height;		
+	
+	theCanvas.addEventListener('click', function(e){ alert(e.clientX + ',' + e.clientY);})
 
 };
