@@ -2,6 +2,7 @@ var startStuff = function ()
 {		
 	var theCanvas = document.getElementById('theCanvas');
 	var debug = document.getElementById('debug');
+	var debug2 = document.getElementById('debug2');
 	
 	var controller = new Creanvas.Controller(
 			{
@@ -104,4 +105,9 @@ var startStuff = function ()
 			context.stroke();
 			}});
 	
+	
+	var boundings = theCanvas.getBoundingClientRect();
+	
+	debug2.innerHTML = boundings.left + ',' + boundings.width + ',' +  boundings.top + ',' + boundings.height;		
+
 };
