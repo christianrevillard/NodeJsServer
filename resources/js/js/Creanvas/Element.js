@@ -87,6 +87,7 @@ Creanvas.Element = function(elementData){
 	};
 
 	var beginMovepad = function(e) {
+		e.preventDefault();
 		eventsToHandle.push(function()
 				{		
 					if (isClicked(e))
@@ -132,6 +133,7 @@ Creanvas.Element = function(elementData){
 	};	
 
 	var movepad = function(e) {
+		e.preventDefault();
 		eventsToHandle.push(function()
 				{		
 					if (isMoved)
@@ -164,6 +166,7 @@ Creanvas.Element = function(elementData){
 	};
 
 	var moveendpad = function(e) {
+		e.preventDefault();
 		eventsToHandle.push(function()
 				{
 		if (isMoved)

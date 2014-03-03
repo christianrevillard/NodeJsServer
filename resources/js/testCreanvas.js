@@ -108,14 +108,18 @@ var startStuff = function ()
 	var debug = document.getElementById('debug');
 	
 	theCanvas.addEventListener('touchend', function(e){ 
+		e.preventDefault();
 		debug.innerHTML = 'touchend: ' + e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY;});
 	
 	theCanvas.addEventListener('touchstart', function(e){ 
+		e.preventDefault();
 		debug.innerHTML = 'touchstart: ' + e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY;});
 
 	theCanvas.addEventListener('touchmove', function(e){ 
+		e.preventDefault();
 		debug.innerHTML = 'touchmove: ' + e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY;});
 
 	theCanvas.addEventListener('click', function(e){ 
+		e.preventDefault();
 		debug.innerHTML = 'click: ' + e.clientX + ',' + e.clientY;});
 };
