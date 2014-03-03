@@ -1,6 +1,7 @@
 var startStuff = function ()
 {		
 	var theCanvas = document.getElementById('theCanvas');
+	var debug = document.getElementById('debug');
 	
 	var controller = new Creanvas.Controller(
 			{
@@ -57,6 +58,7 @@ var startStuff = function ()
 				context.beginPath();
 				context.arc(this.x,this.y,50,0,2*Math.PI);
 				context.stroke();
+				debug.innerHTML = "Redraw at (" + this.x + "," +  this.y +")";
 			}});
 
 
