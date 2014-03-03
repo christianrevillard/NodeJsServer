@@ -109,13 +109,16 @@ var startStuff = function ()
 	
 	theCanvas.addEventListener('touchend', function(e){ 
 		e.preventDefault();
-		debug.innerHTML = 'touchend: ' + e.changedTouches[0].clientX + ',' + e.changedTouches[0].clientY;});
+		debug.innerHTML = 'touchend: ' + e.changedTouches.length + ',' + e.targetTouches.length;});
+//		debug.innerHTML = 'touchend: ' + e.changedTouches[0].clientX + ',' + e.changedTouches[0].clientY;});
 	
 	theCanvas.addEventListener('touchstart', function(e){ 
-		debug.innerHTML = 'touchstart: ' + e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY;});
+		debug.innerHTML = 'touchstart: ' + e.changedTouches.length + ',' + e.targetTouches.length;});
+//		debug.innerHTML = 'touchstart: ' + e.targetTouches[0].clientX + ',' + e.targetTouches[0].clientY;});
 
 	theCanvas.addEventListener('touchmove', function(e){ 
-		debug.innerHTML = 'touchmove: ' + e.changedTouches[0].clientX + ',' + e.changedTouches[0].clientY;});
+		debug.innerHTML = 'touchmove: ' + e.changedTouches.length + ',' + e.targetTouches.length;});
+//		debug.innerHTML = 'touchmove: ' + e.changedTouches[0].clientX + ',' + e.changedTouches[0].clientY;});
 
 	theCanvas.addEventListener('click', function(e){ 
 		debug.innerHTML = 'click: ' + e.clientX + ',' + e.clientY;});
