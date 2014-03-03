@@ -59,6 +59,8 @@ Creanvas.Element = function(elementData){
 	element.z);
 
 	var isMoved = false;
+	var touchIdentifier = null;
+	
 	var movingFrom = null;
 	
 	var beginMove = function(e) {
@@ -89,7 +91,9 @@ Creanvas.Element = function(elementData){
 	var beginMovepad = function(e) {
 		eventsToHandle.push(function()
 				{		
-					if (isClicked(e))
+				for (var touch = 0; touch<e.targetTouches.length; touch++)				
+					{
+					if (isClicked(e.targetTouches[touch]))
 					{
 						if (e.shiftKey)
 						{ 				
@@ -106,8 +110,11 @@ Creanvas.Element = function(elementData){
 						}
 						
 						isMoved = true;
-						movingFrom = element.controller.getCanvasXYFromClientXY(e.targetTouches[0].clientX, e.targetTouches[0].clientY);	
+						touchIdentifier = e.targetTouches[touch].identifier;
+						movingFrom = element.controller.getCanvasXYFromClientXY(e.targetTouches[touch].clientX, e.targetTouches[touch].clientY);
+						touch = e.targetTouches.length;
 					}
+				}
 		});
 	};
 
@@ -136,11 +143,19 @@ Creanvas.Element = function(elementData){
 				{		
 					if (isMoved)
 					{
-						var canvasXY = element.controller.getCanvasXYFromClientXY(e.targetTouches[0].clientX, e.targetTouches[0].clientY);	
+						for (var touch=0; touch<e.targetTouches.length; touch++)
+						{
+							if (e.targetTouches[touch].identifier === touchIdentifier)
+								{
+
+						var canvasXY = element.controller.getCanvasXYFromClientXY(e.targetTouches[touch].clientX, e.targetTouches[touch].clientY);	
 						element.x += canvasXY.x-movingFrom.x;
 						element.y += canvasXY.y-movingFrom.y;
 						movingFrom = canvasXY;	
 						element.triggerRedraw();
+						touch = e.targetTouches.length;
+								}
+						}
 					}
 				});
 		element.triggerRedraw();
@@ -164,15 +179,26 @@ Creanvas.Element = function(elementData){
 	};
 
 	var moveendpad = function(e) {
+		e.preventDefault();
+		
 		eventsToHandle.push(function()
 				{
 		if (isMoved)
 		{
-			var canvasXY = element.controller.getCanvasXYFromClientXY(e.targetTouches[0].clientX, e.targetTouches[0].clientY);	
+			for (var touch=0; touch<e.changedTouches.length; touch++)
+{
+				if (e.changedTouches[touch].identifier === touchIdentifier)
+				{
+
+			var canvasXY = element.controller.getCanvasXYFromClientXY(e.changedTouches[touch].clientX, e.changedTouches[touch].clientY);	
 			element.x += canvasXY.x-movingFrom.x;
 			element.y += canvasXY.y-movingFrom.y;
 			isMoved = false;
+			touchIdentifier = null;
 			element.triggerRedraw();
+			touch = e.changedTouches.length;
+				}
+}
 		}});
 		element.triggerRedraw();
 	};
