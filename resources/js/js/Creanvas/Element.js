@@ -85,9 +85,34 @@ Creanvas.Element = function(elementData){
 					}
 		});
 	};
-	
+
+	var beginMovepad = function(e) {
+		eventsToHandle.push(function()
+				{		
+					if (isClicked(e))
+					{
+						if (e.shiftKey)
+						{ 				
+							// copy before moving - must no handle the current event!		
+							// is there a better way?
+							setTimeout (
+									function(){
+							new Creanvas.Element(
+									{ 
+										controller: element.controller,
+										x: element.x,
+										y: element.y,
+										draw: element.draw});},10);
+						}
+						
+						isMoved = true;
+						movingFrom = element.controller.getCanvasXYFromClientXY(e.targetTouches[0].clientX, e.targetTouches[0].clientY);	
+					}
+		});
+	};
+
 	this.controller.addEventListener('mousedown', beginMove);
-	this.controller.addEventListener('touchstart', beginMove);
+	this.controller.addEventListener('touchstart', beginMovepad);
 
 
 			
@@ -106,8 +131,23 @@ Creanvas.Element = function(elementData){
 		element.triggerRedraw();
 	};	
 
+	var movepad = function(e) {
+		eventsToHandle.push(function()
+				{		
+					if (isMoved)
+					{
+						var canvasXY = element.controller.getCanvasXYFromClientXY(e.targetTouches[0].clientX, e.targetTouches[0].clientY);	
+						element.x += canvasXY.x-movingFrom.x;
+						element.y += canvasXY.y-movingFrom.y;
+						movingFrom = canvasXY;	
+						element.triggerRedraw();
+					}
+				});
+		element.triggerRedraw();
+	};	
+
 	this.controller.addEventListener('mousemove', move);
-	this.controller.addEventListener('touchmove', move);
+	this.controller.addEventListener('touchmove', movepad);
 
 	var moveend = function(e) {
 		eventsToHandle.push(function()
@@ -122,8 +162,23 @@ Creanvas.Element = function(elementData){
 		}});
 		element.triggerRedraw();
 	};
+
+	var moveendpad = function(e) {
+		eventsToHandle.push(function()
+				{
+		if (isMoved)
+		{
+			var canvasXY = element.controller.getCanvasXYFromClientXY(e.targetTouches[0].clientX, e.targetTouches[0].clientY);	
+			element.x += canvasXY.x-movingFrom.x;
+			element.y += canvasXY.y-movingFrom.y;
+			isMoved = false;
+			element.triggerRedraw();
+		}});
+		element.triggerRedraw();
+	};
+
 	this.controller.addEventListener('mouseup', moveend);
-	this.controller.addEventListener('touchend', moveend);
+	this.controller.addEventListener('touchend', moveendpad);
 };
 
 Creanvas.Element.prototype.triggerRedraw = function()
