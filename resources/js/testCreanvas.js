@@ -101,7 +101,5 @@ var startStuff = function ()
 			context.arc(this.x,this.y,20,Math.PI,2*Math.PI);
 			context.stroke();
 			}});
-
-	theCanvas.addEventListener('touchstart', function(){ alert('click');});
 	
 };
