@@ -113,7 +113,7 @@ var startStuff = function ()
 			planets[i].y -= deltay / 10;
 			planets[i].vx -= deltavx; 
 			planets[i].vy -= deltavy;
-			planets[i].drawPlanet();
+			planets[i].	();
 		}		
 	};	
 	
