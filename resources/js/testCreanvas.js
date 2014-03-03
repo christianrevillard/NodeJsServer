@@ -122,4 +122,20 @@ var startStuff = function ()
 
 	theCanvas.addEventListener('click', function(e){ 
 		debug.innerHTML = 'click: ' + e.clientX + ',' + e.clientY;});
+
+
+	
+	// prevent a Galxy bug stuff
+	docment.addEventListener('touchend', function(e){ 
+		e.preventDefault();
+		});
+	
+	document.addEventListener('touchstart', function(e){ 
+		e.preventDefault();
+	});
+
+	document.addEventListener('touchmove', function(e){ 
+		e.preventDefault();
+	});
+
 };
