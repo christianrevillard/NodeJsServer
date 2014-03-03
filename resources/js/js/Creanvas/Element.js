@@ -166,6 +166,7 @@ Creanvas.Element = function(elementData){
 	var moveendpad = function(e) {
 		eventsToHandle.push(function()
 				{
+			alert('completed');
 		if (isMoved)
 		{
 			var canvasXY = element.controller.getCanvasXYFromClientXY(e.targetTouches[0].clientX, e.targetTouches[0].clientY);	
