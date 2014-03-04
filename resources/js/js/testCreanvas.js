@@ -19,7 +19,7 @@ var startStuff = function ()
 			controller: controller,
 			x: 400,
 			y: 300,
-			movable:true,
+			movable: true,
 			draw: function (context) 
 			{
 				context.strokeStyle = "#f00";
@@ -35,6 +35,7 @@ var startStuff = function ()
 				controller: controller,
 			x: 500,
 			y: 200,
+			movable: true,
 			draw: function (context) 
 			{
 			context.strokeStyle = "#0f0";
@@ -50,7 +51,7 @@ var startStuff = function ()
 				controller: controller,
 			x: 200,
 			y: 350,
-			movable: true,
+			onclick: function(){ alert(this.x + ',' + this.y)},
 			draw: function (context) 
 			{
 				context.strokeStyle = "#00f";
@@ -85,7 +86,6 @@ var startStuff = function ()
 			x: 200,
 			y: 300,
 			z:-10,
-			movable: true,
 			draw: function (context) 
 			{
 				
@@ -106,7 +106,7 @@ var startStuff = function ()
 			}});
 	
 	
-	// prevent a Galaxy bug stuff - can we do better ? 
+	// prevent a Galaxy bug stuff - can we do better ? must handle scrolling manually...
 	function touchHandlerDummy(e)
 	{
 	    e.preventDefault();

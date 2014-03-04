@@ -15,7 +15,7 @@ Creevents.Event = function()
 	// can add a rank to ensure calling order (example drawing by increasing z)
 	this.register = function(callback, rank)
 	{
-		var handle = Date.now();
+		var handle = Date.now() + '-' + this.callbacks.length;
 		this.callbacks.push({handle:handle, callback:callback, rank:rank});
 
 		this.callbacks = this.callbacks.sort(
