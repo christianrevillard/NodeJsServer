@@ -14,6 +14,7 @@ function handle(response, request) {
 	'<tr><td><a href="/files/html/chess.html">JS Chess</a></td></tr>'+
 	'<tr><td><a href="/files/html/canvas.html">Canvas tests</a></td></tr>'+
 	'<tr><td><a href="/files/js/testCreanvas.html">Creanvas tests</a></td></tr>'+
+	'<tr><td><a href="/files/js/tictactoe.html">Test Tic Tac Toe</a></td></tr>'+
 	'</table'+
 	'</body>'+
 	'</html>';
