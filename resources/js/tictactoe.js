@@ -299,8 +299,8 @@ CreTictactoe.onload = function ()
 	    return false;
 	}
 	
-	document.addEventListener("touchstart", touchHandlerDummy, false);
+//	document.addEventListener("touchstart", touchHandlerDummy, false);
 	document.addEventListener("touchmove", touchHandlerDummy, false);
-	document.addEventListener("touchend", touchHandlerDummy, false);
+	//document.addEventListener("touchend", touchHandlerDummy, false);
 	
 };
