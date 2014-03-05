@@ -13,6 +13,7 @@ Creanvas.elementDecorators.push(
 			{
 				if (element.isPointInPath(e))			
 				{	
+					alert('click');
 					clickData.onclick.call(element);
 				}			
 			});

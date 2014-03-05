@@ -179,6 +179,10 @@ CreTictactoe.onload = function ()
 				controller: controller,
 			x: 600,
 			y: 35,
+			clickable : {onclick:function(){			
+				controller.stop();
+				setUp();
+				}},
 			draw: function (context) 
 			{
 				context.arc(this.x,this.y,25,0,2*Math.PI);
@@ -221,7 +225,7 @@ CreTictactoe.onload = function ()
 		
 		elementData.controller = controller;
 		elementData.duplicable = false;
-		elementData.clickable = {onclick:function(){
+		elementData.clickable = {onclick:function(){			
 			controller.stop();
 			setUp();
 			}};
@@ -288,15 +292,12 @@ CreTictactoe.onload = function ()
 	
 	setUp();
 	
-	// prevent a Galaxy bug stuff - can we do better ? must handle scrolling manually...
-	function touchHandlerDummy(e)
-	{
-	    e.preventDefault();
-	    return false;
-	}
-	
-	//document.addEventListener("touchstart", touchHandlerDummy, false);
-	document.addEventListener("touchmove", touchHandlerDummy, false);
-	//document.addEventListener("touchend", touchHandlerDummy, false);
-	
+	// fix Galaxy Chrome scrolling bug
+	document.addEventListener(
+		"touchmove", function touchHandlerDummy(e)
+		{
+		    e.preventDefault();
+		    return false;
+		},
+		false);	
 };
