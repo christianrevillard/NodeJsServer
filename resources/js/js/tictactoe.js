@@ -1,14 +1,15 @@
 var CreTictactoe = CreTictactoe || {};
 
 CreTictactoe.onload = function ()
-{	
-	var blockedX = false;
-	var blockedO = true;
-	
+{		
 	var theCanvas = document.getElementById('theCanvas');
 	var controller;
+	
 	var setUp = function()
 	{
+		var blockedX = false;
+		var blockedO = true;
+
 		controller = new Creanvas.Controller(
 		{
 			canvas:theCanvas, 
