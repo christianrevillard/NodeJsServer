@@ -288,7 +288,7 @@ CreTictactoe.onload = function ()
 	
 	setUp();
 	
-	/*// prevent a Galaxy bug stuff - can we do better ? must handle scrolling manually...
+	// prevent a Galaxy bug stuff - can we do better ? must handle scrolling manually...
 	function touchHandlerDummy(e)
 	{
 	    e.preventDefault();
@@ -298,5 +298,5 @@ CreTictactoe.onload = function ()
 	document.addEventListener("touchstart", touchHandlerDummy, false);
 	document.addEventListener("touchmove", touchHandlerDummy, false);
 	document.addEventListener("touchend", touchHandlerDummy, false);
-	*/
+	
 };
