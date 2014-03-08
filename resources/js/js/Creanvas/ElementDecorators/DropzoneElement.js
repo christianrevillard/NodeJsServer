@@ -30,8 +30,6 @@ var CreJs = CreJs || {};
 				if (!element.isPointInPath(e.moveEvent))
 					return;
 				
-				alert('Dropped in a dropzone !');
-				
 				availableSpots--;
 				e.element.x = dropX || element.x;
 				e.element.y = dropY || element.y;
