@@ -1,66 +1,97 @@
-var Creanvas = Creanvas || {};		
+var CreJs = CreJs || {};
 
-Creanvas.Element = function(elementData){
-
-	if (!elementData.hasOwnProperty('controller'))
-	{
-		return; // TODO error throw / handling
-	};
-
-	if (!elementData.hasOwnProperty('draw'))
-	{
-		return; // TODO error throw / handling
-	};
-
+(function(){
+	var creanvas = CreJs.Creanvas = CreJs.Creanvas || {};		
 	
-	this.elementData = elementData;
-	this.controller = elementData.controller;
-	this.x = elementData.x || 0;
-	this.y = elementData.y || 0;
-	this.z = elementData.z || 0;
-	this.draw = elementData.draw;	
-	this.id = name + Date.now();	
-	this.name = elementData.name;	
+	creanvas.Element = function(elementData){
 	
-	var element = this;
-		
-	this.controller.addEventListener('draw', function(e) {
-		element.controller.context.beginPath(); // missing in draw() would mess everything up...
-		element.draw(element.controller.context);
-		// check events just after draw while we know the path
-		while(eventsToHandle.length>0)
+		if (!elementData.hasOwnProperty('controller'))
 		{
-			eventsToHandle.shift()();
-		}
-		
-	}, 
-	element.z);
+			return; // TODO error throw / handling
+		};
 	
-	var eventsToHandle = [];
+		if (!elementData.hasOwnProperty('draw'))
+		{
+			return; // TODO error throw / handling
+		};
+		
+		this.controller = elementData.controller;
+		this.x = elementData.x || 0;
+		this.y = elementData.y || 0;
+		this.z = elementData.z || 0;
+		this.id = CreJs.CreHelpers.GetGuid();	
+		this.name = elementData.name;	
+	
+		var draw = elementData.draw;	
+	
+		var element = this;
+							
+		this.events = new CreJs.Creevents.EventContainer();			
 			
-	this.isPointInPath = function(clientXY){
-		// weakness: will only work with the last path in 'draw' function
-		// and only just after drawing this element.
-		var canvasXY = element.controller.getCanvasXYFromClientXY(clientXY);	
-		return element.controller.context.isPointInPath(
-			canvasXY.x, 
-			canvasXY.y);
-	};
-		
-	if (Creanvas.elementDecorators)
-	{
-		for(var decoratorId=0; decoratorId<Creanvas.elementDecorators.length; decoratorId++)
+		this.isPointInPath = function(clientXY){
+
+			var canvasXY = element.controller.getCanvasXYFromClientXY(clientXY);	
+
+			return element.controller.noDrawContext.isPointInPath(element, draw, canvasXY);
+		};
+
+		if (CreJs.Creanvas.elementDecorators)
 		{
-			var decorator = Creanvas.elementDecorators[decoratorId];
-			if (elementData.hasOwnProperty(decorator.type) && elementData[decorator.type])
+			for(var decoratorId=0; decoratorId<creanvas.elementDecorators.length; decoratorId++)
 			{
-				decorator.applyTo(element, eventsToHandle, elementData[decorator.type]);
+				var decorator = CreJs.Creanvas.elementDecorators[decoratorId];
+				if (elementData.hasOwnProperty(decorator.type) && elementData[decorator.type])
+				{
+					decorator.applyTo(element, elementData[decorator.type]);
+				}
 			}
 		}
-	}	
-};
+		
+		this.clone = function()
+		{
+			return element.controller.addElement(elementData);
+		};
+	
+		this.applyDecorator = function(decorator, decoratorData)
+		{
+			decorator.applyTo(element, decoratorData);
+		};
+		
+		this.removeDecorator = function (decoratorType)
+		{
+			element.controller.events.removeEventListener(
+					{eventGroupType:decoratorType,
+						listenerId:element.id});
+		};
+		
+		this.deactivate = function ()
+		{
+			element.controller.events.removeEventListener({listenerId:element.id});
+		};
+		
+		element.controller.events.addEventListener(
+		{
+			eventId: 'draw',
+			rank: element.z,
+			listenerId:element.id,
+			handleEvent: function(e) { 
+				element.controller.context.beginPath(); // missing in draw() would mess everything up...
+				draw.call(element, element.controller.context);
+		}});
 
-Creanvas.Element.prototype.triggerRedraw = function()
-{
-	this.controller.redraw();
-};
+		element.controller.events.addEventListener(
+		{
+			eventId: 'deactivate', 
+			listenerId:element.id,
+			handleEvent: function(e) { element.deactivate(); }
+		});
+
+
+		this.triggerRedraw = function()
+		{
+			element.controller.redraw();
+		};	
+	};
+	
+
+}());
