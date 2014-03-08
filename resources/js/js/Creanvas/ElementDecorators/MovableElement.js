@@ -64,17 +64,29 @@ var CreJs = CreJs || {};
 			
 			var getTargetMoving = function(e, touches)
 			{
+				if (touches == e.changedTouches)
+					alert('checking for move end ' + touchIdentifier);
+				
 				if (touches)
 				{
 					for (var touch = 0; touch<touches.length; touch++)			
 					{
 						if (touches[touch].identifier == touchIdentifier)
 						{
+							if (touches == e.changedTouches)
+								alert('ending '  + touchIdentifier);
+							
 							return target = touches[touch];
 						};			
+
+						if (touches == e.changedTouches)
+							alert('cannot end '  + touchIdentifier);
 					};		
 				} else
 				{
+					if (touches == e.changedTouches)
+						alert('checking for move end, no changedTouches');
+
 					return e;
 				}
 				
