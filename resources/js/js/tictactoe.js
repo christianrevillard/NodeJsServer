@@ -289,27 +289,24 @@ CreTictactoe.onload = function ()
 	setUp();
 	
 	// fix Galaxy Chrome scrolling bug
+	function touchHandlerDummy(e)
+	{
+	    e.preventDefault();
+	    return false;
+	};
+	
 	document.addEventListener(
-		"touchmove", function touchHandlerDummy(e)
-		{
-		    e.preventDefault();
-		    return false;
-		},
+		"touchmove", 
+		touchHandlerDummy,
 		false);	
 
-	document.addEventListener(
-			"touchstart", function touchHandlerDummy(e)
-			{
-			    e.preventDefault();
-			    return false;
-			},
+	/*document.addEventListener(
+			"touchstart", 
+			touchHandlerDummy,
 			false);	
 
 	document.addEventListener(
-			"touchend", function touchHandlerDummy(e)
-			{
-			    e.preventDefault();
-			    return false;
-			},
-			false);	
+			"touchend", 
+			touchHandlerDummy,
+			false);*/	
 };
