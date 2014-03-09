@@ -63,7 +63,7 @@ var CreJs = CreJs || {};
 			}
 
 			control.addEventListener(
-					controlEventId,
+					controlEventId,					
 				function(event)
 				{
 //					if (preventDefault)
@@ -71,7 +71,12 @@ var CreJs = CreJs || {};
 
 //					container.log('control event: ' + controlEventId);
 					
+						setTimeout(
+								function()
+								{
 					container.dispatch(customEventId, event);
+								},
+								5);
 				});
 		};
 	};
