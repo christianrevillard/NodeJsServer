@@ -25,8 +25,6 @@ var CreJs = CreJs || {};
 		needRedraw = true;	
 		refreshTime = controllerData.refreshTime || 50; // ms	
 	
-		canvas.addEventListener('click', function(e){controller.log('CLICKED! CLICKED!');});
-
 		this.events = new CreJs.Creevents.EventContainer(writeToLog);		
 		this.events.registerControlEvent(canvas, 'click', 'click');
 		this.events.registerControlEvent(canvas, 'mousedown','pointerDown');
@@ -36,6 +34,9 @@ var CreJs = CreJs || {};
 		this.events.registerControlEvent(canvas, 'touchend','pointerUp');
 		this.events.registerControlEvent(canvas, 'touchmove','pointerMove');
 		this.events.registerControlEvent(canvas, 'touchcancel','pointerCancel');
+		this.events.registerControlEvent(canvas, 'selectstart','selectStart');
+		this.events.registerControlEvent(canvas, 'contextmenu','contextMenu');
+		this.events.registerControlEvent(canvas, 'mouseover','mouseOver');
 		
 		
 		this.stop = function()
