@@ -84,7 +84,7 @@ var CreJs = CreJs || {};
 							}
 
 						});
-
+					event.stopPropagation();
 					container.log('Forwarded completed control event: ' + controlEventId + ', now: ' + Date.now());
 				});
 		};
