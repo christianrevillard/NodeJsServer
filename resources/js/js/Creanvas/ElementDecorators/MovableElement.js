@@ -91,7 +91,7 @@ var CreJs = CreJs || {};
 				if (isBlocked && isBlocked()) 
 					return;
 
-				var target = getTarget(e, e.targetTouches);
+				var target = getTarget(e, e.changedTouches);
 
 				if (!target)
 					return;
@@ -114,7 +114,7 @@ var CreJs = CreJs || {};
 				if (isBlocked && isBlocked()) 
 					return;
 
-				var target = getTargetMoving(e, e.targetTouches);
+				var target = getTargetMoving(e, e.changedTouches);
 
 				if (!target)
 					return;
