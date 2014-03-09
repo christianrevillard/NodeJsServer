@@ -5,10 +5,6 @@ CreTictactoe.onload = function ()
 	var theCanvas = document.getElementById('theCanvas');
 	var controller;
 	
-	var setUp = function()
-	{
-		var blockedX = false;
-		var blockedO = true;
 
 		controller = new CreJs.Creanvas.Controller(
 		{
@@ -48,6 +44,10 @@ CreTictactoe.onload = function ()
 			log: (new CreJs.Crelog.Logger(function(data){ document.getElementById('log').innerHTML = data + "\n" + document.getElementById('log').innerHTML;})).log
 		});
 			
+		var setUp = function()
+		{
+			var blockedX = false;
+			var blockedO = true;
 				var currentPlayer = controller.addElement({
 				x: 600,
 				y: 150,
@@ -296,4 +296,20 @@ CreTictactoe.onload = function ()
 		    return false;
 		},
 		false);	
+
+	document.addEventListener(
+			"touchstart", function touchHandlerDummy(e)
+			{
+			    e.preventDefault();
+			    return false;
+			},
+			false);	
+
+	document.addEventListener(
+			"touchend", function touchHandlerDummy(e)
+			{
+			    e.preventDefault();
+			    return false;
+			},
+			false);	
 };
