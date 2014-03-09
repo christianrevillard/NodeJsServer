@@ -300,6 +300,11 @@ CreTictactoe.onload = function ()
 		touchHandlerDummy,
 		false);	
 
+	window.addEventListener(
+			"touchmove", 
+			touchHandlerDummy,
+			false);	
+
 	/*document.addEventListener(
 			"touchstart", 
 			touchHandlerDummy,
