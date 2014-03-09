@@ -34,7 +34,11 @@ var CreJs = CreJs || {};
 		this.events.registerControlEvent(canvas, 'touchend','pointerUp');
 		this.events.registerControlEvent(canvas, 'touchmove','pointerMove');
 		this.events.registerControlEvent(canvas, 'touchcancel','pointerCancel');
-				
+
+		
+		canvas.addEventListener('click', function(e){controller.log('CLICKED! CLICKED!');});
+		
+		
 		this.stop = function()
 		{
 			controller.events.dispatch('deactivate');
