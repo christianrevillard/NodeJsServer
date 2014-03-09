@@ -55,13 +55,15 @@ var CreJs = CreJs || {};
 			}
 		};
 
+		var eventsToHandle = [];
+		
 		this.registerControlEvent = function (control, controlEventId, customEventId, preventDefault)
 		{
 			if (!events[customEventId])
 			{
 				addEvent(customEventId);
 			}
-
+						
 			control.addEventListener(
 					controlEventId,					
 				function(event)
@@ -73,14 +75,24 @@ var CreJs = CreJs || {};
 					
 					container.log('Forwarded control event: ' + controlEventId + ', now: ' + Date.now());
 
-					setTimeout(
-								function()
-								{
-									container.log('handling control event: ' + controlEventId + '\n');
-					container.dispatch(customEventId, event);
-								},
-								200);
+					eventsToHandle.push({
+						id:customEventId,
+						event:event
+						});
 				});
 		};
+		
+		setInterval(
+				function()
+				{
+					if (eventsToHandle.length>0)
+					{
+						var toHandle = eventsToHandle.shift();
+						container.log('handling control event: ' + toHandle.id + '\n');
+						container.dispatch(toHandle.id, toHandle.event);
+					}
+				},
+				50);
+
 	};
 }());

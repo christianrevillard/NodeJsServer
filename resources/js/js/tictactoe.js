@@ -284,8 +284,10 @@ CreTictactoe.onload = function ()
 				}
 			}
 			,100);
-
-		
+	};
+	
+	setUp();
+	
 	// fix Galaxy Chrome scrolling bug
 	function touchHandlerDummy(e)
 	{
@@ -297,10 +299,6 @@ CreTictactoe.onload = function ()
 		"touchmove", 
 		touchHandlerDummy,
 		false);	
-};
-	
-	setUp();
-	
 
 	/*document.addEventListener(
 			"touchstart", 
