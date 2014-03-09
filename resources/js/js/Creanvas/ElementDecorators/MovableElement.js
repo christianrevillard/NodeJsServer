@@ -153,7 +153,7 @@ var CreJs = CreJs || {};
 				var canvasXY = element.controller.getCanvasXYFromClientXY(e);	
 				element.x += canvasXY.x-movingFrom.x;
 				element.y += canvasXY.y-movingFrom.y;
-				element.moveCompleted(e);	
+				element.moveCompleted(target);	
 				touchIdentifier = null;
 				element.triggerRedraw();
 			};
