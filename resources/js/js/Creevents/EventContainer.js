@@ -69,7 +69,7 @@ var CreJs = CreJs || {};
 //					if (preventDefault)
 	//					event.preventDefault();
 
-					container.log('control event: ' + controlEventId);
+//					container.log('control event: ' + controlEventId);
 					
 					container.dispatch(customEventId, event);
 				});
