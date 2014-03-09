@@ -38,6 +38,16 @@ var CreJs = CreJs || {};
 		this.stop = function()
 		{
 			controller.events.dispatch('deactivate');
+			
+			controller.addElement({
+				draw: 
+					controllerData.drawBackground ||  
+					function (context) 
+					{
+						context.fillStyle = controllerData.backgroundStyle || "#FFF";
+						context.fillRect(0,0,canvas.width,canvas.height);
+					},
+				z: -Infinity});
 		};
 	
 		this.redraw = function()
