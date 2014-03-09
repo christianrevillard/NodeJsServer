@@ -75,7 +75,7 @@ var CreJs = CreJs || {};
 			rank: element.z,
 			listenerId:element.id,
 			handleEvent: function(e) { 
-				element.controller.log('drawing ' + element.id + ' (z=' + element.z + ')');
+//				element.controller.log('drawing ' + element.id + ' (z=' + element.z + ')');
 				element.controller.context.beginPath(); // missing in draw() would mess everything up...
 				draw.call(element, element.controller.context);
 		}});
