@@ -53,8 +53,17 @@ var CreJs = CreJs || {};
 				y: (clientXY.clientY-boundings.top) * canvas.height/boundings.height};		
 		};
 	
+		var defaultZ = 0;
+		
 		this.addElement  = function (elementData)
 		{
+			if (!elementData.z)
+				elementData.z = defaultZ++;
+
+			if (elementData.z >=0 && elementData.z < defaultZ )
+				elementData.z = defaultZ++;
+
+			
 			elementData.controller = controller;
 	
 			var element = new CreJs.Creanvas.Element(elementData);
