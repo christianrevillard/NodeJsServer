@@ -71,7 +71,7 @@ var CreJs = CreJs || {};
 					context.fillStyle = controllerData.backgroundStyle || "#FFF";
 					context.fillRect(0,0,canvas.width,canvas.height);
 				},
-			z: -1000});//-Infinity});
+			z: -Infinity});
 	
 		setInterval(
 				function()
