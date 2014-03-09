@@ -71,7 +71,7 @@ var CreJs = CreJs || {};
 
 //					container.log('control event: ' + controlEventId);
 					
-					container.log('Forwarded control event: ' + controlEventId);
+					container.log('Forwarded control event: ' + controlEventId + ', now: ' + Date.now());
 
 					setTimeout(
 								function()
