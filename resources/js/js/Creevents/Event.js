@@ -24,7 +24,7 @@ var CreJs = CreJs || {};
 	
 		this.dispatch = function(eventData)
 		{
-			if (this.eventId != 'pointerMove')
+			if (this.eventId != 'pointerMove' && this.eventId != 'draw')
 				this.log('dispatching to ' + eventHandlers.length + ' listeners');
 			
 			eventHandlers.forEach(function(handler){ handler.handleEvent(eventData);});
