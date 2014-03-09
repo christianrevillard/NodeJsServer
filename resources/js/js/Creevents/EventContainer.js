@@ -12,7 +12,7 @@ var CreJs = CreJs || {};
 		var addEvent = function(eventId)
 		{
 			eventIds.push(eventId);
-			events[eventId] = new creevents.Event();											
+			events[eventId] = new creevents.Event(eventId);											
 		};
 		
 		this.addEventListener = function(listenerData)

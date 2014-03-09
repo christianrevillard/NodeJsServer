@@ -12,11 +12,14 @@ var CreJs = CreJs || {};
 		{	
 			element.controller.events.addEventListener(
 			{
-				decoratorType:'clickable',
+				enventGroupType :'clickable',
 				eventId: 'click', 
+				listenerId : element.id,
 				handleEvent: function(e){
 					if (element.isPointInPath(e))
 					{
+						element.controller.log('click event on ' + element.id);
+
 						clickData.onclick.call(element);						
 
 						element.triggerRedraw();

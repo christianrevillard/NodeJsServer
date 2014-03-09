@@ -5,8 +5,10 @@ var CreJs = CreJs || {};
 	var creevents = CreJs.Creevents = CreJs.Creevents || {};		
 	var helpers;	
 
-	creevents.Event = function()
+	creevents.Event = function(eventId)
 	{
+		this.eventId = eventId;
+		
 		helpers = CreJs.CreHelpers;
 
 		var eventHandlers = [];

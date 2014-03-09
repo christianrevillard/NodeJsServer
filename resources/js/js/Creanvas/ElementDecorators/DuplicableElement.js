@@ -54,6 +54,8 @@ var CreJs = CreJs || {};
 				if (!target) 
 					return;
 				
+				element.controller.log('pointereDown event on duplicable ' + element.id + ', count id  ' + generatorCount);
+
 				generatorCount--;
 
 				var copy = element.clone();

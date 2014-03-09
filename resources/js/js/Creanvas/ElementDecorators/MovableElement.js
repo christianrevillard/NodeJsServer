@@ -105,6 +105,8 @@ var CreJs = CreJs || {};
 				handleEvent:beginMove,
 				listenerId:element.id});
 				
+			var isMovingLogged = false;
+			
 			var move = function(e) {
 				if(!isMoving)
 					return;
@@ -116,6 +118,12 @@ var CreJs = CreJs || {};
 
 				if (!target)
 					return;
+				
+				if (!isMovingLogged)
+				{
+					isMovingLogged = true;
+					element.controller.log('pointereMove event on movable ' + element.id);
+				}
 
 				var canvasXY = element.controller.getCanvasXYFromClientXY(target);	
 				element.x += canvasXY.x-movingFrom.x;
@@ -149,6 +157,7 @@ var CreJs = CreJs || {};
 				element.y += canvasXY.y-movingFrom.y;
 				element.moveCompleted(target);	
 				touchIdentifier = null;
+				isMovingLogged = false;
 				element.triggerRedraw();
 			};
 	

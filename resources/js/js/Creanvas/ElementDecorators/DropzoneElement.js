@@ -30,6 +30,8 @@ var CreJs = CreJs || {};
 				if (!element.isPointInPath(e.moveEvent))
 					return;
 				
+				element.controller.log('drop event on dropzone ' + element.id + ', dropped ' + e.element.id);
+
 				availableSpots--;
 				e.element.x = dropX || element.x;
 				e.element.y = dropY || element.y;
@@ -54,6 +56,8 @@ var CreJs = CreJs || {};
 				if (!element.isPointInPath(e.moveEvent))	
 					return;
 				
+				element.controller.log('drag event on dropzone ' + element.id + ', dragged ' + e.element.id);
+
 				e.element.dropZone = null;
 				availableSpots++;
 				element.droppedElements.splice(
