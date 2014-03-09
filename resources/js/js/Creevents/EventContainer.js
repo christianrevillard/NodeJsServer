@@ -3,8 +3,17 @@ var CreJs = CreJs || {};
 (function(){
 	var creevents = CreJs.Creevents = CreJs.Creevents || {};		
 	
-	creevents.EventContainer = function()
+	creevents.EventContainer = function(logger)
 	{	
+		var writeToLog = logger;
+		
+		this.log = function(logData){
+			if (!writeToLog )
+				return;
+
+			writeToLog(logData);
+		};
+
 		var container = this;
 		var events = {};		
 		var eventIds = [];		
@@ -12,7 +21,7 @@ var CreJs = CreJs || {};
 		var addEvent = function(eventId)
 		{
 			eventIds.push(eventId);
-			events[eventId] = new creevents.Event(eventId);											
+			events[eventId] = new creevents.Event(eventId, writeToLog);											
 		};
 		
 		this.addEventListener = function(listenerData)
@@ -26,6 +35,8 @@ var CreJs = CreJs || {};
 						
 		this.dispatch = function(eventId, eventData)
 		{
+			if (eventId != 'pointerMove')
+				this.log('dispatching ' + eventId);
 			if (events[eventId])
 			{
 				events[eventId].dispatch(eventData);

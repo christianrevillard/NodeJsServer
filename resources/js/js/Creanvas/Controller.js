@@ -25,7 +25,7 @@ var CreJs = CreJs || {};
 		needRedraw = true;	
 		refreshTime = controllerData.refreshTime || 50; // ms	
 	
-		this.events = new CreJs.Creevents.EventContainer();		
+		this.events = new CreJs.Creevents.EventContainer(writeToLog);		
 		this.events.registerControlEvent(canvas, 'click', 'click');
 		this.events.registerControlEvent(canvas, 'mousedown','pointerDown');
 		this.events.registerControlEvent(canvas, 'mouseup','pointerUp');
