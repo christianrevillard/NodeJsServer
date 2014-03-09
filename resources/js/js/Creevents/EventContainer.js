@@ -66,8 +66,8 @@ var CreJs = CreJs || {};
 					controlEventId,
 				function(event)
 				{
-					if (preventDefault)
-						event.preventDefault();
+//					if (preventDefault)
+	//					event.preventDefault();
 
 					container.log('control event: ' + controlEventId);
 					
