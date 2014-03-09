@@ -71,13 +71,13 @@ var CreJs = CreJs || {};
 
 //					container.log('control event: ' + controlEventId);
 					
-						setTimeout(
-								function()
-								{
+//						setTimeout(
+	//							function()
+			//					{
 					container.log('forwarded control event: ' + controlEventId);
 					container.dispatch(customEventId, event);
-								},
-								5);
+				//				},
+					//			5);
 				});
 		};
 	};
