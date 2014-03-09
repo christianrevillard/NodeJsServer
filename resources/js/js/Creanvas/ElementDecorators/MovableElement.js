@@ -70,16 +70,12 @@ var CreJs = CreJs || {};
 			{
 				if (touches)
 				{
-					element.controller.log('Number of touches to check: ' + touches.length + ', trying to find ' + touchIdentifier);
 					for (var touch = 0; touch<touches.length; touch++)			
 					{
-						element.controller.log('identifier is ' + touches[touch].identifier);
 						if (touches[touch].identifier == touchIdentifier)
 						{
-							element.controller.log('Hurra ! Moving touch: ' + touchIdentifier);
 							return target = touches[touch];
 						};			
-						element.controller.log('No match for touchIdentifier in event touches');
 					};		
 				} else
 				{
@@ -116,13 +112,10 @@ var CreJs = CreJs || {};
 				if (isBlocked && isBlocked()) 
 					return;
 
-				element.controller.log('Checking Move event');
 				var target = getTargetMoving(e, e.targetTouches);
 
 				if (!target)
 					return;
-				
-				element.controller.log('Moving -  identifier: ' + e.identifier);
 
 				var canvasXY = element.controller.getCanvasXYFromClientXY(target);	
 				element.x += canvasXY.x-movingFrom.x;
@@ -150,6 +143,7 @@ var CreJs = CreJs || {};
 				if (!target)
 					return;
 
+				element.controller.log('End detected for touch ' + touchIdentifier);
 				var canvasXY = element.controller.getCanvasXYFromClientXY(e);	
 				element.x += canvasXY.x-movingFrom.x;
 				element.y += canvasXY.y-movingFrom.y;
