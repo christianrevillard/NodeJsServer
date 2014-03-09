@@ -77,7 +77,12 @@ var CreJs = CreJs || {};
 
 					eventsToHandle.push({
 						id:customEventId,
-						event:event
+						event:
+							{
+							clientX:event.changedTouches?event.changedTouches[0].clientX:event.clientX,
+									clientY:event.changedTouches?event.changedTouches[0].clientY:event.clientY
+							}
+
 						});
 				});
 		};
@@ -92,7 +97,7 @@ var CreJs = CreJs || {};
 						container.dispatch(toHandle.id, toHandle.event);
 					}
 				},
-				50);
+				5);
 
 	};
 }());
