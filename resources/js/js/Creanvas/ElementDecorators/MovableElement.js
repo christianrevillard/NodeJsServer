@@ -166,6 +166,12 @@ var CreJs = CreJs || {};
 				eventId:'pointerUp', 
 				handleEvent:moveend,
 				listenerId:element.id});
-		}
+
+			element.controller.events.addEventListener({
+				eventGroupType:'movable',
+				eventId:'pointerCancel', 
+				handleEvent:moveend,
+				listenerId:element.id});
+}
 	});
 }());

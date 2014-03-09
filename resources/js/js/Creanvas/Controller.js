@@ -33,6 +33,7 @@ var CreJs = CreJs || {};
 		this.events.registerControlEvent(canvas, 'touchstart','pointerDown');
 		this.events.registerControlEvent(canvas, 'touchend','pointerUp');
 		this.events.registerControlEvent(canvas, 'touchmove','pointerMove');
+		this.events.registerControlEvent(canvas, 'touchcancel','pointerCancel');
 				
 		this.stop = function()
 		{
