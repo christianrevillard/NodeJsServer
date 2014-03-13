@@ -2,6 +2,8 @@ var Test = Test || {};
 
 Test.onload = function ()
 {		
+	alert('onload');
+	
 	var canvas = document.getElementById('theCanvas');
 
 	var controller = new Testcontroller(canvas);
