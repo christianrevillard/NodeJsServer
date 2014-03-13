@@ -8,6 +8,8 @@ Test.onload = function ()
 
 	var worker = new Worker("js/workerTest.js");
 	
+	alert(worker);
+	
 	canvas.addEventListener ("click", function(e)
 	{
 		worker.postMessage({clientX: e.clientX, clientY:e.clientY});
