@@ -6,6 +6,9 @@ Test.onload = function ()
 
 	var controller = new Testcontroller(canvas);
 
+	if (!Worker)
+		alert("no worker for you!");
+		
 	var worker = new Worker("js/workerTest.js");
 	
 	alert(worker);
