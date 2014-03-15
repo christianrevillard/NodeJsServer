@@ -21,7 +21,12 @@ var CreJs = CreJs || {};
 			images.push(temporaryRenderingContext.getImageData(0,0,temporaryRenderingCanvas.width,temporaryRenderingCanvas.height));
 
 						
-		//for heavy load stuff that can be handled by a worker / WebSocket
+			this.log = function(logData){
+				if (controllerData.log)
+					controllerData.log(logData);
+			};
+
+			//for heavy load stuff that can be handled by a worker / WebSocket
 			alert('checking async cont');
 		var asynchronousController;
 		if (window.Worker && (!controllerData.noWorker))
@@ -52,12 +57,7 @@ var CreJs = CreJs || {};
 		
 		this.sendMessage("Test heavy load");
 		
-		
-		this.log = function(logData){
-			if (controllerData.log)
-				controllerData.log(logData);
-		};
-		
+			
 		this.log('Starting controller');
 
 	

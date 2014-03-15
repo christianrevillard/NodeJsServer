@@ -20,6 +20,7 @@ CreTictactoe.onload = function ()
 
 		controller = new CreJs.Creanvas.Controller(
 		{
+			noWorker:true,
 			canvas:theCanvas, 
 			drawBackground : 
 				function (context) 
