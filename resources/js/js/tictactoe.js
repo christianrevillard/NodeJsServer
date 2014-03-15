@@ -51,7 +51,7 @@ CreTictactoe.onload = function ()
 					context.stroke();
 					
 				},		
-			log: new CreJs.Crelog.Logger(console.log).log
+			log: new CreJs.Crelog.Logger().log
 				
 		});
 			

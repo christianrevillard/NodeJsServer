@@ -13,11 +13,7 @@ var CreJs = CreJs || {};
 
 		var eventHandlers = [];
 
-		this.log = function(logData){
-			console.log(logData);
-		};
-			
-		var that = this;
+		var logger = new CreJs.Crelog.Logger();
 		
 		this.dispatch = function(eventData, callback)
 		{		
@@ -25,7 +21,7 @@ var CreJs = CreJs || {};
 			
 			var count = eventHandlers.length;
 			if (eventData && eventData.eventId != 'pointerMove' && eventData.eventId != 'drag' && eventData.eventId != 'drop')
-				that.log("Dispatching " + count + " " + eventData.eventId + ". (" + myDispatch + ")");			
+				logger.log("Dispatching " + count + " " + eventData.eventId + ". (" + myDispatch + ")");			
 			
 			eventHandlers.forEach(function(handler){ 
 				handler.debugEvent = eventId;
@@ -33,7 +29,7 @@ var CreJs = CreJs || {};
 						function()
 						{
 							if (eventData && eventData.eventId != 'pointerMove' && eventData.eventId != 'drag' && eventData.eventId != 'drop')
-								that.log("Actually handling " + eventData.eventId + ". (" + myDispatch + ")");			
+								logger.log("Actually handling " + eventData.eventId + ". (" + myDispatch + ")");			
 							handler.handleEvent(eventData);
 							count--;
 							if (count==0 && callback)
