@@ -12,9 +12,6 @@ CreTictactoe.onload = function ()
 			document.getElementById("theDiv").innerHTML="clicked";
 		});
 		
-		
-		alert('starting set up');
-
 		var blockedX = false;
 		var blockedO = true;
 

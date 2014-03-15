@@ -27,7 +27,6 @@ var CreJs = CreJs || {};
 			};
 
 			//for heavy load stuff that can be handled by a worker / WebSocket
-			alert('checking async cont');
 		var asynchronousController;
 		if (window.Worker && (!controllerData.noWorker))
 		{			
@@ -238,20 +237,12 @@ var CreJs = CreJs || {};
 					context.fillRect(0,0,this.width,this.height);
 				},
 			z: -Infinity});
-	
-		var firstDraw = false;
 		
-		alert('setting the interval');
-
 		setInterval(
 				function()
 				{
 					if (needRedraw && !isDrawing)
-					{
-
-						if (!firstDraw)
-							alert('drawing');
-						
+					{						
 						needRedraw = false;
 						isDrawing = true;
 						
@@ -270,12 +261,7 @@ var CreJs = CreJs || {};
 						});
 					
 						isDrawing = false;
-						
-						if (!firstDraw)
-							alert('drawn');
-						
-						firstDraw = true;
-
+												
 					}
 				},
 				refreshTime);
