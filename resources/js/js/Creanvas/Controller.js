@@ -53,8 +53,8 @@ var CreJs = CreJs || {};
 		
 		
 		this.log = function(logData){
-			if (controllerData.log)
-				controllerData.log(logData);
+//			if (controllerData.log)
+	//			controllerData.log(logData);
 		};
 		
 		this.log('Starting controller');
@@ -112,20 +112,21 @@ var CreJs = CreJs || {};
 					event.preventDefault();
 					setTimeout(function()
 					{	
+						var triggerEvent = function(clientXY, touchIdentifier)
+						{							
+							controller.log("Canvas event " + controlEventId + " with touchIdentifier " + touchIdentifier);
+							var eventData = controller.getCanvasXYFromClientXY(clientXY);
+							eventData.touchIdentifier = touchIdentifier;
+							controller.triggerPointedElementEvent(customEventId, eventData);
+						}
+						
 						if (event.changedTouches)
 						{
-							event.changedTouches.forEach(function(touch){ 
-								controller.log("Canvas event " + controlEventId + " with touchIdentifier " + touch.identifier);
-								var eventData = controller.getCanvasXYFromClientXY(touch);
-								eventData.touchIdentifier = touch.identifier;
-								controller.triggerPointedElementEvent(customEventId, eventData)});
+							event.changedTouches.forEach(function(touch){ triggerEvent(touch, touch.identifier)});
 						}
 						else
 						{
-							controller.log("Canvas event " + controlEventId);
-							var eventData = controller.getCanvasXYFromClientXY(event);
-							eventData.touchIdentifier = 0;
-							controller.triggerPointedElementEvent(customEventId, eventData)
+							triggerEvent(event, 0);
 						}
 					});
 				});
@@ -140,21 +141,24 @@ var CreJs = CreJs || {};
 					event.preventDefault();
 					setTimeout(function()
 					{	
+						var triggerEvent = function(clientXY, touchIdentifier)
+						{							
+							controller.log("Canvas event " + controlEventId + " with touchIdentifier " + touchIdentifier);
+							var eventData = controller.getCanvasXYFromClientXY(clientXY);
+							eventData.touchIdentifier = touchIdentifier;
+							controller.triggerElementEventByIdentifier(customEventId, eventData);
+						}
+
+						
 						if (event.changedTouches)
 						{
-							event.changedTouches.forEach(function(touch){ 
-								var eventData = controller.getCanvasXYFromClientXY(touch);
-								eventData.touchIdentifier = touch.identifier;
-								controller.triggerElementEventByIdentifier(customEventId, eventData);});
+							event.changedTouches.forEach(function(touch){ triggerEvent(touch, touch.identifier)});
 						}
 						else
 						{
-							var eventData = controller.getCanvasXYFromClientXY(event);
-							eventData.touchIdentifier = 0;
-							controller.triggerElementEventByIdentifier(customEventId, eventData);							
+							triggerEvent(event, 0);
 						}
-					},
-					0);
+					});
 				});
 		};
 

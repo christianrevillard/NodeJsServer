@@ -88,7 +88,7 @@ CreTictactoe.onload = function ()
 					color2= "#900";
 				}
 				context.lineCap='round';
-				context.lineWidth=10;
+				context.lineWidth=40;
 				context.moveTo(-50,-50);
 				context.bezierCurveTo(50,0,0,50,50,50);
 				context.moveTo(-50,50);

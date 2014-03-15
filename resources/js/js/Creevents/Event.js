@@ -14,7 +14,7 @@ var CreJs = CreJs || {};
 		var eventHandlers = [];
 
 		this.log = function(logData){
-			console.log(logData);
+//			console.log(logData);
 		};
 			
 		var that = this;
