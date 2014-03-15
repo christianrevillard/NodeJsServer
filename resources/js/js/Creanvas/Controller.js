@@ -22,6 +22,7 @@ var CreJs = CreJs || {};
 
 						
 		//for heavy load stuff that can be handled by a worker / WebSocket
+			alert('checking async controller');
 		var asynchronousController;
 		if (window.Worker && (!controllerData.noWorker))
 		{			
@@ -37,6 +38,7 @@ var CreJs = CreJs || {};
 			asynchronousController = new CreJs.Creanvas.HeavyLoadController();
 			asynchronousController.sendMessage = function(message){ controller.receiveMessage(message)};
 		}
+		alert('checked async controller');
 		
 		this.receiveMessage = function(message)
 		{
@@ -239,6 +241,8 @@ var CreJs = CreJs || {};
 	
 		var firstDraw = false;
 		
+		alert('setting the interval');
+
 		setInterval(
 				function()
 				{
