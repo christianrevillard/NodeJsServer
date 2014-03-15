@@ -163,13 +163,15 @@ var CreJs = CreJs || {};
 		this.events = new CreJs.Creevents.EventContainer();		
 		this.registerCanvasPointerEvent('click', 'click');
 		// create two handlers... wrong
+
 		this.registerCanvasPointerEvent('mousedown','pointerDown');
 		this.registerCanvasPointerEvent('touchstart','pointerDown');
 
 		this.registerTouchIdentifierEvent('mousemove','pointerMove');
+		this.registerTouchIdentifierEvent('touchmove','pointerMove');
+
 		this.registerTouchIdentifierEvent('mouseup','pointerUp');
 		this.registerTouchIdentifierEvent('touchend','pointerUp');
-		this.registerTouchIdentifierEvent(canvas, 'touchmove','pointerMove');
 
 		//this.registerPointerEvent('drop');
 
