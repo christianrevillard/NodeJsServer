@@ -34,4 +34,17 @@
 			</td>
 		</tr>
 	</table>
+	<div id="theDiv"> </div>
+						<canvas 
+					id="canvas2" 
+					width="700" 
+					height="500" 
+					style="border:1px solid black;"
+					ontouchstart='document.getElementById("theDiv").innerHTML="touchstart"'
+					ontouchmove='document.getElementById("theDiv").innerHTML="touchmove"'
+					ontouchend='document.getElementById("theDiv").innerHTML="touchend"'
+					
+					>
+				</canvas>
+
 </body>

@@ -22,7 +22,7 @@ var CreJs = CreJs || {};
 
 						
 		//for heavy load stuff that can be handled by a worker / WebSocket
-			alert('checking async controller');
+			alert('checking async cont');
 		var asynchronousController;
 		if (window.Worker && (!controllerData.noWorker))
 		{			
@@ -38,7 +38,6 @@ var CreJs = CreJs || {};
 			asynchronousController = new CreJs.Creanvas.HeavyLoadController();
 			asynchronousController.sendMessage = function(message){ controller.receiveMessage(message)};
 		}
-		alert('checked async controller');
 		
 		this.receiveMessage = function(message)
 		{
@@ -55,8 +54,8 @@ var CreJs = CreJs || {};
 		
 		
 		this.log = function(logData){
-//			if (controllerData.log)
-	//			controllerData.log(logData);
+			if (controllerData.log)
+				controllerData.log(logData);
 		};
 		
 		this.log('Starting controller');
@@ -107,11 +106,9 @@ var CreJs = CreJs || {};
 		
 		this.registerCanvasPointerEvent = function (controlEventId, customEventId)
 		{
-
 			canvas.addEventListener(controlEventId,
 				function(event)
 				{
-					event.preventDefault();
 					setTimeout(function()
 					{	
 						var triggerEvent = function(clientXY, touchIdentifier)
@@ -124,11 +121,14 @@ var CreJs = CreJs || {};
 						
 						if (event.changedTouches)
 						{
-							event.changedTouches.forEach(function(touch){ triggerEvent(touch, touch.identifier)});
+							for(var i=0;i<event.changedTouches.length;i++)
+							{
+								 triggerEvent(event.changedTouches[i], event.changedTouches[i].identifier);
+							}
 						}
 						else
 						{
-							triggerEvent(event, 0);
+							triggerEvent(event, -1);
 						}
 					});
 				});
@@ -140,7 +140,6 @@ var CreJs = CreJs || {};
 					controlEventId,
 				function(event)
 				{
-					event.preventDefault();
 					setTimeout(function()
 					{	
 						var triggerEvent = function(clientXY, touchIdentifier)
@@ -154,17 +153,18 @@ var CreJs = CreJs || {};
 						
 						if (event.changedTouches)
 						{
-							event.changedTouches.forEach(function(touch){ triggerEvent(touch, touch.identifier)});
+							for(var i=0;i<event.changedTouches.length;i++)
+							{
+								 triggerEvent(event.changedTouches[i], event.changedTouches[i].identifier);
+							}
 						}
 						else
 						{
-							triggerEvent(event, 0);
+							triggerEvent(event, -1);
 						}
 					});
 				});
 		};
-
-		
 		
 		this.events = new CreJs.Creevents.EventContainer();		
 		this.registerCanvasPointerEvent('click', 'click');

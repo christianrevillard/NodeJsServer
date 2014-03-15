@@ -20,7 +20,19 @@ var CreJs = CreJs || {};
 					.hasOwnProperty('generatorCount') ? duplicableData.generatorCount
 					: Infinity;
 
+			var requiresTouch = false;
+			
 			var makeCopy = function(e) {
+								
+				if (e.touchIdentifier>=0)
+				{
+					// we'll work with touchstart, not mousedown!
+					requiresTouch = true;
+				}
+
+				if (requiresTouch && e.touchIdentifier<0)
+					return;
+				
 				if (isBlocked && isBlocked()) 
 					return;
 
@@ -53,8 +65,7 @@ var CreJs = CreJs || {};
 						eventGroupType:'duplicable',
 						eventId:'pointerDown', 
 						handleEvent:makeCopy,
-						listenerId:element.id});
-			
+						listenerId:element.id});			
 		}
 	});
 }());
