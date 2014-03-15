@@ -6,11 +6,11 @@ var CreJs = CreJs || {};
 {
 	var log = CreJs.Crelog = CreJs.Crelog || {};
 	
-	log.Logger = function(writeToLog)
+	log.Logger = function()
 	{
 		this.log = function(logData)
 		{
-			writeToLog(logData);
+			console.log(logData);
 		};
 	};	
 }());

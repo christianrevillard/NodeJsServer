@@ -10,21 +10,17 @@ var CreJs = CreJs || {};
 		type: 'clickable',
 		applyTo: function(element, clickData)
 		{	
-			element.controller.events.addEventListener(
+			element.onClick = function()
 			{
-				enventGroupType :'clickable',
-				eventId: 'click', 
-				listenerId : element.id,
-				handleEvent: function(e){
-					if (element.isPointInPath(e))
-					{
-						element.controller.log('click event on ' + element.id);
+				clickData.onclick.call(element);						
 
-						clickData.onclick.call(element);						
-
-						element.triggerRedraw();
-					}					
-				}
+				element.triggerRedraw();
+			};
+			
+			element.events.addEventListener(
+			{
+				eventId:'click', 
+				handleEvent:element.onClick
 			});
 		}
 	});

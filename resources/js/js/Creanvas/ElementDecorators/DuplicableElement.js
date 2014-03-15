@@ -20,38 +20,11 @@ var CreJs = CreJs || {};
 					.hasOwnProperty('generatorCount') ? duplicableData.generatorCount
 					: Infinity;
 
-			var getTarget = function(e)
-			{
-				if (e.targetTouches)
-				{
-					for (var touch = 0; touch< e.targetTouches.length; touch++)			
-					{
-						if (element.isPointInPath( e.targetTouches[touch]))
-						{
-							return e.targetTouches[touch];
-						};			
-					};		
-				} else
-				{
-					if (element.isPointInPath(e))
-					{
-						return e;
-					};
-				}
-				
-				return null;
-			};
-			
 			var makeCopy = function(e) {
 				if (isBlocked && isBlocked()) 
 					return;
 
 				if (generatorCount<=0) 
-					return;
-
-				var target = getTarget(e);
-				
-				if (!target) 
 					return;
 				
 				element.controller.log('pointereDown event on duplicable ' + element.id + ', count id  ' + generatorCount);
@@ -59,6 +32,7 @@ var CreJs = CreJs || {};
 				generatorCount--;
 
 				var copy = element.clone();
+				copy.name+= " (duplicate)";
 
 				copy.removeDecorator('duplicable');
 
@@ -68,16 +42,19 @@ var CreJs = CreJs || {};
 							isBlocked : duplicableData.isBlocked
 						});
 
-				copy.startMoving(target);
+				copy.startMoving(e);
 
 				element.triggerRedraw();
 			};
+
 			
-			element.controller.events.addEventListener({
-				eventGroupType:'duplicable',
-				eventId:'pointerDown', 
-				handleEvent:makeCopy,
-				listenerId:element.id});
+			element.events.addEventListener(
+					{
+						eventGroupType:'duplicable',
+						eventId:'pointerDown', 
+						handleEvent:makeCopy,
+						listenerId:element.id});
+			
 		}
 	});
 }());

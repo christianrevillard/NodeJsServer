@@ -45,7 +45,8 @@ var startStuff = function ()
 	controller.addElement({
 			x: 200,
 			y: 350,
-			onclick: function(){ alert(this.x + ',' + this.y)},
+			onclick: function(){ //alert(this.x + ',' + this.y)
+				},			
 			draw: function (context) 
 			{
 				context.strokeStyle = "#00f";

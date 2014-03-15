@@ -5,29 +5,42 @@ var CreJs = CreJs || {};
 	var creevents = CreJs.Creevents = CreJs.Creevents || {};		
 	var helpers;	
 
-	creevents.Event = function(eventId,logger)
-	{	
-		var writeToLog = logger;
-		
-		this.log = function(logData){
-			if (!writeToLog )
-				return;
-
-			writeToLog(logData);
-		};
-		
+	creevents.Event = function(eventId)
+	{
 		this.eventId = eventId;
 		
 		helpers = CreJs.CreHelpers;
 
 		var eventHandlers = [];
-	
-		this.dispatch = function(eventData)
-		{
-			if (this.eventId != 'pointerMove' && this.eventId != 'draw')
-				this.log('dispatching to ' + eventHandlers.length + ' listeners');
+
+		this.log = function(logData){
+			console.log(logData);
+		};
 			
-			eventHandlers.forEach(function(handler){ handler.handleEvent(eventData);});
+		var that = this;
+		
+		this.dispatch = function(eventData, callback)
+		{		
+			var myDispatch = helpers.GetGuid();
+			
+			var count = eventHandlers.length;
+			if (eventData && eventData.eventId != 'pointerMove' && eventData.eventId != 'drag' && eventData.eventId != 'drop')
+				that.log("Dispatching " + count + " " + eventData.eventId + ". (" + myDispatch + ")");			
+			
+			eventHandlers.forEach(function(handler){ 
+				handler.debugEvent = eventId;
+				setTimeout(
+						function()
+						{
+							if (eventData && eventData.eventId != 'pointerMove' && eventData.eventId != 'drag' && eventData.eventId != 'drop')
+								that.log("Actually handling " + eventData.eventId + ". (" + myDispatch + ")");			
+							handler.handleEvent(eventData);
+							count--;
+							if (count==0 && callback)
+							{	
+								callback();
+							}
+						})});
 		};
 		
 		// can add a optional rank to ensure calling order of the handlers

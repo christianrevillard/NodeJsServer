@@ -1,4 +1,4 @@
 onmessage = function(e)
 {
-	postMessage({xy : "x: " + e.data.clientX + ", y:" + e.data.clientY});
+	postMessage({xy : "x: " + e.clientX + ", y:" + e.clientY});
 };

@@ -3,25 +3,21 @@ var CreJs = CreJs || {};
 (function(){
 	var creevents = CreJs.Creevents = CreJs.Creevents || {};		
 	
-	creevents.EventContainer = function(logger)
+	creevents.EventContainer = function()
 	{	
-		var writeToLog = logger;
-		
-		this.log = function(logData){
-			if (!writeToLog )
-				return;
-
-			writeToLog(logData);
-		};
-
 		var container = this;
 		var events = {};		
 		var eventIds = [];		
 		
+		this.hasEvent = function(eventId)
+		{
+			return events[eventId] != undefined;
+		};
+		
 		var addEvent = function(eventId)
 		{
 			eventIds.push(eventId);
-			events[eventId] = new creevents.Event(eventId, writeToLog);											
+			events[eventId] = new creevents.Event(eventId);											
 		};
 		
 		this.addEventListener = function(listenerData)
@@ -33,14 +29,15 @@ var CreJs = CreJs || {};
 			return events[listenerData.eventId].addEventListener(listenerData);
 		};
 						
-		this.dispatch = function(eventId, eventData)
+		this.dispatch = function(eventId, eventData, callback)
 		{
-			if (eventId != 'pointerMove' && eventId != 'draw')
-				this.log('dispatching ' + eventId);
 			if (events[eventId])
 			{
-				events[eventId].dispatch(eventData);
-			}
+				if (eventData)
+					eventData.eventId = eventId;
+				
+				events[eventId].dispatch(eventData, callback);
+			}		
 		};
 	
 		this.removeEventListener = function(listenerData)
@@ -55,50 +52,24 @@ var CreJs = CreJs || {};
 			}
 		};
 
-		var eventsToHandle = [];
-		
-		this.registerControlEvent = function (control, controlEventId, customEventId, preventDefault)
+		this.registerControlEvent = function (control, controlEventId, customEventId)
 		{
 			if (!events[customEventId])
 			{
 				addEvent(customEventId);
 			}
-						
+
 			control.addEventListener(
-					controlEventId,					
+					controlEventId,
 				function(event)
 				{
-					if (preventDefault)
-						event.preventDefault();
-
-//					container.log('control event: ' + controlEventId);
-					
-					container.log('Forwarded control event: ' + controlEventId + ', now: ' + Date.now());
-
-					eventsToHandle.push({
-						id:customEventId,
-						event:
-							{
-							clientX:event.changedTouches?event.changedTouches[0].clientX:event.clientX,
-									clientY:event.changedTouches?event.changedTouches[0].clientY:event.clientY
-							}
-
-						});
-					container.log('Forwarded completed control event: ' + controlEventId + ', now: ' + Date.now());
+					event.preventDefault();
+					setTimeout(function()
+					{					
+						container.dispatch(customEventId, event);
+					},
+					0);
 				});
 		};
-		
-		setInterval(
-				function()
-				{
-					if (eventsToHandle.length>0)
-					{
-						var toHandle = eventsToHandle.shift();
-						container.log('handling control event: ' + toHandle.id + '\n');
-						container.dispatch(toHandle.id, toHandle.event);
-					}
-				},
-				5);
-
 	};
 }());
