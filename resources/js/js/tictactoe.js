@@ -7,6 +7,8 @@ CreTictactoe.onload = function ()
 	
 	var setUp = function()
 	{
+		alert('starting set up');
+
 		var blockedX = false;
 		var blockedO = true;
 

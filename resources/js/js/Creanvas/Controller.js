@@ -237,11 +237,17 @@ var CreJs = CreJs || {};
 				},
 			z: -Infinity});
 	
+		var firstDraw = false;
+		
 		setInterval(
 				function()
 				{
 					if (needRedraw && !isDrawing)
 					{
+
+						if (!firstDraw)
+							alert('drawing');
+						
 						needRedraw = false;
 						isDrawing = true;
 						
@@ -260,23 +266,12 @@ var CreJs = CreJs || {};
 						});
 					
 						isDrawing = false;
-						/*
-						controller.events.dispatch(
-								'draw', 
-								{ 
-									events:topElementEventsToHandle
-								},
-								function()
-								{
-									isDrawing = false;
-									topElementEventsToHandle.forEach(
-											function(te)
-											{
-												if (te.claimingElement)
-													te.claimingElement.events.dispatch(te.eventId);
-											});
-									topElementEventsToHandle = []; // do the stuff!
-								});*/
+						
+						if (!firstDraw)
+							alert('drawn');
+						
+						firstDraw = true;
+
 					}
 				},
 				refreshTime);
