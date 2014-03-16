@@ -36,7 +36,8 @@ var CreJs = CreJs || {};
 							{	
 								callback();
 							}
-						})});
+						});
+				});
 		};
 		
 		// can add a optional rank to ensure calling order of the handlers
