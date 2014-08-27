@@ -5,11 +5,11 @@ read -p "Commit description: " desc
 git commit -m "$desc"  
 git push github master
 mkdir resources/WebApps
-cp ../../WebApps/*.html resources/WebApps
 mkdir resources/WebApps/js
 mkdir resources/WebApps/lib
-cp -r ../../WebApps/js resources/WebApps/js
-cp -r ../../WebApps/lib resources/WebApps/lib
+cp ../../WebApps/*.html resources/WebApps
+cp -r ../../WebApps/js resources/WebApps
+cp -r ../../WebApps/lib resources/WebApps
 git add -A  
 git commit -m "$desc"
 git push origin master
