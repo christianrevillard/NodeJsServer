@@ -8,7 +8,7 @@ function handle(response, request) {
 	'</head>'+
 	'<body>'+
 	'<form action="/upload/upload" method="post" enctype="multipart/form-data">'+
-	'<input type="file" name="upload" mutiple="multiple">'+
+	'<input type="file" name="upload">'+
 	'<input type="submit" value="Upload file" />'+
 	'</form>'+
 	'</body>'+
