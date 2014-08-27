@@ -4,7 +4,9 @@ git add -A
 read -p "Commit description: " desc  
 git commit -m "$desc"  
 git push github master
-cp -r ../../WebApps resources
+cp ../../WebApps/*.html resources
+cp -r ../../WebApps/js resources/WebApps
+cp -r ../../WebApps/lib resources/WebApps
 git add -A  
-git commit -m "$desc"  
+git commit -m "$desc"OS  
 git push origin master
