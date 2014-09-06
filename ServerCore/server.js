@@ -14,7 +14,7 @@ var start =
 				response) 
 			{
 				var pathname = url.parse(request.url).pathname;
-				console.log("Request for " + pathname + " received.");
+				console.logMessage("Request for " + pathname + " received.");
 				route(
 					fileLocations,
 					handlers, 
@@ -29,7 +29,7 @@ var start =
 				process.env.OPENSHIFT_NODEJS_PORT || 8888, 
 				process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
 		
-		console.log("Server has started.");
+		console.logMessage("Server has started.");
 	}
 
 exports.start = start;

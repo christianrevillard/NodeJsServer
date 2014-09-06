@@ -5,10 +5,10 @@ function handle(response, request)
 {
 	var form;
 	
-	console.log("Request handler 'upload' was called.");
+	console.logMessage("Request handler 'upload' was called.");
 	
 	form = new formidable.IncomingForm();
-	console.log("about to parse");
+	console.logMessage("about to parse");
 	form
 		.parse(
 			request, 
@@ -17,7 +17,7 @@ function handle(response, request)
 				fields, 
 				files) 
 			{
-				console.log("parsing done");
+				console.logMessage("parsing done");
 			
 				/* Possible error on Windows systems:
 				tried to rename to an already existing file */

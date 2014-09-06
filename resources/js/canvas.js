@@ -18,7 +18,7 @@ var startStuff = function ()
 
 	planetController = new SolarSystemController(function (x, y, m) // pixels !
 			{
-				var r = Math.floor (Math.LOG10E * Math.log(Math.pow(m,1/3)));
+				var r = Math.floor (Math.LOG10E * Math.logMessage(Math.pow(m,1/3)));
 				
 				context.beginPath();
 				context.arc(x+xOffset,y+yOffset,r,0,2*Math.PI);

@@ -2,7 +2,7 @@
 // use resource file handler instead
 
 function handle(response, request) {
-	console.log("Request handler 'clientScript' was called.");
+	console.logMessage("Request handler 'clientScript' was called.");
 
 	var fileName, queryString, url;
 	
@@ -19,7 +19,7 @@ function handle(response, request) {
 	    return;
 	}
 	
-	console.log("Requesting include file '" + './resources/clientscript/' + fileName + "'.");
+	console.logMessage("Requesting include file '" + './resources/clientscript/' + fileName + "'.");
 
 	var fs = require('fs');
 	

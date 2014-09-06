@@ -18,7 +18,7 @@ var route =
 		var fileNotFound =  require('./fileNotFound');		
 
 		if (typeof handlers[pathname] === 'function') {
-			console.log("Found router-filehandler for pathname " + pathname);
+			console.logMessage("Found router-filehandler for pathname " + pathname);
 			handlers[pathname](response, request);
 			return;
 		} 
@@ -27,7 +27,7 @@ var route =
 	
 		if (typeof handlers[fileExtension] !== 'function')
 		{	
-			console.log("No request handler found for " + pathname);
+			console.logMessage("No request handler found for " + pathname);
 			fileNotFound.showNotFound(response);
 			return ;
 		}
@@ -36,12 +36,12 @@ var route =
 	
 		if (fileLocations[firstPathLocation] === undefined)
 		{
-			console.log(pathname + "has known extension '" + fileExtension + "', but location '" + firstPathLocation + ' is  unknown.');
+			console.logMessage(pathname + "has known extension '" + fileExtension + "', but location '" + firstPathLocation + ' is  unknown.');
 			fileNotFound.showNotFound(response);
 			return ;
 		}
 		
-		console.log("Found extension-filehandler for pathname " + pathname + "('" + fileExtension + "','" + firstPathLocation + "')");
+		console.logMessage("Found extension-filehandler for pathname " + pathname + "('" + fileExtension + "','" + firstPathLocation + "')");
 		handlers[fileExtension](response, request);
 	}
 

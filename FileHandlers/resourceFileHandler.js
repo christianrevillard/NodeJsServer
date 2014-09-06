@@ -13,22 +13,22 @@ var handle =
 		fileNotFound =  require('../ServerCore/fileNotFound');		
 		fileName = url.parse(request.url).pathname;
 		
-		console.log("Resource file handler was called for '" + fileName + "', contentType '" + contentType + "'");	
+		console.logMessage("Resource file handler was called for '" + fileName + "', contentType '" + contentType + "'");	
 	
 		var pathLocation = fileName.slice(0, fileName.indexOf('/',1));
 		
 		if (fileLocations[pathLocation]===undefined)
 		{
-			console.log("Unknown location '" + pathLocation + "', for filename '" + fileName + "'");							
+			console.logMessage("Unknown location '" + pathLocation + "', for filename '" + fileName + "'");							
 			fileNotFound.showNotFound(response);
 			return;
 		}
 
-		console.log("Found defined location '" + pathLocation + "' in filename '" + fileName + "'");	
+		console.logMessage("Found defined location '" + pathLocation + "' in filename '" + fileName + "'");	
 			
 		fileName = fileName.replace(new RegExp("^" + pathLocation), fileLocations[pathLocation]);
 	
-		console.log("Disk filename is '" + fileName + "'");	
+		console.logMessage("Disk filename is '" + fileName + "'");	
 	
 		fs.exists(
 			fileName, 
@@ -36,13 +36,13 @@ var handle =
 			{
 				if (exists)
 				{
-					console.log("Serving '" + fileName + "'");	
+					console.logMessage("Serving '" + fileName + "'");	
 					response.writeHead(200, {"Content-Type":  contentType});
 					fs.createReadStream(fileName).pipe(response);					
 				}
 				else
 				{
-					console.log("File not found '" + fileName + "'");	
+					console.logMessage("File not found '" + fileName + "'");	
 					fileNotFound.showNotFound(response);
 				}			
 			});

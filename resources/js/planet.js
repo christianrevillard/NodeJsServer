@@ -3,8 +3,8 @@ var Planet = function(
 		planetDefinition)
 {
 	this.planetController = controller;
-	this.x = planetDefinition.x; // m
-	this.y = planetDefinition.y; // m
+	this.elementX = planetDefinition.x; // m
+	this.elementY = planetDefinition.y; // m
 	this.vx = planetDefinition.vx; // m/s
 	this.vy = planetDefinition.vy; // m/s
 	this.m = planetDefinition.m;  // kg
@@ -67,13 +67,13 @@ var Planet = function(
 
 Planet.prototype.drawPlanet = function(){
 	this.planetController.drawStuff(
-			this.x/this.planetController.pixelToMeter, 
-			this.y/this.planetController.pixelToMeter, this.m);
+			this.elementX/this.planetController.pixelToMeter, 
+			this.elementY/this.planetController.pixelToMeter, this.m);
 };
 
 
 Planet.prototype.handleClick = function (event){
-	if (Math.abs(this.x/this.planetController.pixelToMeter - (event.clientX  - 400))<10)
+	if (Math.abs(this.elementX/this.planetController.pixelToMeter - (event.clientX  - 400))<10)
 	{
 		alert('Update, coming soon');
 	}; 

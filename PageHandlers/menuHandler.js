@@ -1,5 +1,5 @@
 function handle(response, request) {
-	console.log("Request handler 'menu' was called.");
+	console.logMessage("Request handler 'menu' was called.");
 
 	var body = '<html>'+
 	'<head>'+
