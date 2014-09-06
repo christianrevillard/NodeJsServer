@@ -10,7 +10,7 @@ var FileHandler =
 				response, 
 				request)
 			{
-				console.logMessage("Handling a '" + contentType + "' file");
+				if (conole.logMessage) console.log("Handling a '" + contentType + "' file");
 				
 				resourceFileHandler
 					.handle(
