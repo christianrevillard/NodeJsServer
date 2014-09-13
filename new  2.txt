@@ -1,1 +1,6 @@
-Neste: Real time/length, to get about same (max) speed in all version
+
+- image from image file
+
+- flipper
+
+refactor still...
