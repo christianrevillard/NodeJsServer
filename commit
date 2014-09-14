@@ -7,9 +7,11 @@ git push github master
 mkdir resources/WebApps
 mkdir resources/WebApps/js
 mkdir resources/WebApps/lib
+mkdir resources/WebApps/css
 cp ../../WebApps/*.html resources/WebApps
 cp -r ../../WebApps/js resources/WebApps
 cp -r ../../WebApps/lib resources/WebApps
+cp -r ../../WebApps/css resources/WebApps
 git add -A  
 git commit -m "$desc"
 git push origin master

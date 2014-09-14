@@ -9,12 +9,15 @@ function handle(response, request) {
 	'<body>'+
 	'<table>'+	
 	'<tr><td><a href="/upload">Upload image test</a></td></tr>'+
-	'<tr><td><a href="/files/html/test.html">Client script test</a></td></tr>'+
-	'<tr><td><a href="/files/html/jsevents.html">Events test</a></td></tr>'+
-	'<tr><td><a href="/files/html/chess.html">JS Chess</a></td></tr>'+
-	'<tr><td><a href="/files/html/canvas.html">Canvas tests</a></td></tr>'+
-	'<tr><td><a href="/files/js/testCreanvas.html">Creanvas tests</a></td></tr>'+
-	'<tr><td><a href="/files/js/tictactoe.html">Test Tic Tac Toe</a></td></tr>'+
+	'<tr><td><a href="/files/WebApps/test.html">Client script test</a></td></tr>'+
+	'<tr><td><a href="/files/WebApps/testSuite.html">Client script test</a></td></tr>'+
+	'<tr><td><a href="/files/WebApps/testPerformance.html">Drawing perf test</a></td></tr>'+
+	'<tr><td><a href="/files/WebApps/jsevents.html">Events test</a></td></tr>'+
+	'<tr><td><a href="/files/WebApps/chess.html">JS Chess</a></td></tr>'+
+	'<tr><td><a href="/files/WebApps/solarSystem.html">Solar system test</a></td></tr>'+
+	'<tr><td><a href="/files/WebApps/tictactoe.html">Tic Tac Toe</a></td></tr>'+
+	'<tr><td><a href="/files/WebApps/testCollision.html">Test Collisions</a></td></tr>'+
+	'<tr><td><a href="/files/WebApps/flipper.html">Flipper</a></td></tr>'+
 	'</table'+
 	'</body>'+
 	'</html>';
