@@ -23,13 +23,17 @@ var start =
 					request);
 			};
 		
-		http
-			.createServer(onRequest)
-			.listen(
+		var server = 
+			http
+				.createServer(onRequest);
+		
+		server.listen(
 				process.env.OPENSHIFT_NODEJS_PORT || 8888, 
 				process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
 		
 		console.log("Server has started.");
+		
+		return server;
 	}
 
 exports.start = start;

@@ -35,9 +35,19 @@ handlers["/upload/upload"] = uploadHandler.handle;
 var testAjaxHandler = require("./RequestHandlers/testAjax");
 handlers["/testAjax"] = testAjaxHandler.handle;
 
+var theServer = 
+	server
+.start(	
+	router.route, 
+	fileLocations,
+	handlers);
 
-server
-	.start(	
-		router.route, 
-		fileLocations,
-		handlers);
+// websocket connection
+var io = require('socket.io')(theServer);
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
+
+
