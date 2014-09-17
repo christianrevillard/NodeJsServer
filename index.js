@@ -35,18 +35,29 @@ handlers["/upload/upload"] = uploadHandler.handle;
 var testAjaxHandler = require("./RequestHandlers/testAjax");
 handlers["/testAjax"] = testAjaxHandler.handle;
 
-var theServer = 
+var application = 
 	server
-.start(	
-	router.route, 
-	fileLocations,
-	handlers);
+		.start(	
+			router.route, 
+			fileLocations,
+			handlers);
 
 // websocket connection
-var io = require('socket.io')(theServer);
+var io = require('socket.io')(application);
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+	console.log('user connected');
+	socket.broadcast.emit('chat message', 'hi !');
+  
+  socket.on('disconnect', function(){
+		socket.broadcast.emit('chat message', 'bye !');
+	    console.log('user disconnected');
+	  });
+  
+  socket.on('chat message', function(msg){
+	    console.log('message: ' + msg);
+	    io.emit('chat message', msg);
+	  });
 });
 
 

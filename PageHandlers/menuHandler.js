@@ -18,6 +18,7 @@ function handle(response, request) {
 	'<tr><td><a href="/files/WebApps/tictactoe.html">Tic Tac Toe</a></td></tr>'+
 	'<tr><td><a href="/files/WebApps/testCollision.html">Test Collisions</a></td></tr>'+
 	'<tr><td><a href="/files/WebApps/flipper.html">Flipper</a></td></tr>'+
+	'<tr><td><a href="/files/html/testSocket.html">Websocket Chat</a></td></tr>'+
 	'</table'+
 	'</body>'+
 	'</html>';
