@@ -1,4 +1,4 @@
-function handle(response, request) {
+function handle(request, response) {
 	console.log("Request handler 'menu' was called.");
 
 	var body = '<html>'+

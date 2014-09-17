@@ -30,6 +30,8 @@ var handle =
 	
 		console.log("Disk filename is '" + fileName + "'");	
 	
+//		response.sendFile(fileName);
+
 		fs.exists(
 			fileName, 
 			function (exists) 

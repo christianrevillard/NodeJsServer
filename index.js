@@ -1,5 +1,6 @@
 var server = require("./ServerCore/server");
-var router = require("./ServerCore/router");
+
+var handlers = [];
 
 ///////////////////////////
 /* File extensions */
@@ -8,57 +9,28 @@ var fileLocations = {};
 fileLocations['/files'] = './resources';
 fileLocations['/temp'] = '/tmp';
 
-var handlers = {};
 var fileHandler = require("./FileHandlers/FileHandler");
-handlers[".js"] = new fileHandler.FileHandler(fileLocations,'text/javascript').handle;
-handlers[".css"] = new fileHandler.FileHandler(fileLocations,'text/css').handle;
-handlers[".png"] = new fileHandler.FileHandler(fileLocations,'image/png').handle;
-handlers[".gif"] = new fileHandler.FileHandler(fileLocations,'image/gif').handle;
-handlers[".html"] = handlers[".htm"] = new fileHandler.FileHandler(fileLocations,'text/html').handle;
-handlers[".ogg"] = new fileHandler.FileHandler(fileLocations,'audio/ogg').handle;
+handlers.push(["*.js", new fileHandler.FileHandler(fileLocations,'text/javascript').handle]);
+handlers.push(["*.css", new fileHandler.FileHandler(fileLocations,'text/css').handle]);
+handlers.push(["*.png",new fileHandler.FileHandler(fileLocations,'image/png').handle]);
+handlers.push(["*.gif",new fileHandler.FileHandler(fileLocations,'image/gif').handle]);
+handlers.push(["*.html", new fileHandler.FileHandler(fileLocations,'text/html').handle]);
+handlers.push(["*.htm", new fileHandler.FileHandler(fileLocations,'text/html').handle]);
+handlers.push(["*.ogg", new fileHandler.FileHandler(fileLocations,'audio/ogg').handle]);
 
 ///////////////////////////
 /* Routes */
 ///////////////////////////
 
 /* menu */
-var menuHandler = require("./PageHandlers/menuHandler");
-handlers["/"] = menuHandler.handle;
+handlers.push(["/", require("./PageHandlers/menuHandler").handle]);
 
 /* image upload */
-var uploadStartHandler = require("./PageHandlers/upload/startHandler");
-var uploadHandler = require("./PageHandlers/upload/uploadHandler");
-handlers["/upload"] = handlers["/upload/start"] = uploadStartHandler.handle;
-handlers["/upload/upload"] = uploadHandler.handle;
+handlers.push(["/upload", handlers["/upload/start"] = require("./PageHandlers/upload/startHandler").handle]);
+handlers.push(["/upload/upload", require("./PageHandlers/upload/uploadHandler").handle]);
+handlers.push(["/chat", require("./PageHandlers/chatHandler").handle, 'chat']);
 
 /* ajax requests */
-var testAjaxHandler = require("./RequestHandlers/testAjax");
-handlers["/testAjax"] = testAjaxHandler.handle;
+handlers.push(["/testAjax", require("./RequestHandlers/testAjax").handle]);
 
-var application = 
-	server
-		.start(	
-			router.route, 
-			fileLocations,
-			handlers);
-
-// websocket connection
-var io = require('socket.io')(application);
-
-io.on('connection', function(socket){
-	console.log('user connected');
-	socket.broadcast.emit('chat message', 'hi !');
-  
-  socket.on('disconnect', function(){
-		socket.broadcast.emit('chat message', 'bye !');
-	    console.log('user disconnected');
-	  });
-  
-  socket.on('chat message', function(msg){
-	    console.log('message: ' + msg);
-	    io.emit('chat message', msg);
-	  });
-});
-
-
-
+server.start(handlers);

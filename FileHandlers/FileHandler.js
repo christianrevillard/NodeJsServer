@@ -7,8 +7,8 @@ var FileHandler =
 	{
 		this.handle = 
 			function(
-				response, 
-				request)
+				request, 
+				response)
 			{
 			 	console.log("Handling a '" + contentType + "' file");
 				
