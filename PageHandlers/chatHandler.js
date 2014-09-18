@@ -1,4 +1,4 @@
-var rfh = require("../FileHandlers/resourceFileHandler");
+/*var rfh = require("../FileHandlers/resourceFileHandler");
 
 var handle = function(io, channel)
 {
@@ -30,4 +30,4 @@ var handle = function(io, channel)
 		rfh.handle(response, request, {'/files': './resources'}, "text/html")
 	};
 };
-exports.handle = handle;
+exports.handle = handle;*/

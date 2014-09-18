@@ -1,7 +1,18 @@
+// Game details handled by Node server
+// controls: isBlocked, drop-event, game win/lose
+
 var CreTictactoe = CreTictactoe || {};
 
 CreTictactoe.onload = function ()
 {		
+	  var socket = io("/tictactoe");
+	  
+	  socket.on('played', function(msg){
+		
+	  });	  
+
+	
+	
 	var theCanvas = document.getElementById('theCanvas');
 	var controller;
 	
@@ -215,10 +226,13 @@ var tttCase = function(x,y)
 	theCase.events.getEvent('droppedIn').addEventListener(
 			function(e)
 			{
-				blockedX = !blockedX;
+				// Send socket stuff
+				
+				
+/*				blockedX = !blockedX;
 				blockedO = !blockedO;
 				currentPlayer.y = blockedX?325:150;				
-				controller.redraw();
+				controller.redraw();*/
 			});
 		
 		return theCase;
@@ -259,12 +273,16 @@ var tttCase = function(x,y)
 			}
 		],
 		["clickable",{onclick:function(){			
+			
+			// send request stuff...
 				controller.stop();
 				setUp();
 				}}
 		]
 	);
 	
+	// to be handled on the server
+	/*
 	var hasWon = function (element)
 	{
 		controller.stop(); 
@@ -354,7 +372,7 @@ var tttCase = function(x,y)
 					hasWon(markO);
 				}
 			}
-			,100);
+			,100);*/
 	};
 	
 	setUp();

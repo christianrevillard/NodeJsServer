@@ -1,6 +1,6 @@
 var connect = function(io) {
 
-	var chat = io;//io.of('/chat')
+	var chat = io.of('/chat')
 
 	console.log('Setting up chat socket');
 

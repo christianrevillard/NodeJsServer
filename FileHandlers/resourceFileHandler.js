@@ -13,7 +13,7 @@ var handle =
 		fileNotFound =  require('../ServerCore/fileNotFound');		
 		fileName = url.parse(request.url).pathname;
 		
-		console.log("Resource file handler was called for '" + fileName + "', contentType '" + contentType + "'");	
+		//console.log("Resource file handler was called for '" + fileName + "', contentType '" + contentType + "'");	
 	
 		var pathLocation = fileName.slice(0, fileName.indexOf('/',1));
 		
@@ -24,11 +24,11 @@ var handle =
 			return;
 		}
 
-		console.log("Found defined location '" + pathLocation + "' in filename '" + fileName + "'");	
+		//console.log("Found defined location '" + pathLocation + "' in filename '" + fileName + "'");	
 			
 		fileName = fileName.replace(new RegExp("^" + pathLocation), fileLocations[pathLocation]);
 	
-		console.log("Disk filename is '" + fileName + "'");	
+		//console.log("Disk filename is '" + fileName + "'");	
 	
 //		response.sendFile(fileName);
 
