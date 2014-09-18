@@ -13,5 +13,5 @@ cp -r ../../WebApps/js resources/WebApps
 cp -r ../../WebApps/lib resources/WebApps
 cp -r ../../WebApps/css resources/WebApps
 git add -A  
-git commit -m "$desc"
+git commit -m "$desc for Web"
 git push origin master
