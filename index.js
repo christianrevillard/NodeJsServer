@@ -26,7 +26,7 @@ handlers.push(["*.ogg", resourceFileHandler.getHandler(fileLocations,'audio/ogg'
 ///////////////////////////
 
 /* menu */
-handlers.push(["/", require("./Handlers/Pages/menuHandler")]);
+handlers.push(["/", require("./Handlers/Pages/MenuHandler")]);
 
 /* pages */
 handlers.push(["/upload", alias.getHtml('./resources/html/uploadImage.html')]);
