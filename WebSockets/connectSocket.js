@@ -1,25 +1,20 @@
-var io_;
-
-var handle = function(request, response)
-{			
-	var url = require('url');
-	var fileName = url.parse(request.url).pathname;
-
-	var pathLocation = fileName.replace('/socket/','');
-
-	var socket = require('./' + pathLocation + 'Socket');
-	
-	socket.connect(io_);
-	
-	// just so the browser is happy !
-	response.writeHead(200, {"Content-Type": "text/plain"});
-	response.end();				
-};
-
-var setSocket = function(io)
+var getHandle = function(globals)
 {
-	io_ = io;
+	return function(request, response)
+	{			
+		var url = require('url');
+		var fileName = url.parse(request.url).pathname;
+	
+		var pathLocation = fileName.replace('/socket/','');
+	
+		var socket = require('./' + pathLocation + 'Socket');
+		
+		socket.connect(globals.io);
+		
+		// just so the browser is happy !
+		response.writeHead(200, {"Content-Type": "text/plain"});
+		response.end();				
+	};
 };
 
-exports.handle= handle;
-exports.setSocket = setSocket;
+exports.getHandle= getHandle;
