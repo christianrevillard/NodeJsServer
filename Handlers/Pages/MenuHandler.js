@@ -1,6 +1,6 @@
 // generell redirect stuff ?
 
-var responseHandler = require("../ServerCore/ResponseHandler");
+var responseHandler = require("../../ServerCore/ResponseHandler");
 
 var handle = function (request,response) {
 	responseHandler.sendFile(

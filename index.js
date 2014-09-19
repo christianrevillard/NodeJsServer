@@ -1,50 +1,46 @@
-var server = require("./ServerCore/server");
+var server = require("./ServerCore/Server");
+
+var resourceFileHandler = require("./Handlers/Generic/ResourceFileHandler");
+var alias = require("./Handlers/Generic/ResourceFileAliasHandler");
 
 var handlers = [];
 
 ///////////////////////////
 /* File extensions */
 ///////////////////////////
+
 var fileLocations = {};
 fileLocations['/files'] = './resources';
 fileLocations['/temp'] = '/tmp';
 
-//var fileHandler = require("./PageHandlers/FileHandler");
-/*handlers.push(["*.js", new fileHandler.FileHandler(fileLocations,'text/javascript')]);
-handlers.push(["*.css", new fileHandler.FileHandler(fileLocations,'text/css')]);
-handlers.push(["*.png", new fileHandler.FileHandler(fileLocations,'image/png')]);
-handlers.push(["*.gif", new fileHandler.FileHandler(fileLocations,'image/gif')]);
-handlers.push(["*.html", new fileHandler.FileHandler(fileLocations,'text/html')]);
-handlers.push(["*.htm", new fileHandler.FileHandler(fileLocations,'text/html')]);
-handlers.push(["*.ogg", new fileHandler.FileHandler(fileLocations,'audio/ogg')]);*/
-var resourceFileHandler = require("./PageHandlers/resourceFileHandler");
-handlers.push(["*.js", resourceFileHandler.getFileHandler(fileLocations,'text/javascript')]);
-handlers.push(["*.css", resourceFileHandler.getFileHandler(fileLocations,'text/css')]);
-handlers.push(["*.png", resourceFileHandler.getFileHandler(fileLocations,'image/png')]);
-handlers.push(["*.gif", resourceFileHandler.getFileHandler(fileLocations,'image/gif')]);
-handlers.push(["*.html", resourceFileHandler.getFileHandler(fileLocations,'text/html')]);
-handlers.push(["*.htm", resourceFileHandler.getFileHandler(fileLocations,'text/html')]);
-handlers.push(["*.ogg", resourceFileHandler.getFileHandler(fileLocations,'audio/ogg')]);
+handlers.push(["*.js", resourceFileHandler.getHandler(fileLocations,'text/javascript')]);
+handlers.push(["*.css", resourceFileHandler.getHandler(fileLocations,'text/css')]);
+handlers.push(["*.png", resourceFileHandler.getHandler(fileLocations,'image/png')]);
+handlers.push(["*.gif", resourceFileHandler.getHandler(fileLocations,'image/gif')]);
+handlers.push(["*.html", resourceFileHandler.getHandler(fileLocations,'text/html')]);
+handlers.push(["*.htm", resourceFileHandler.getHandler(fileLocations,'text/html')]);
+handlers.push(["*.ogg", resourceFileHandler.getHandler(fileLocations,'audio/ogg')]);
 
 ///////////////////////////
 /* Routes */
 ///////////////////////////
 
 /* menu */
-handlers.push(["/", require("./PageHandlers/menuHandler")]);
+handlers.push(["/", require("./Handlers/Pages/menuHandler")]);
 
-/* image upload */
-handlers.push(["/upload", require("./PageHandlers/upload/startHandler")]);
-handlers.push(["/upload/start", require("./PageHandlers/upload/startHandler")]);
-handlers.push(["/upload/upload", require("./PageHandlers/upload/uploadHandler")]);
+/* pages */
+handlers.push(["/upload", alias.getHtml('./resources/html/uploadImage.html')]);
+handlers.push(["/upload/start", alias.getHtml('./resources/html/uploadImage.html')]);
+handlers.push(["/upload/upload", require("./Handlers/Pages/upload/UploadHandler")]);
+handlers.push(["/tictactoe", alias.getHtml('./resources/html/tictactoe.html')]);
 
 /* ajax requests */
-handlers.push(["/testAjax", require("./RequestHandlers/testAjax")]);
+handlers.push(["/testAjax", require("./Handlers/Ajax/TestAjaxHandler")]);
 
 /* socket connections */
-handlers.push(["/socket/*", require("./WebSockets/connectSocket")]);
+handlers.push(["/socket/*", require("./Handlers/Sockets/ConnectSocket")]);
 
 /* fallback */
-handlers.push(["/*", require("./PageHandlers/PageNotFoundHandler")]);
+handlers.push(["/*", require("./Handlers/Generic/PageNotFoundHandler")]);
 
 server.start(handlers);

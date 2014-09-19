@@ -1,6 +1,6 @@
-var responseHandler = require('../ServerCore/ResponseHandler');
+var responseHandler = require('../../ServerCore/ResponseHandler');
 
-var getFileHandler = function(fileLocations,contentType) 
+var getHandler = function(fileLocations,contentType) 
 {
 	return {
 		handle:function(request, response, next){
@@ -26,5 +26,4 @@ var getFileHandler = function(fileLocations,contentType)
 	};	
 };
 	
-	
-exports.getFileHandler = getFileHandler;
+exports.getHandler = getHandler;

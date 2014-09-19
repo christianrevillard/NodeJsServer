@@ -5,23 +5,20 @@ var sendFile = function(response, fileName, contentType, next) {
 		fileName, 
 		function (exists) 
 		{
-			if (exists)
+			if (!exists)
 			{
-				console.log("Serving '" + fileName + "'");	
-				response.writeHead(200, {"Content-Type":  contentType});
-				fs.createReadStream(fileName).pipe(response);					
+				console.log(fileName + ' does not exist');	
+				next();
 			}
-			else
-			{
-				console.log("File not found '" + fileName + "'");	
-							next();
-				
-//				sendError404(response);
-			}			
+			
+			console.log("Serving '" + fileName + "'");	
+			response.writeHead(200, {"Content-Type":  contentType});
+			fs.createReadStream(fileName).pipe(response);					
 		});
 };
 
 var	sendError404 = function (response) {
+	console.log("WRITING RESPONSE - 404");
 	response.writeHead(404, {"Content-Type": "text/plain"});
 	response.write("No file for you!.")
 	response.end();				
@@ -29,4 +26,3 @@ var	sendError404 = function (response) {
 
 exports.sendFile = sendFile;
 exports.sendError404 = sendError404;
-
