@@ -1,7 +1,13 @@
+// Game details handled by Node server
+// controls: isBlocked, drop-event, game win/lose
+
 var CreTictactoe = CreTictactoe || {};
 
 CreTictactoe.onload = function ()
 {		
+	  var socket = io("/tictactoe");
+	 
+		
 	var theCanvas = document.getElementById('theCanvas');
 	var controller;
 	
@@ -9,6 +15,15 @@ CreTictactoe.onload = function ()
 	{
 		var blockedX = false;
 		var blockedO = true;
+
+		  socket.on('played', function(msg){
+			  blockedX = !blockedX;
+				blockedO = !blockedO;
+				currentPlayer.y = blockedX?325:150;				
+				controller.redraw();
+				alert(msg);		
+				markX.events.getEvent("pointerDown").dispatch();
+		  });	  
 
 		controller = new CreJs.Creanvas.Controller(
 		{
@@ -178,6 +193,8 @@ var markO = controller.addElement
 	}]
 );
 
+var cases = [];
+
 var tttCase = function(x,y)
 {
 	var theCase = controller.addElement(
@@ -211,27 +228,39 @@ var tttCase = function(x,y)
 			}
 		] 
 	);
-		
+			
 	theCase.events.getEvent('droppedIn').addEventListener(
 			function(e)
 			{
-				blockedX = !blockedX;
+				
+		    socket.emit('played', JSON.stringify(casesById[e.dropZone.id]));
+				  
+				// Send socket stuff
+				
+				
+/*				blockedX = !blockedX;
 				blockedO = !blockedO;
 				currentPlayer.y = blockedX?325:150;				
-				controller.redraw();
+				controller.redraw();*/
 			});
 		
 		return theCase;
 	};
-	
-	var cases = [];
+
+	var getCase = function(id)
+	{
+		return 
+	}
+
+	var casesById = [];
 	
 	for (var i = 0; i<3; i++)
 	{		
 		cases[i] = [];
 		for (var j = 0; j<3; j++)
 		{
-			cases[i][j] = tttCase(i,j);			
+			cases[i][j] = tttCase(i,j);
+			casesById[cases[i][j].id] = {i:i, j:j};
 		}
 	}
 
@@ -259,12 +288,16 @@ var tttCase = function(x,y)
 			}
 		],
 		["clickable",{onclick:function(){			
+			
+			// send request stuff...
 				controller.stop();
 				setUp();
 				}}
 		]
 	);
 	
+	// to be handled on the server
+	/*
 	var hasWon = function (element)
 	{
 		controller.stop(); 
@@ -354,7 +387,7 @@ var tttCase = function(x,y)
 					hasWon(markO);
 				}
 			}
-			,100);
+			,100);*/
 	};
 	
 	setUp();

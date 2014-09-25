@@ -1,3 +1,6 @@
+var isConnected = false;
+var creanvasSocket = require('./CreanvasSocket');
+
 var connect = function(io) {
 
 	var tictactoe = io.of('/tictactoe')
@@ -5,22 +8,25 @@ var connect = function(io) {
 	console.log('Setting up tictactoe socket');
 
 	tictactoe.on('connection', function(socket){
-		console.log('user connected');
+		console.log('user connected: ' + socket.id);
 		
-/*		socket.broadcast.emit('chat message', 'hi !');
-	  
+		creanvasSocket.addCreanvas(socket);
+		
 		socket.on('disconnect', function(){
-			socket.broadcast.emit('chat message', 'bye !');
+			socket.broadcast.emit('played', 'I am out !');
 			console.log('user disconnected');
 		});
   
-		socket.on('chat message', function(msg){
-			console.log('message: ' + msg);
-			chat.emit('chat message', msg);
-		});*/
+		socket.on('played', function(msg){
+			console.log('message: ' + msg + ' from socket.id ' + socket.id );
+			socket.emit('played', 'you have played: ' + msg);
+			socket.broadcast.emit('played', 'Someone has played : ' + msg);
+						
+		});
 	}); 
  
 	return tictactoe;
 };
 
 exports.connect = connect;
+exports.isConnected = isConnected;

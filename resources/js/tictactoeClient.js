@@ -1,18 +1,20 @@
 // Game details handled by Node server
 // controls: isBlocked, drop-event, game win/lose
+// All hanlding on server
+// client
+// -- get info on new locations
+// -- draws elements
+// -- send user events to server.
+// CreanvasMOdule under parallel development here...
+// Register element through socket, let the server work, get the updates sometimes...
+
 
 var CreTictactoe = CreTictactoe || {};
 
 CreTictactoe.onload = function ()
 {		
-	  var socket = io("/tictactoe");
-	  
-	  socket.on('played', function(msg){
-		
-	  });	  
-
-	
-	
+	var socket = io("/tictactoe");
+	 		
 	var theCanvas = document.getElementById('theCanvas');
 	var controller;
 	
@@ -21,10 +23,20 @@ CreTictactoe.onload = function ()
 		var blockedX = false;
 		var blockedO = true;
 
-		controller = new CreJs.Creanvas.Controller(
+		  socket.on('played', function(msg){
+			  new CreJs.Crelog.Logger().logMessage(msg);
+	/*		  blockedX = !blockedX;
+				blockedO = !blockedO;
+				currentPlayer.y = blockedX?325:150;				
+				controller.redraw();*/
+//				alert(msg);		
+				//markX.events.getEvent("pointerDown").dispatch();
+		  });	  
+		  
+		controller = new CreJs.CreanvasNodeClient.NodeJsController(
 		{
-			"noWorker":true,
-			"lengthScale":0.9,
+			"nodeSocket":socket,
+			"lengthScale":0.75,
 			"canvas":theCanvas, 
 			"log": new CreJs.Crelog.Logger().logMessage,
 			"drawBackground" : 
@@ -63,8 +75,6 @@ CreTictactoe.onload = function ()
 			["name", "currentPlayer"],
 			["image", 
 			 	{
-					"width":150,
-					"height":150,
 					"draw": function (context) 
 					{
 						var gradient = context.createLinearGradient(25,25,525,325);
@@ -82,7 +92,8 @@ CreTictactoe.onload = function ()
 			["name", "X"],
 			["image",
 			 	{
-					"width":150,"height":150,
+				"width":150,
+				"height":150,
 					"draw": function (context) 
 					{
 						var color1, color2;
@@ -121,7 +132,51 @@ CreTictactoe.onload = function ()
 			["droppable", {}],
 			["customTimer",{"time": 80, "action": function() { this.angle+= Math.PI / 32;}}]
 		);
-		
+
+		var markXtemp = 	controller.addElement
+		(
+			["name", "X"],
+			["image",
+			 	{
+				"width":150,
+				"height":150,
+					"draw": function (context) 
+					{
+						var color1, color2;
+						if (this.dropZone)
+						{
+							color1 =  "#D22";
+							color2= "#600";
+						}
+						else
+							{
+							color1 = "#F44";
+							color2= "#900";
+						}
+						context.lineCap='round';
+						context.lineWidth=40;
+						context.moveTo(-50,-50);
+						context.bezierCurveTo(50,0,0,50,50,50);
+						context.moveTo(-50,50);
+						context.bezierCurveTo(-20,0,30, -25, 50, -50);
+						var gradient = context.createLinearGradient(-45,-30,55,60);
+						gradient.addColorStop(0.0,color1);
+						gradient.addColorStop(1.0,color2);
+						context.strokeStyle = gradient;
+						context.stroke();
+						context.moveTo(-50,-50);
+						context.lineTo(50,-50);
+						context.moveTo(50,50);
+						context.lineTo(-50,50);
+						
+						context.arc(0,0,50,0,2*Math.PI);
+					}
+			 	}
+			],
+			["position", {"x": 300, "y": 150, "angle": Math.PI / 2}],			
+			["movable", {}]
+		);
+
 var markO = controller.addElement
 (
 	["name",'O'],
@@ -133,8 +188,8 @@ var markO = controller.addElement
 	],
     ["image",
      	{
-			width:150,
-			height:150,
+		"width":150,
+		"height":150,
 			scaleX:0.8,
 			scaleY:1.2,
 			draw: function (context) 
@@ -189,28 +244,28 @@ var markO = controller.addElement
 	}]
 );
 
+var cases = [];
+
 var tttCase = function(x,y)
 {
 	var theCase = controller.addElement(
 		["name", 'case(' + x + ',' + y + ')'],
 		["image", 
 		 	{
-				"top":0,
-				"left":0,
 				"width":150,
 				"height":150,
 				"draw": function (context) 
 				{
 					// 99% transparent!
 					context.fillStyle ="rgba(0,0,0,0.01)"; 
-					context.fillRect(0, 0,150,150);
+					context.fillRect(-75,-75,150,150);
 				},
 			}
 		],
 		["position",
 		 	{
-				x: 25 + x*150,
-				y: 25 + y*150,
+				x: 100 + x*150,
+				y: 100 + y*150,
 				z:-100
 			}
 		],
@@ -222,10 +277,13 @@ var tttCase = function(x,y)
 			}
 		] 
 	);
-		
+			
 	theCase.events.getEvent('droppedIn').addEventListener(
 			function(e)
 			{
+				
+		    socket.emit('played', JSON.stringify(casesById[e.dropZone.id]));
+				  
 				// Send socket stuff
 				
 				
@@ -237,15 +295,21 @@ var tttCase = function(x,y)
 		
 		return theCase;
 	};
-	
-	var cases = [];
+
+	var getCase = function(id)
+	{
+		return 
+	}
+
+	var casesById = [];
 	
 	for (var i = 0; i<3; i++)
 	{		
 		cases[i] = [];
 		for (var j = 0; j<3; j++)
 		{
-			cases[i][j] = tttCase(i,j);			
+			cases[i][j] = tttCase(i,j);
+			casesById[cases[i][j].id] = {i:i, j:j};
 		}
 	}
 

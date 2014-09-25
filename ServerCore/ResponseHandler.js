@@ -18,7 +18,6 @@ var sendFile = function(response, fileName, contentType, next) {
 };
 
 var	sendError404 = function (response) {
-	console.log("WRITING RESPONSE - 404");
 	response.writeHead(404, {"Content-Type": "text/plain"});
 	response.write("No file for you!.")
 	response.end();				

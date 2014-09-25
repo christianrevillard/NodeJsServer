@@ -9,7 +9,15 @@ var getHandle = function(globals)
 	
 		var socket = require('./' + pathLocation + 'Socket');
 		
-		socket.connect(globals.io);
+		if (socket.isConnected)
+		{
+			console.log('Socket already set up');
+		}
+		else
+		{
+			socket.connect(globals.io);
+			socket.isConnected = true;
+		}
 		
 		// just so the browser is happy !
 		response.writeHead(200, {"Content-Type": "text/plain"});

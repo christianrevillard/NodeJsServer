@@ -1,7 +1,9 @@
+var isConnected = false;
+
 var connect = function(io) {
 
 	var chat = io.of('/chat')
-
+	
 	console.log('Setting up chat socket');
 
 	chat.on('connection', function(socket){
@@ -24,3 +26,4 @@ var connect = function(io) {
 };
 
 exports.connect = connect;
+exports.isConnected = isConnected;
