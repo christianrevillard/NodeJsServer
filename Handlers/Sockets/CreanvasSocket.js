@@ -1,4 +1,4 @@
-var addCreanvas = function(socket) {
+var addCreanvas = function(io, ioof, socket) {
 	
 	var elements = [];
 	var movable = [];
@@ -29,10 +29,11 @@ var addCreanvas = function(socket) {
 		{
 			if (moving[eventData.touchIdentifier])
 			{
-				socket.emit('moved', JSON.stringify({
-					"element":moving[eventData.touchIdentifier], 
-					"x":eventData.x,
-					"y":eventData.y}));
+				var moved = elements.filter(function(e){ return e.id == moving[eventData.touchIdentifier] })[0];
+				console.log('update ' + moved.id + ' to ' + eventData.x + ',' + eventData.y);
+				moved.x = eventData.x;
+				moved.y = eventData.y;
+				hasUpdates = true;
 			}
 		}
 		else
@@ -41,13 +42,31 @@ var addCreanvas = function(socket) {
 		}
 	//	socket.emit('played', 'Event registered: element: ' + stuff.element + ', event: ' + stuff.event);
 	});
+	
+	var hasUpdates = false;
+	
+	setInterval(
+		function()
+		{
+			if (hasUpdates)
+			{
+				ioof.emit('update', JSON.stringify(elements));
+				hasUpdates = false;
+			}
+		},
+		40
+	);
 
+	
+	
+	/* These are server side stuff*/
 	socket.on('registerElement', function(message){
 		console.log('received register : ' + message);
 		var elementData = JSON.parse(message);
 		elements.push({id:elementData.id, x:elementData.x, y:elementData.y});
 	});
 
+	/*
 	socket.on('decorate', function(message){
 		console.log('received decorator registration: ' + message);
 		
@@ -61,7 +80,7 @@ var addCreanvas = function(socket) {
 			movable.push(decorateMessage.element);
 			console.log("movable.length: " + movable.length);
 		}
-	});
+	});*/
 	
   };
 
