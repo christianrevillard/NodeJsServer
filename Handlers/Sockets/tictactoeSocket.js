@@ -1,5 +1,5 @@
 var isConnected = false;
-var creanvasSocket = require('./CreanvasSocket');
+var serverController = require('../../CreanvasModule/ServerController');
 
 var connect = function(io) {
 
@@ -10,7 +10,7 @@ var connect = function(io) {
 	tictactoe.on('connection', function(socket){
 		console.log('user connected: ' + socket.id);
 		
-		creanvasSocket.addCreanvas(io, tictactoe, socket);
+		var controller = new serverController.Controller(tictactoe, socket);
 		
 		socket.on('disconnect', function(){
 			socket.broadcast.emit('played', 'I am out !');
@@ -25,10 +25,32 @@ var connect = function(io) {
 		
 		// initial set up
 		// choose check player 1, 2 and create a room...		
-		socket.on('startGame', function()
+		socket.on('startApplication', function()
 		{
 			console.log('starting a game' );
-			socket.emit('addElement', JSON.stringify({
+
+			var blockedX = false;
+			
+			controller.addElement
+			(
+				["name", "X1"],
+				["image", { "width":150,"height":150, "drawingMethod": 'X'}],
+				["position", {"x": 600, "y": 150, "angle": Math.PI / 4}],			
+				["duplicable", {"generatorCount":3, "isBlocked":function(){return blockedX;}}],
+				["droppable", {}],
+				["customTimer",{"time": 80, "action": function() { this.angle+= Math.PI / 32;}}]
+			);
+
+			controller.addElement
+			(
+				["name", "X2"],
+				["image", { "width":150,"height":150, "drawingMethod": 'X'}],
+				["position", {"x": 300, "y": 150, "angle": Math.PI / 4}],			
+				["movable", {}]
+			);
+
+/*			
+			controller.addElement({
 				"name": 'X1',
 				"left" : -75,
 				"top": 75,
@@ -38,7 +60,7 @@ var connect = function(io) {
 				"x": 200,
 				"y": 200,
 				"z": 0
-			}));
+			}, socket);*/
 		});
 	});
 

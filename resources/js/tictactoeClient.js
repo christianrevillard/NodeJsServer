@@ -147,5 +147,5 @@ CreTictactoe.onload = function ()
 		},
 		false);	
 	
-	socket.emit('startGame','');
+	controller.startApplication();
 };
