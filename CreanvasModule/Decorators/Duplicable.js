@@ -40,32 +40,33 @@ var applyTo = function(element, duplicableData) {
 			"movable",
 			{
 				isBlocked : isBlocked,
-				touchIdentifier: e.touchIdentifier // how to handle this back to client?? => emit something
 			});
 		
+		copy.touchIdentifier =  e.touchIdentifier; // how to handle this back to client?? => emit something
+		copy.isMoving = true;
+		
+		
 	};
-	
-	console.log('Listening to hitEvent' + element.id );
-	
-	// what is the problem then???
-	
-	socket.on('hitEvent' + element.id, function(message){
-		console.log('received hitEvent on ' + element.id + ': ' + message);
+		
 
-		var eventData= JSON.parse(message);
+	// to handle by events, find library/core?
+	var oldHandlePointerEvent = element.handlePointerEvent;
+	element.handlePointerEvent = function(eventData, identifierElement)
+	{
+		if (oldHandlePointerEvent)
+		oldHandlePointerEvent(eventData, identifierElement);
 				
 		if (eventData.eventId == "pointerDown")
 		{
 			console.log("pointerDown on : " + element.id);
 				
 			makeCopy(eventData);
+			
+			return false;
 		}
-		else
-
-		{
-			console.log(eventData.eventId + ' hitEvent is not handled by duplicable');
-		}
-	});
+		
+		return true;
+	};
 	
 	//element.elementEvents.getEvent('pointerDown').addListener(makeCopy);			
 };

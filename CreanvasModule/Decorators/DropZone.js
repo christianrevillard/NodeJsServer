@@ -8,15 +8,17 @@ var applyTo = function(element, dropzoneData)
 	
 	element.droppedElementsList = [];
 
-	// element and Event???
+	// to handle by events, find library/core?
+	var oldHandlePointerEvent = element.handlePointerEvent;
 
-	socket.on('hitEvent' + element.id, function(message){
-		console.log('received hitEvent' + element.id + '('+ dropX +',' + dropY + ') : ' + message);
-		var eventData= JSON.parse(message);
+	element.handlePointerEvent = function(eventData, identifierElement)
+	{
+		if (oldHandlePointerEvent)
+		oldHandlePointerEvent(eventData, identifierElement);
 		
-		if (eventData.eventId == "pointerUp" && eventData.touchElementId>-1 )
+		if (eventData.eventId == "pointerUp" )
 		{
-			var dropped = element.controller.getElementById(eventData.touchElementId);
+			var dropped = identifierElement;
 			
 			if (!dropped || !dropped.isDroppable)
 			{
@@ -28,7 +30,6 @@ var applyTo = function(element, dropzoneData)
 			
 			dropped.dropZone = element;
 			
-
 			console.log('Element' + dropped.id + ' was at (' + dropped.elementX + ',' + dropped.elementY + ')');
 			
 			if (dropX) dropped.elementX = dropX;
@@ -36,15 +37,13 @@ var applyTo = function(element, dropzoneData)
 			
 			console.log('Element' + dropped.id + ' is now at (' + dropped.elementX + ',' + dropped.elementY + ')');
 			dropped.updaed = true;
-			//identifier = eventData.touchIdentifier			
+			return false;
 		}
-		else
-
-		{
-			console.log(eventData.eventId + ' is not handled by movable');
-		}
-	});	
-
+		
+		return true;
+	};
+	
+	// element and Event???
 	
 /*	
 	socket.on('elementEvent', function(message){

@@ -52,6 +52,41 @@ var Controller  = function(ioof, socket) {
 		ioof.emit(command, JSON.stringify(data));
 	}
 	
+	
+	socket.on('pointerEvent', function(message){
+
+		console.log('Received pointerEvent: ' + message);
+		
+		var eventData= JSON.parse(message);
+		
+		var bubble = true;
+	
+		var identifierElement = controller.getElementByTouchIdentifier(eventData.touchIdentifier);
+		
+		if (identifierElement && identifierElement.handleIdentifierEvent)
+		{
+			console.log('Handling by identifier ' + identifierElement.id);
+			identifierElement.handleIdentifierEvent(eventData);
+		}
+		
+		eventData.hits.forEach(function(hitId){
+			
+			if (!bubble)
+				return;
+
+			var hit = controller.getElementById(hitId.id);
+
+			if (!hit)
+				return;
+
+			if (!hit.handlePointerEvent)
+				return;
+			
+			console.log('Checking hit on ' + hit.id);
+			bubble = hit.handlePointerEvent(eventData, identifierElement);
+		});
+	});
+
 /*	socket.on('decorate', function(message){
 		console.log('received decorator registration: ' + message);
 		
@@ -82,10 +117,16 @@ Controller.prototype.addElement = function(elementData, socket){
 	  if (els.length==0)
 		  return null;
 	  return els[0];
-	  };
+  };
 
+   Controller.prototype.getElementByTouchIdentifier = function(touchId)
+   {
+		var byIdentifier = this.elements.filter(function(e){return e.touchIdentifier == touchId;});
+		return byIdentifier.length>0 ? byIdentifier[0] : null;
+   };
+	  
   Controller.prototype.addElement = function ()
-{
+ {
 		console.log('Controller.addElement: ' + JSON.stringify(arguments));
 	  var controller = this;
 	  

@@ -97,6 +97,8 @@ Element.prototype.cloneElement = function(ignoreDecorators)
 	console.log("cloneElement: apply " + elementsToApply.length + " stuff");
 
 	var clone = this.controller.addElement.apply(this.controller, elementsToApply);
+	clone.elementZ = this.elementZ + 1;
+	console.log("z:" + this.elementZ + " -> " + clone.elementZ);
 	clone.updated = true;
 	return clone;
 };
