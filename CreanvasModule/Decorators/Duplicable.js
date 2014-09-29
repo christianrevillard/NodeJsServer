@@ -7,11 +7,12 @@ var applyTo = function(element, duplicableData) {
 	var generatorCount = duplicableData["generatorCount"] || Infinity;
 	
 	console.log("duplicable.applyTo: generatorCount is " + generatorCount);				
-				
-	var requiresTouch = false;
+			
+	// check this with tablet later
+//	var requiresTouch = false;
 	
 	var makeCopy = function(e) {
-						
+	/*					
 		if (e.touchIdentifier>=0)
 		{
 			// we'll work with touchstart, not mousedown!
@@ -20,7 +21,7 @@ var applyTo = function(element, duplicableData) {
 
 		if (requiresTouch && e.touchIdentifier<0)
 			return;
-		
+		*/
 		if (isBlocked && isBlocked()) 
 			return;
 		
@@ -39,18 +40,20 @@ var applyTo = function(element, duplicableData) {
 			"movable",
 			{
 				isBlocked : isBlocked,
-				touchIdentifier: e.touchIdentifier
+				touchIdentifier: e.touchIdentifier // how to handle this back to client?? => emit something
 			});
 		
 	};
 	
-	socket.on('elementEvent', function(message){
-		console.log('received pointerEvent: ' + message);
+	console.log('Listening to hitEvent' + element.id );
+	
+	// what is the problem then???
+	
+	socket.on('hitEvent' + element.id, function(message){
+		console.log('received hitEvent on ' + element.id + ': ' + message);
+
 		var eventData= JSON.parse(message);
-		
-		if (eventData.elementId != element.id)
-			return;
-		
+				
 		if (eventData.eventId == "pointerDown")
 		{
 			console.log("pointerDown on : " + element.id);
@@ -60,7 +63,7 @@ var applyTo = function(element, duplicableData) {
 		else
 
 		{
-			console.log(eventData.eventId + ' is not handled by duplicable');
+			console.log(eventData.eventId + ' hitEvent is not handled by duplicable');
 		}
 	});
 	

@@ -77,6 +77,13 @@ Controller.prototype.addElement = function(elementData, socket){
 };*/
 
 
+  Controller.prototype.getElementById = function (id){
+	  var els = this.elements.filter(function(e){ return e.id == id;});
+	  if (els.length==0)
+		  return null;
+	  return els[0];
+	  };
+
   Controller.prototype.addElement = function ()
 {
 		console.log('Controller.addElement: ' + JSON.stringify(arguments));

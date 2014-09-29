@@ -3,40 +3,39 @@ var applyTo = function(element, movableData)
 	var socket = element.controller.clientSocket;
 	var controller = element.controller;
 	
-	var identifier = movableData.touchIdentifier;
-	
-	
+	element.isMoving = false;
 	
 	console.log('adding elementEvent handler');
-	socket.on('elementEvent', function(message){
-		console.log('received pointerEvent: ' + message);
+
+	socket.on('hitEvent' + element.id, function(message){
+		console.log('received hitEvent on ' + element.id + ': ' + message);
 		var eventData= JSON.parse(message);
-		
-		if (eventData.elementId != element.id)
-			return;
-		
+				
 		if (eventData.eventId == "pointerDown")
 		{
 			console.log("pointerDown on : " + element.id);
 				
 			console.log('startMoving: ' + element.id);
-			identifier = eventData.touchIdentifier			
+			element.isMoving = true;
 		}
 		else
-
 		{
-			console.log(eventData.eventId + ' is not handled by movable');
+			console.log(eventData.eventId + ' hitEvent is not handled by movable');
 		}
 	});
 	
-	socket.on('pointerEvent', function(message){
+	socket.on('touchEvent' + element.id, function(message){
+		console.log('received touchEvent on ' + element.id + ': ' + message);
 		var eventData= JSON.parse(message);
-
-		if (identifier != eventData.touchIdentifier)
-			return;
 
 		if (eventData.eventId == "pointerMove")
 		{
+			if (!element.isMoving)
+			{
+				console.log('does not move anymore');
+				return;
+			};
+			
 			console.log('update ' + element.id + ' to ' + eventData.x + ',' + eventData.y);
 			element.elementX = eventData.x;
 			element.elementY = eventData.y;
@@ -44,12 +43,13 @@ var applyTo = function(element, movableData)
 		}
 		else if (eventData.eventId == "pointerUp")
 		{
-			console.log("pointerUp on : " + element.id);
-			identifier = null;
+			console.log("pointerUp - stop moving on : " + element.id);
+			element.isMoving = false;
+
 		}
 		else
 		{
-			console.log(eventData.eventId + ' is not handled by movable');
+			console.log(eventData.eventId + ' touchEvent is not handled by movable');
 		}
 	});
 

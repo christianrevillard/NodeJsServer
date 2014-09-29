@@ -120,8 +120,8 @@ CreTictactoe.onload = function ()
 		'case',
 		function (context) {
 			// 99% transparent!
-			context.fillStyle ="rgba(0,0,0,0.01)"; 
-			context.fillRect(-75,-75,150,150);
+			context.fillStyle ="rgba(0,0,0,0.50)"; 
+			context.fillRect(-70,-70,140,140);
 		}
 	);
 	
