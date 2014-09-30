@@ -21,7 +21,7 @@ CreTictactoe.onload = function ()
 		"nodeSocket":socket,
 		"lengthScale":0.75,
 		"canvas":theCanvas, 
-		"log": new CreJs.Crelog.Logger().logMessage,
+		//"log": new CreJs.Crelog.Logger().logMessage,
 		"drawBackground" : 
 			function (context) {
 				context.strokeStyle = "#000";
@@ -147,5 +147,6 @@ CreTictactoe.onload = function ()
 		},
 		false);	
 	
-	controller.startApplication();
+	// start or join, to handle on server...
+	socket.emit('joinGame','');
 };

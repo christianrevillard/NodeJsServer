@@ -2,12 +2,11 @@ var serverElement = require("./ServerElement");
 
 this.elements = [];
 
-var Controller  = function(ioof, socket) {
+var Controller  = function(ioof) {
 	
 	var controller = this;
 	
 	controller.applicationSocket = ioof;
-	controller.clientSocket = socket;
 	
 	controller.elements = [];
 	var movable = [];
@@ -44,7 +43,7 @@ var Controller  = function(ioof, socket) {
 //				console.log('need redraw: nb: ' + updates.length);
 			}
 		},
-		40
+		200
 	);
 
 	this.emit = function(command, data)
@@ -52,37 +51,6 @@ var Controller  = function(ioof, socket) {
 		ioof.emit(command, JSON.stringify(data));
 	}
 	
-	
-	socket.on('pointerEvent', function(message){
-
-		console.log('Received pointerEvent: ' + message);
-		
-		var eventData= JSON.parse(message);
-		
-		var bubble = true;
-	
-		eventData.identifierElement = controller.getElementByTouchIdentifier(eventData.touchIdentifier);
-		
-		if (eventData.identifierElement)
-		{
-			console.log('Handling by identifier ' + eventData.identifierElement.id);
-			eventData.identifierElement.triggerEvent(eventData);
-		}
-		
-		eventData.hits.forEach(function(hitId){
-			
-			if (!bubble)
-				return;
-
-			var hit = controller.getElementById(hitId.id);
-
-			if (!hit)
-				return;
-			
-			console.log('Checking hit on ' + hit.id);
-			bubble = hit.triggerEvent(eventData);
-		});
-	});
 
 /*	socket.on('decorate', function(message){
 		console.log('received decorator registration: ' + message);
@@ -105,7 +73,7 @@ var Controller  = function(ioof, socket) {
 Controller.prototype.addElement = function(elementData, socket){		
 	elementData.id = this.elements.length + 1; 
 	this.elements.push({id:elementData.id, x:elementData.x, y:elementData.y});	
-	socket.emit('addElement', JSON.stringify(elementData));
+	 	.emit('addElement', JSON.stringify(elementData));
 };*/
 
 
@@ -124,7 +92,7 @@ Controller.prototype.addElement = function(elementData, socket){
 	  
   Controller.prototype.addElement = function ()
  {
-		console.log('Controller.addElement: ' + JSON.stringify(arguments));
+//		console.log('Controller.addElement: ' + JSON.stringify(arguments));
 	  var controller = this;
 	  
 	var args = [].slice.call(arguments);
@@ -136,13 +104,13 @@ Controller.prototype.addElement = function(elementData, socket){
 	var element = new serverElement.Element (controller, identificationData, imageData, positionData);
 
 	element.id = controller.elements.length + 1;
-	console.log('New element : ' + element.id);
+//	console.log('New element : ' + element.id);
 	
 	var decoratorArguments = args.filter(function(arg){ return arg && arg[0]!="name" && arg[0]!="position" && arg[0]!="image";});
 	
 	if (decoratorArguments.length > 0 )//&& CreJs.Creanvas.elementDecorators)
 	{
-		console.log('New element : apply ' + decoratorArguments.length + " decorators");
+//		console.log('New element : apply ' + decoratorArguments.length + " decorators");
 		element.applyElementDecorators.apply(element, decoratorArguments);
 	}
 	
@@ -163,6 +131,42 @@ Controller.prototype.addElement = function(elementData, socket){
 	return element;
 };
 
+Controller.prototype.addSocket = function (socket)
+{
+	var controller = this;
+	
+	socket.on('pointerEvent', function(message){
+		
+		var eventData= JSON.parse(message);
+		
+		var bubble = true;
+	
+		eventData.identifierElement = controller.getElementByTouchIdentifier(eventData.touchIdentifier);
+		eventData.originSocketId = socket.id;
+		
+		if (eventData.identifierElement)
+		{
+			eventData.identifierElement.triggerEvent(eventData);
+		}
+		
+		eventData.hits.forEach(function(hitId){
+			
+			if (!bubble)
+				return;
+			
+			if (eventData.identifierElement && hitId.id == eventData.identifierElement.id)
+				return;
+
+			var hit = controller.getElementById(hitId.id);
+
+			if (!hit)
+				return;
+			
+			bubble = hit.triggerEvent(eventData);
+		});
+	});
+
+};
+
 
 exports.Controller = Controller;
-//exports.addElement = addElement;

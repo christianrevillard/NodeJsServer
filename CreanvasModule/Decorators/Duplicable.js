@@ -1,6 +1,5 @@
 var applyTo = function(element, duplicableData) {
 
-	var socket = element.controller.clientSocket;
 	var controller = element.controller;
 
 	var isBlocked =  duplicableData["isBlocked"];
@@ -22,7 +21,7 @@ var applyTo = function(element, duplicableData) {
 		if (requiresTouch && e.touchIdentifier<0)
 			return;
 		*/
-		if (isBlocked && isBlocked()) 
+		if (isBlocked && isBlocked(element, e.originSocketId)) 
 			return;
 		
 		console.log('duplicable.makeCopy: GeneratorCount was: ' + generatorCount);
@@ -51,7 +50,7 @@ var applyTo = function(element, duplicableData) {
 		'pointerDown',
 		function(eventData)
 		{
-			console.log("pointerDown on : " + element.id);			
+			console.log('Duplicating' + element.id  + ' at (' + element.elementX +',' + element.elementY +')');
 			makeCopy(eventData);			
 			return false;
 		});	

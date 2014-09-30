@@ -56,7 +56,7 @@ var setPosition = function(element, position)
 		
 Element.prototype.applyElementDecorator = function(decoratorType, decoratorSettings)
 {
-	console.log("applyElementDecorator: " + decoratorType);			
+	//console.log("applyElementDecorator: " + decoratorType);			
 
 	var decorator = decorators[decoratorType];
 
@@ -87,7 +87,7 @@ creanvas.Element.prototype.getCacheableValue = function(cacheKey, currentKey, ge
 // unpractical syntax... ignore is unnatural here TODO
 Element.prototype.cloneElement = function(ignoreDecorators)
 {
-	console.log("cloneElement : start cloning");
+	//console.log("cloneElement : start cloning");
 
 	var elementsToApply = 
 		ignoreDecorators ? 
@@ -95,11 +95,10 @@ Element.prototype.cloneElement = function(ignoreDecorators)
 		return ignoreDecorators.every(function(toIgnore){ return toIgnore != d[0];});				
 	}):this.clonerData;
 
-	console.log("cloneElement: apply " + elementsToApply.length + " stuff");
+	//console.log("cloneElement: apply " + elementsToApply.length + " stuff");
 
 	var clone = this.controller.addElement.apply(this.controller, elementsToApply);
 	clone.elementZ = this.elementZ + 1;
-	console.log("z:" + this.elementZ + " -> " + clone.elementZ);
 	clone.updated = true;
 	return clone;
 };

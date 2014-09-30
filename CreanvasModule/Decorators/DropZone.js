@@ -1,7 +1,5 @@
 var applyTo = function(element, dropzoneData)
 {
-	var socket = element.controller.clientSocket;
-
 	var availableSpots = dropzoneData["availableSpots"];
 	var dropX = dropzoneData["dropX"];
 	var dropY = dropzoneData["dropY"];
@@ -24,13 +22,18 @@ var applyTo = function(element, dropzoneData)
 			
 			dropped.dropZone = element;
 			
-			console.log('Element' + dropped.id + ' was at (' + dropped.elementX + ',' + dropped.elementY + ')');
+			console.log('Dropping ' + dropped.id  + ' at (' + dropped.elementX +',' + dropped.elementY +')');
 			
 			if (dropX) dropped.elementX = dropX;
 			if (dropY) dropped.elementY = dropY;
 			
-			console.log('Element' + dropped.id + ' is now at (' + dropped.elementX + ',' + dropped.elementY + ')');
-			dropped.updaed = true;
+			console.log('Adjusting ' + dropped.id + ' to (' + dropped.elementX + ',' + dropped.elementY + ')');
+
+			dropped.updated = true;
+			
+			if (dropped.ondrop)
+				dropped.ondrop(element, dropped);
+			
 			return false;
 		});
 	// element and Event???

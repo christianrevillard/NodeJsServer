@@ -1,7 +1,7 @@
 var applyTo = function(element, movableData)
 {
-	var socket = element.controller.clientSocket;
 	var controller = element.controller;
+	var isBlocked =  movableData["isBlocked"];
 	
 	element.isMoving = false;
 	
@@ -9,7 +9,10 @@ var applyTo = function(element, movableData)
 		'pointerDown',
 		function(eventData)
 		{
-			console.log('startMoving: ' + element.id);
+			if (isBlocked && isBlocked(element, eventData.originSocketId)) 
+				return;
+
+			console.log('startMoving: ' + element.id  + ' from (' + element.elementX +',' + element.elementY +')');
 			element.isMoving = true;
 
 			if (eventData.identifierElement)
@@ -23,15 +26,20 @@ var applyTo = function(element, movableData)
 		'pointerMove',
 		function(eventData)
 		{
+			if (isBlocked && isBlocked(element, eventData.originSocketId)) 
+				return;
+
 			if (!element.isMoving)
 			{
 				console.log('is not moving');
 				return true;
 			};
 			
-			console.log('update ' + element.id + ' to ' + eventData.x + ',' + eventData.y);
 			element.elementX = eventData.x;
 			element.elementY = eventData.y;
+
+			console.log('Moving' + element.id  + ' to (' + element.elementX +',' + element.elementY +')');
+			
 			element.updated = true;			
 			return false;
 		});
@@ -40,7 +48,10 @@ var applyTo = function(element, movableData)
 		'pointerUp',
 		function(eventData)
 		{
-			console.log("pointerUp - stop moving on : " + element.id);
+			if (isBlocked && isBlocked(element, eventData.originSocketId)) 
+				return;
+
+			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +')');
 			element.isMoving = false;
 			element.touchIdentifier = null;
 			return false;
