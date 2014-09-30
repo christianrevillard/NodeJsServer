@@ -17,6 +17,7 @@ var Element = function(controller, identificationData, imageData, positionData){
 	this.clonerData.push(imageData);
 	this.clonerData.push(positionData);
 
+	this.events = [];
 //		element.controller.elementEvents.getEvent('deactivate').addListener(function(e) { element.deactivate(); });
 };
 
@@ -124,5 +125,31 @@ Element.prototype.applyElementDecorators = function()
 	});
 };
 
+Element.prototype.triggerEvent = function(eventData)
+{
+	var bubble = true
+
+	this
+		.events
+		.filter(function(e){ return e.eventId == eventData.eventId})
+		.forEach(function(e){ if (e.action) {bubble = e.action(eventData) && bubble ;}});
+	
+	return bubble;
+};
+
+Element.prototype.addEventListener = function(eventId, action)
+{
+	var id = this.events.length + 1;
+	this.events.push({ eventId:eventId, action:action, id:id});
+	return id;
+};
+
+Element.prototype.removeEventListener = function(id)
+{
+	this
+	.events
+	.filter(function(e){ return e.id == id})
+	.forEach(function(e){ e.action = null;});
+};
 
 exports.Element = Element;

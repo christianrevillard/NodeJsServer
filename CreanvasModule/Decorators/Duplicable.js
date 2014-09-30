@@ -44,31 +44,17 @@ var applyTo = function(element, duplicableData) {
 		
 		copy.touchIdentifier =  e.touchIdentifier; // how to handle this back to client?? => emit something
 		copy.isMoving = true;
-		
-		
 	};
 		
 
-	// to handle by events, find library/core?
-	var oldHandlePointerEvent = element.handlePointerEvent;
-	element.handlePointerEvent = function(eventData, identifierElement)
-	{
-		if (oldHandlePointerEvent)
-		oldHandlePointerEvent(eventData, identifierElement);
-				
-		if (eventData.eventId == "pointerDown")
+	element.addEventListener(
+		'pointerDown',
+		function(eventData)
 		{
-			console.log("pointerDown on : " + element.id);
-				
-			makeCopy(eventData);
-			
+			console.log("pointerDown on : " + element.id);			
+			makeCopy(eventData);			
 			return false;
-		}
-		
-		return true;
-	};
-	
-	//element.elementEvents.getEvent('pointerDown').addListener(makeCopy);			
+		});	
 };
 
 exports.applyTo = applyTo;

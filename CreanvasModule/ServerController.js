@@ -61,12 +61,12 @@ var Controller  = function(ioof, socket) {
 		
 		var bubble = true;
 	
-		var identifierElement = controller.getElementByTouchIdentifier(eventData.touchIdentifier);
+		eventData.identifierElement = controller.getElementByTouchIdentifier(eventData.touchIdentifier);
 		
-		if (identifierElement && identifierElement.handleIdentifierEvent)
+		if (eventData.identifierElement)
 		{
-			console.log('Handling by identifier ' + identifierElement.id);
-			identifierElement.handleIdentifierEvent(eventData);
+			console.log('Handling by identifier ' + eventData.identifierElement.id);
+			eventData.identifierElement.triggerEvent(eventData);
 		}
 		
 		eventData.hits.forEach(function(hitId){
@@ -78,12 +78,9 @@ var Controller  = function(ioof, socket) {
 
 			if (!hit)
 				return;
-
-			if (!hit.handlePointerEvent)
-				return;
 			
 			console.log('Checking hit on ' + hit.id);
-			bubble = hit.handlePointerEvent(eventData, identifierElement);
+			bubble = hit.triggerEvent(eventData);
 		});
 	});
 

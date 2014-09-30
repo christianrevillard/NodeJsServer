@@ -8,17 +8,11 @@ var applyTo = function(element, dropzoneData)
 	
 	element.droppedElementsList = [];
 
-	// to handle by events, find library/core?
-	var oldHandlePointerEvent = element.handlePointerEvent;
-
-	element.handlePointerEvent = function(eventData, identifierElement)
-	{
-		if (oldHandlePointerEvent)
-		oldHandlePointerEvent(eventData, identifierElement);
-		
-		if (eventData.eventId == "pointerUp" )
+	element.addEventListener(
+		'pointerUp',
+		function(eventData)
 		{
-			var dropped = identifierElement;
+			var dropped = eventData.identifierElement;
 			
 			if (!dropped || !dropped.isDroppable)
 			{
@@ -38,11 +32,7 @@ var applyTo = function(element, dropzoneData)
 			console.log('Element' + dropped.id + ' is now at (' + dropped.elementX + ',' + dropped.elementY + ')');
 			dropped.updaed = true;
 			return false;
-		}
-		
-		return true;
-	};
-	
+		});
 	// element and Event???
 	
 /*	
