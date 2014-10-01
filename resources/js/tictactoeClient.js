@@ -16,6 +16,7 @@ CreTictactoe.onload = function ()
 	var socket = io("/tictactoe");
 	 		
 	var theCanvas = document.getElementById('theCanvas');
+	var txtArea = document.getElementById('txtArea');
 
 	var controller = new CreJs.CreanvasNodeClient.NodeJsController({
 		"nodeSocket":socket,
@@ -137,6 +138,11 @@ CreTictactoe.onload = function ()
 			context.fill();
 		}
 	);
+	
+	controller.nodeSocket.on('textMessage', function(msg){
+		var data = JSON.parse(msg);
+		txtArea.value += data.message + '\n';
+	});	  	
 
 	// fix Galaxy Chrome scrolling bug
 	document.addEventListener(

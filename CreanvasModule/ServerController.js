@@ -2,11 +2,12 @@ var serverElement = require("./ServerElement");
 
 this.elements = [];
 
-var Controller  = function(ioof) {
+var Controller  = function(ioof, applicationInstance) {
 	
 	var controller = this;
 	
 	controller.applicationSocket = ioof;
+	controller.applicationInstance = applicationInstance;
 	
 	controller.elements = [];
 	var movable = [];
@@ -33,9 +34,8 @@ var Controller  = function(ioof) {
 						z : e.elementZ,
 						angle: e.elementAngle
 					};});
-				// todo: for the same game == room
-	//			console.log('need redraw: nb: ' + updates.length);
-				ioof.emit('update', JSON.stringify(toSend));
+
+				controller.applicationEmit('update', toSend);
 				toUpdate.forEach(function(e){ e.updated = false; });
 			}
 			else
@@ -46,11 +46,20 @@ var Controller  = function(ioof) {
 		200
 	);
 
-	this.emit = function(command, data)
+	this.applicationEmit = function(command, data)
 	{
-		ioof.emit(command, JSON.stringify(data));
+		ioof.to(this.applicationInstance).emit(command, JSON.stringify(data));
 	}
 	
+	this.applicationBroadcast = function(socket, command, data)
+	{
+		socket.broadcast.to(this.applicationInstance).emit(command, JSON.stringify(data));
+	}
+
+	this.socketEmit = function(socketId, command, data)
+	{
+		ioof.to(socketId).emit(command, JSON.stringify(data));
+	}
 
 /*	socket.on('decorate', function(message){
 		console.log('received decorator registration: ' + message);
@@ -116,7 +125,8 @@ Controller.prototype.addElement = function(elementData, socket){
 	
 	controller.elements.push(element);
 
-	controller.emit(
+	// only on the current? or change the join process... to see...
+	controller.applicationEmit(
 			'addElement', 
 			{
 				id:element.id, 
