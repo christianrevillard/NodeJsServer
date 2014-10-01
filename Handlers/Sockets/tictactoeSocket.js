@@ -18,44 +18,6 @@ var connect = function(io) {
 			console.log('user disconnected');
 		});
 
-		var checkWin = function(cases, drawingMethod)
-		{
-			var played = [];
-			
-			for (var i = 0; i<3; i++)
-			{		
-				for (var j = 0; j<3; j++)
-				{		
-					if (cases[i][j].droppedElementsList.length>0 && cases[i][j].droppedElementsList[0].drawingMethod == drawingMethod)
-					{
-						played.push({i:i, j:j, dropped: cases[i][j].droppedElementsList[0]});
-					}
-				}
-			}
-			
-			if (played.length<3)
-			{
-				console.log(played.length)
-				return;				
-			}
-			
-			if ((played[0].i-played[1].i)*(played[0].j-played[2].j) ==
-				(played[0].j-played[1].j)*(played[0].i-played[2].i))
-			{
-				console.log('it is a win')
-				played[0].dropped.elementX = 100;
-				played[1].dropped.elementX = 100;
-				played[2].dropped.elementX = 100;
-				played[0].dropped.updated = true;
-				played[1].dropped.updated = true;
-				played[2].dropped.updated = true;
-			}
-			else
-			{
-				console.log((played[0].i-played[1].i)*(played[0].j-played[2].j) + ' - ' +
-						(played[0].j-played[1].j)*(played[0].i-played[2].i));
-			}
-		};
   
 		socket.on('joinGame', function()
 		{
@@ -88,7 +50,49 @@ var connect = function(io) {
 				var blockedX = false;
 				var blockedO = true;
 				var cases = [];
-				
+
+				var checkWin = function(cases, drawingMethod)
+				{
+					var played = [];
+					
+					for (var i = 0; i<3; i++)
+					{		
+						for (var j = 0; j<3; j++)
+						{		
+							if (cases[i][j].droppedElementsList.length>0 && cases[i][j].droppedElementsList[0].drawingMethod == drawingMethod)
+							{
+								played.push({i:i, j:j, dropped: cases[i][j].droppedElementsList[0]});
+							}
+						}
+					}
+					
+					if (played.length<3)
+					{
+						console.log(played.length)
+						return;				
+					}
+					
+					if ((played[0].i-played[1].i)*(played[0].j-played[2].j) ==
+						(played[0].j-played[1].j)*(played[0].i-played[2].i))
+					{
+						console.log('it is a win')
+						
+						for(var k=0; k<3; k++)
+						{
+							played[k].dropped.controller.addElement
+							(
+								["name", "winner"],
+								["image", { "width":150,"height":150, "drawingMethod": 'currentPlayer'}],
+								["position", {"x": played[k].dropped.elementX, "y": played[k].dropped.elementY, "z":-50}]
+							);
+						}
+						currentPlayer.elementY = drawingMethod=='X'?150:325;
+						controller.applicationEmit('textMessage',  {message:drawingMethod + ' has won !!!'});
+						blockedX =true;
+						blockedO = true;
+					}
+				};
+
 				var ondropX = function(dropzone, dropped){ 
 					blockedX = true; 
 					blockedO=false;
