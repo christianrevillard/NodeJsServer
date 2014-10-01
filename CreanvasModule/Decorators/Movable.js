@@ -11,7 +11,6 @@ var applyTo = function(element, movableData)
 		this.isMoving = true;
 		this.originalZ = element.elementZ;
 		this.elementZ = Infinity;
-		console.log('Temp z: change from ' + this.originalZ +' to ' + this.elementZ);		
 	};
 	
 	element.addEventListener(
@@ -44,14 +43,14 @@ var applyTo = function(element, movableData)
 
 			if (!element.isMoving)
 			{
-				console.log('is not moving');
+//				console.log('is not moving');
 				return true;
 			};
 			
 			element.elementX = eventData.x;
 			element.elementY = eventData.y;
 
-			console.log('Moving' + element.id  + ' to (' + element.elementX +',' + element.elementY +')');
+//			console.log('Moving' + element.id  + ' to (' + element.elementX +',' + element.elementY +')');
 			
 			element.updated = true;			
 			return false;
@@ -64,7 +63,7 @@ var applyTo = function(element, movableData)
 			if (isBlocked && isBlocked(element, eventData.originSocketId)) 
 				return;
 
-			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +',' + element.elementZ +')');
+//			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +',' + element.elementZ +')');
 			element.isMoving = false;
 			element.elementZ = element.originalZ;
 			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +',' + element.elementZ +')');

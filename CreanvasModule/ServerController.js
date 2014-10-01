@@ -2,11 +2,11 @@ var serverElement = require("./ServerElement");
 
 this.elements = [];
 
-var Controller  = function(ioof, applicationInstance) {
+var Controller  = function(applicationSocket, applicationInstance) {
 	
 	var controller = this;
 	
-	controller.applicationSocket = ioof;
+	controller.applicationSocket = applicationSocket;
 	controller.applicationInstance = applicationInstance;
 	
 	controller.elements = [];
@@ -44,7 +44,7 @@ var Controller  = function(ioof, applicationInstance) {
 
 	this.applicationEmit = function(command, data)
 	{
-		ioof.to(this.applicationInstance).emit(command, JSON.stringify(data));
+		applicationSocket.to(this.applicationInstance).emit(command, JSON.stringify(data));
 	}
 	
 	this.applicationBroadcast = function(socket, command, data)
@@ -54,7 +54,7 @@ var Controller  = function(ioof, applicationInstance) {
 
 	this.socketEmit = function(socketId, command, data)
 	{
-		ioof.to(socketId).emit(command, JSON.stringify(data));
+		applicationSocket.to(socketId).emit(command, JSON.stringify(data));
 	}
 };
 
@@ -98,6 +98,7 @@ var Controller  = function(ioof, applicationInstance) {
 	controller.elements.push(element);
 
 	// only on the current? or change the join process... to see...
+	// should be: add on all. Have a system to add existing elment to application that can be joined after start.
 	controller.applicationEmit(
 			'addElement', 
 			{

@@ -17,6 +17,45 @@ var connect = function(io) {
 			socket.broadcast.emit('played', 'I am out !');
 			console.log('user disconnected');
 		});
+
+		var checkWin = function(cases, drawingMethod)
+		{
+			var played = [];
+			
+			for (var i = 0; i<3; i++)
+			{		
+				for (var j = 0; j<3; j++)
+				{		
+					if (cases[i][j].droppedElementsList.length>0 && cases[i][j].droppedElementsList[0].drawingMethod == drawingMethod)
+					{
+						played.push({i:i, j:j, dropped: cases[i][j].droppedElementsList[0]});
+					}
+				}
+			}
+			
+			if (played.length<3)
+			{
+				console.log(played.length)
+				return;				
+			}
+			
+			if ((played[0].i-played[1].i)*(played[0].j-played[2].j) ==
+				(played[0].j-played[1].j)*(played[0].i-played[2].i))
+			{
+				console.log('it is a win')
+				played[0].dropped.elementX = 100;
+				played[1].dropped.elementX = 100;
+				played[2].dropped.elementX = 100;
+				played[0].dropped.updated = true;
+				played[1].dropped.updated = true;
+				played[2].dropped.updated = true;
+			}
+			else
+			{
+				console.log((played[0].i-played[1].i)*(played[0].j-played[2].j) + ' - ' +
+						(played[0].j-played[1].j)*(played[0].i-played[2].i));
+			}
+		};
   
 		socket.on('joinGame', function()
 		{
@@ -48,12 +87,17 @@ var connect = function(io) {
 
 				var blockedX = false;
 				var blockedO = true;
+				var cases = [];
 				
 				var ondropX = function(dropzone, dropped){ 
 					blockedX = true; 
 					blockedO=false;
 					controller.applicationEmit('textMessage',  {message:'X has played !'});
 					controller.socketEmit(playerO, 'textMessage',  {message:'Your turn !'});
+					currentPlayer.elementY=325;
+					currentPlayer.updated = true;
+					
+					checkWin(cases, 'X');
 				};
 
 				var ondropO = function(dropzone, dropped){ 
@@ -61,6 +105,10 @@ var connect = function(io) {
 					blockedX=false;
 					controller.applicationEmit('textMessage',  {message:'O has played !'});
 					controller.socketEmit(playerX, 'textMessage',  {message:'Your turn !'});
+					currentPlayer.elementY=150;
+					currentPlayer.updated = true;
+					
+					checkWin(cases, 'O');
 				};
 
 				controller.addElement
@@ -82,18 +130,23 @@ var connect = function(io) {
 					["droppable", {ondrop: ondropO}]
 				);
 
+				var currentPlayer = controller.addElement
+				(
+					["name", "currentPlayer"],
+					["image", { "width":150,"height":150, "drawingMethod": 'currentPlayer'}],
+					["position", {"x": 600, "y": 150, "z":-100}]
+				);
+
 				var tttCase = function(x,y)
 				{
-					var theCase = controller.addElement(
+					return controller.addElement(
 						["name", 'case(' + x + ',' + y + ')'],
 						["image", { "top":0, "left":0, "width":150, "height":150, "drawingMethod":'case'}],
 						["position", { x: 100 + x*150, y: 100 + y*150, z:-100 }],
 						["dropzone", { dropX: 100 + x*150, dropY: 100 + y*150, availableSpots:1 }] 
 					);
 				};
-				
-				var cases = [];
-				
+								
 				for (var i = 0; i<3; i++)
 				{		
 					cases[i] = [];

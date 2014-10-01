@@ -124,7 +124,7 @@ CreTictactoe.onload = function ()
 		'case',
 		function (context) {
 			// 99% transparent!
-			context.fillStyle ="rgba(0,0,0,0.50)"; 
+			context.fillStyle ="rgba(0,0,0,0.01)"; 
 			context.fillRect(-70,-70,140,140);
 		}
 	);

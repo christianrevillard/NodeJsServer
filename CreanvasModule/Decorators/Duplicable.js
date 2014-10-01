@@ -6,21 +6,9 @@ var applyTo = function(element, duplicableData) {
 	var generatorCount = duplicableData["generatorCount"] || Infinity;
 	
 	console.log("duplicable.applyTo: generatorCount is " + generatorCount);				
-			
-	// check this with tablet later
-//	var requiresTouch = false;
-	
+				
 	var makeCopy = function(e) {
-	/*					
-		if (e.touchIdentifier>=0)
-		{
-			// we'll work with touchstart, not mousedown!
-			requiresTouch = true;
-		}
 
-		if (requiresTouch && e.touchIdentifier<0)
-			return;
-		*/
 		if (isBlocked && isBlocked(element, e.originSocketId)) 
 			return;
 		
@@ -41,7 +29,7 @@ var applyTo = function(element, duplicableData) {
 				isBlocked : isBlocked,
 			});
 		
-		copy.touchIdentifier =  e.touchIdentifier; // how to handle this back to client?? => emit something
+		copy.touchIdentifier =  e.touchIdentifier; 
 		copy.startMoving();
 	};
 		
