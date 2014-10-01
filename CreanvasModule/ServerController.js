@@ -38,12 +38,8 @@ var Controller  = function(ioof, applicationInstance) {
 				controller.applicationEmit('update', toSend);
 				toUpdate.forEach(function(e){ e.updated = false; });
 			}
-			else
-			{
-//				console.log('need redraw: nb: ' + updates.length);
-			}
 		},
-		200
+		50
 	);
 
 	this.applicationEmit = function(command, data)
@@ -60,33 +56,9 @@ var Controller  = function(ioof, applicationInstance) {
 	{
 		ioof.to(socketId).emit(command, JSON.stringify(data));
 	}
+};
 
-/*	socket.on('decorate', function(message){
-		console.log('received decorator registration: ' + message);
-		
-		var decorateMessage = JSON.parse(message);
-		
-		if (decorateMessage.decorator =='movable')
-		{
-			console.log('received decorator registration: movable for ' + decorateMessage.element);		
-			
-			// listen to pointerDown to startMove
-			movable.push(decorateMessage.element);
-			console.log("movable.length: " + movable.length);
-		}
-	});*/
-		
-  };
-
-  /*
-Controller.prototype.addElement = function(elementData, socket){		
-	elementData.id = this.elements.length + 1; 
-	this.elements.push({id:elementData.id, x:elementData.x, y:elementData.y});	
-	 	.emit('addElement', JSON.stringify(elementData));
-};*/
-
-
-  Controller.prototype.getElementById = function (id){
+ Controller.prototype.getElementById = function (id){
 	  var els = this.elements.filter(function(e){ return e.id == id;});
 	  if (els.length==0)
 		  return null;
@@ -144,7 +116,9 @@ Controller.prototype.addElement = function(elementData, socket){
 Controller.prototype.addSocket = function (socket)
 {
 	var controller = this;
-	
+
+	socket.join(this.applicationInstance);
+
 	socket.on('pointerEvent', function(message){
 		
 		var eventData= JSON.parse(message);

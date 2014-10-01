@@ -10,6 +10,11 @@ var applyTo = function(element, dropzoneData)
 		'pointerUp',
 		function(eventData)
 		{
+			if (availableSpots - element.droppedElementsList.length <=0)
+			{
+				return;
+			};
+			
 			var dropped = eventData.identifierElement;
 			
 			if (!dropped || !dropped.isDroppable)
@@ -36,73 +41,14 @@ var applyTo = function(element, dropzoneData)
 			
 			return false;
 		});
-	// element and Event???
-	
-/*	
-	socket.on('elementEvent', function(message){
-		console.log('received pointerEvent: ' + message);
-		var eventData= JSON.parse(message);
-		
-		if (eventData.elementId != element.id)
-			return;
-		
-		if (eventData.eventId == "pointerUp")
-		{
-			console.log("pointerUp on : " + element.id);
-				
-			// how do I know?
-			
-			
-			
-			console.log('startMoving: ' + element.id);
-			identifier = eventData.touchIdentifier			
-		}
-		else
-
-		{
-			console.log(eventData.eventId + ' is not handled by movable');
-		}
-	});	
 	
 	
-	
-	
-	
-	var drop = function(e) {
-		
-		if (availableSpots <= 0)
-			return
-							
-		console.log('dropzone.drop - dropping: ' + e.droppedElement.id);
-
-		availableSpots--;
-		e.droppedElement.x = dropX || element.elementX;
-		e.droppedElement.y = dropY || element.elementY;
-		e.droppedElement.dropZone = element;
-		element.droppedElementsList.push(e.droppedElement);
-
-		/*e.droppedElement.elementEvents.getEvent('dropped').dispatch({dropZone:element, droppedElement:e.droppedElement});
-		element.elementEvents.getEvent('droppedIn').dispatch({"dropZone":element, "droppedElement":e.droppedElement});
-		element.triggerRedraw();
+	element.drag = function(dropped)
+	{
+		element.droppedElementsList = element.droppedElementsList.filter(function(e){ return e.id != dropped.id;});
+		dropped.dropZone = null;
 	};
 
-//	element.elementEvents.getEvent('drop').addListener(drop);
-
-	element.drag = function(draggedElement) {
-
-		console.log('dropzone.drag - dragging  ' + draggedElement.id);
-		
-		draggedElement.dropZone = null;
-		availableSpots++;
-		element.droppedElementsList.splice(
-				element.droppedElementsList.indexOf(draggedElement),1);	
-
-//		element.triggerRedraw();
-	};
-	
-	//Object.defineProperty(element, "droppedElements", { get: function() {return element.droppedElementsList; }});
-	
-	*/
 };
 
 exports.applyTo = applyTo;

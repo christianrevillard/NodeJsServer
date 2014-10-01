@@ -42,7 +42,7 @@ var applyTo = function(element, duplicableData) {
 			});
 		
 		copy.touchIdentifier =  e.touchIdentifier; // how to handle this back to client?? => emit something
-		copy.isMoving = true;
+		copy.startMoving();
 	};
 		
 

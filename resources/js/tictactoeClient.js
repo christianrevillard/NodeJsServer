@@ -1,3 +1,6 @@
+// todo:
+// edges on addDrawing, not add element=>easier to shift drawing !
+
 // Game details handled by Node server
 // controls: isBlocked, drop-event, game win/lose
 // All hanlding on server

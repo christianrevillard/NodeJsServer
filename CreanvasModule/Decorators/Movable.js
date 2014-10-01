@@ -5,6 +5,15 @@ var applyTo = function(element, movableData)
 	
 	element.isMoving = false;
 	
+	element.startMoving = function()
+	{
+		console.log('startMoving: ' + this.id  + ' from (' + this.elementX +',' + this.elementY +')');
+		this.isMoving = true;
+		this.originalZ = element.elementZ;
+		this.elementZ = Infinity;
+		console.log('Temp z: change from ' + this.originalZ +' to ' + this.elementZ);		
+	};
+	
 	element.addEventListener(
 		'pointerDown',
 		function(eventData)
@@ -12,11 +21,15 @@ var applyTo = function(element, movableData)
 			if (isBlocked && isBlocked(element, eventData.originSocketId)) 
 				return;
 
-			console.log('startMoving: ' + element.id  + ' from (' + element.elementX +',' + element.elementY +')');
-			element.isMoving = true;
+			element.startMoving();
 
 			if (eventData.identifierElement)
 				eventData.identifierElement.touchIdentifier = null;
+			
+			if (element.dropZone)
+			{
+				element.dropZone.drag(element);
+			}
 			
 			element.touchIdentifier = eventData.touchIdentifier;
 			return false;
@@ -51,8 +64,11 @@ var applyTo = function(element, movableData)
 			if (isBlocked && isBlocked(element, eventData.originSocketId)) 
 				return;
 
-			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +')');
+			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +',' + element.elementZ +')');
 			element.isMoving = false;
+			element.elementZ = element.originalZ;
+			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +',' + element.elementZ +')');
+			element.updated = true;
 			element.touchIdentifier = null;
 			return false;
 		});

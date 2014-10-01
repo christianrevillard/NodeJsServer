@@ -18,16 +18,6 @@ var connect = function(io) {
 			console.log('user disconnected');
 		});
   
-		/*
-		socket.on('played', function(msg){
-			console.log('message: ' + msg + ' from socket.id ' + socket.id );
-			socket.emit('played', 'you have played: ' + msg);
-			socket.broadcast.emit('played', 'Someone has played : ' + msg);						
-		});*/
-				
-		// initial set up for single socket
-		// choose check player 1, 2 and create a room...		
-		// here: check if other player here - create a room per game...
 		socket.on('joinGame', function()
 		{
 			var controller;
@@ -37,9 +27,8 @@ var connect = function(io) {
 			if (games.length == 0 || games[games.length-1].playerO)
 			{			
 				console.log('starting a game' );							
-				var applicationInstance = 'game' + games.length
-				socket.join(applicationInstance)
-				controller = new serverController.Controller(tictactoe, applicationInstance)
+				controller = new serverController.Controller(tictactoe, 'game' + games.length)
+				controller.addSocket(socket);
 				playerX = socket.id;
 				games.push({playerX:playerX,controller:controller});
 				
@@ -47,16 +36,16 @@ var connect = function(io) {
 			}
 			else
 			{			
+				// adding elements when everubody here
+				// for games that can be joined after start, we need an addExitingElement stuff
 				console.log('joining a game' );
 				controller = games[games.length-1].controller;
-				socket.join(controller.applicationInstance)
+				controller.addSocket(socket);
 				controller.applicationBroadcast(socket, 'textMessage', {message:'O has joined'});
 				controller.socketEmit(socket.id, 'textMessage', {message:'New game, you are O'});
 				playerX = games[games.length-1].playerX;
 				playerO = games[games.length-1].playerO = socket.id;
 
-			
-			
 				var blockedX = false;
 				var blockedO = true;
 				
@@ -114,24 +103,6 @@ var connect = function(io) {
 					}
 				}
 			}
-
-			// event coming from both, should identify player...
-			console.log('adding socket ' + socket.id);
-			controller.addSocket(socket);
-				
-
-			/*			
-			controller.addElement({
-				"name": 'X1',
-				"left" : -75,
-				"top": 75,
-				"width": 150,
-				"height": 150,
-				"elementType": 'X',
-				"x": 200,
-				"y": 200,
-				"z": 0
-			}, socket);*/
 		});
 	});
 
