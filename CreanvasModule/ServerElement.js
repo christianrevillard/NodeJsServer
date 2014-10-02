@@ -99,7 +99,7 @@ Element.prototype.cloneElement = function(ignoreDecorators)
 
 	var clone = this.controller.addElement.apply(this.controller, elementsToApply);
 	clone.elementZ = this.elementZ + 1;
-	clone.updated = true;
+	clone.toUpdate = true;
 	return clone;
 };
 		

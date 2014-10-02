@@ -15,28 +15,39 @@ var Controller  = function(applicationSocket, applicationInstance) {
 	
 	console.log('Setting up for Creanvas');
 
+	var getElementsClientDetails = function(e){
+		return {
+			id: e.id,
+			x: e.elementX,
+			y: e.elementY,
+			z : e.elementZ,			
+			angle: e.elementAngle,
+			drawingMethod:e.drawingMethod,
+			width:e.elementWidth,
+			height:e.elementHeight};
+	};
+	
 	setInterval(
 		function()
 		{
-			var toUpdate = 
-				controller
+			var toUpdate = controller
 				.elements
-				.filter(function(e){ return e.updated; });
-						
-			if (toUpdate.length>0)
-			{
-				var toSend = toUpdate
-				.map(function(e){
-						return {
-						id: e.id,
-						x: e.elementX,
-						y: e.elementY,
-						z : e.elementZ,
-						angle: e.elementAngle
-					};});
+				.filter(function(e){ return e.toUpdate; });
 
-				controller.applicationEmit('update', toSend);
-				toUpdate.forEach(function(e){ e.updated = false; });
+			var toDelete = controller
+			.elements
+			.filter(function(e){ return e.toDelete; });
+
+			if (toUpdate.length>0 || toDelete.length>0)
+			{
+				controller.applicationEmit(
+						'updateClientElements', 
+						{
+							updates: toUpdate.map(function(e){ return getElementsClientDetails(e);}),
+							deletes: toDelete.map(function(e){ return {id: e.id};})
+						});
+				toUpdate.forEach(function(e){ e.toUpdate = false; });
+				toDelete.forEach(function(e){ controller.removeElement(e); });
 			}
 		},
 		50
@@ -95,9 +106,11 @@ var Controller  = function(applicationSocket, applicationInstance) {
 		element.applyElementDecorators.apply(element, decoratorArguments);
 	}
 	
+	element.toUpdate = true;
+
 	controller.elements.push(element);
 
-	// only on the current? or change the join process... to see...
+/*	// only on the current? or change the join process... to see...
 	// should be: add on all. Have a system to add existing elment to application that can be joined after start.
 	controller.applicationEmit(
 			'addElement', 
@@ -110,7 +123,7 @@ var Controller  = function(applicationSocket, applicationInstance) {
 				width:element.elementWidth,
 				height:element.elementHeight,
 				drawingMethod:element.drawingMethod});
-
+*/
 	return element;
 };
 

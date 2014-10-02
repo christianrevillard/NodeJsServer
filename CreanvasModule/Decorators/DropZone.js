@@ -34,7 +34,7 @@ var applyTo = function(element, dropzoneData)
 			
 			console.log('Adjusting ' + dropped.id + ' to (' + dropped.elementX + ',' + dropped.elementY + ')');
 
-			dropped.updated = true;
+			dropped.toUpdate = true;
 			
 			if (dropped.ondrop)
 				dropped.ondrop(element, dropped);
