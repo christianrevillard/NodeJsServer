@@ -10,7 +10,7 @@
 // -- send user events to server.
 // CreanvasMOdule under parallel development here...
 // Register element through socket, let the server work, get the updates sometimes...
-
+// Is background an element in full right?
 
 var CreTictactoe = CreTictactoe || {};
 
@@ -61,7 +61,8 @@ CreTictactoe.onload = function ()
 			gradient.addColorStop(1.0,"#BBB");					
 			context.fillStyle = gradient;
 			context.fillRect(-75,-75,150,150);
-		}
+		},
+		{width:150, height:150}		
 	);
 			
 	controller.addElementDrawing(
@@ -95,7 +96,9 @@ CreTictactoe.onload = function ()
 			context.lineTo(-50,50);
 			
 			context.arc(0,0,50,0,2*Math.PI);
-		}
+		},
+		{width:150, height:150}		
+
 	);
 
 	controller.addElementDrawing(
@@ -118,7 +121,9 @@ CreTictactoe.onload = function ()
 			gradient.addColorStop(1.0,color2);
 			context.fillStyle = gradient;
 			context.fill();
-		});
+		},
+		{width:150, height:150}		
+	);
 
 	controller.addElementDrawing(
 		'case',
@@ -126,7 +131,8 @@ CreTictactoe.onload = function ()
 			// 99% transparent!
 			context.fillStyle ="rgba(0,0,0,0.01)"; 
 			context.fillRect(-70,-70,140,140);
-		}
+		},
+		{width:150, height:150}		
 	);
 	
 	controller.addElementDrawing(
@@ -139,25 +145,40 @@ CreTictactoe.onload = function ()
 			gradient.addColorStop(1.0,"#F00");
 			context.fillStyle = gradient;
 			context.fill();
-		}			
+		},
+		{width:150, height:150}				
 	);
 
-	controller.addTextDrawing(
-		'default',
-		function(context, textMessage){
-			var ctx = context;
-			ctx.font="30px Verdana";
-			// Create gradient
-			var gradient=ctx.createLinearGradient(0,0,context.canvas.width,0);
-			gradient.addColorStop("0","magenta");
-			gradient.addColorStop("0.5","blue");
-			gradient.addColorStop("1.0","red");
-			// Fill with gradient
-			ctx.fillStyle=gradient;
-			ctx.fillText(textMessage,10,90);					
-		},
-		5000
-	);
+	var textMessage = '';
+	
+	controller.displayMessage = function (ctx){
+		ctx.font="30px Verdana";
+		// Create gradient
+		var gradient=ctx.createLinearGradient(0,0,ctx.canvas.width,0);
+		gradient.addColorStop("0","magenta");
+		gradient.addColorStop("0.5","blue");
+		gradient.addColorStop("1.0","red");
+		// Fill with gradient
+		ctx.fillStyle=gradient;
+		ctx.fillText(textMessage,10,90);					
+	};
+	
+	controller.onTextMessage = function(messageData)
+	{
+		textMessage +='             ' + messageData['message'];
+
+		var messageInterval;
+		if (!messageInterval)
+		{
+			messageInterval = setInterval(
+					function(){ 
+						textMessage = textMessage.slice(1);
+						if (textMessage.length == 0 )
+							clearInterval(messageInterval)
+					},100);
+		}		
+	};
+	
 	
 	// fix Galaxy Chrome scrolling bug
 	document.addEventListener(

@@ -73,7 +73,7 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 		["position", {"x": 600, "y": 150, "angle": Math.PI / 4}],			
 		["duplicable", {"generatorCount":3, "isBlocked":function(element, originSocketId){return game.blockedX || originSocketId != game.playerX;}}],
 		["droppable", {ondrop: game.ondropX}],
-		["customTimer",{"time": 80, "action": function() { this.angle+= Math.PI / 32;}}]
+		["moving", {rotationSpeed: Math.PI / 16}]
 	);
 
 	this.currentPlayer = this.controller.addElement
@@ -152,7 +152,27 @@ TicTacToeGame.prototype.join = function(socket){
 		["image", { "width":150,"height":150, "drawingMethod": 'O'}],
 		["position", {"x": 600, "y": 325, "scaleX": 0.8, "scaleY": 1.2}],			
 		["duplicable", {"generatorCount":3, "isBlocked":function(element, originSocketId){return game.blockedO || originSocketId != game.playerO;}}],
-		["droppable", {ondrop: game.ondropO}]
+		["droppable", {ondrop: game.ondropO}],
+		["moving", {}],
+		["customTimer", {
+		  	  "time": 50, //ms
+			  "action": function()
+			  {
+				  this.elementScaleSpeed = this.elementScaleSpeed || {x:0.1,y:-0.1};
+				  
+				  if (this.elementScaleX>1.2)
+				  {
+					  this.elementScaleSpeed.x = -0.6;
+					  this.elementScaleSpeed.y = +0.6;
+				 }
+				  else if (this.elementScaleX<0.8)
+				  {
+					  this.elementScaleSpeed.x = 0.6;
+					  this.elementScaleSpeed.y = -0.6;
+				  }
+				  
+			  }		
+		}]
 	);
 };
 

@@ -5,7 +5,12 @@ this.elements = [];
 var Controller  = function(applicationSocket, applicationInstance) {
 	
 	var controller = this;
-	
+
+	var timeScale = 1;
+	var time=0; // seconds
+	setInterval( function(){ time+=10*timeScale/1000;}, 10);
+	this.getTime = function(){return time;};
+
 	controller.applicationSocket = applicationSocket;
 	controller.applicationInstance = applicationInstance;
 	
@@ -22,6 +27,8 @@ var Controller  = function(applicationSocket, applicationInstance) {
 			y: e.elementY,
 			z : e.elementZ,			
 			angle: e.elementAngle,
+			scaleX: e.elementScaleX,
+			scaleY: e.elementScaleY,
 			drawingMethod:e.drawingMethod,
 			width:e.elementWidth,
 			height:e.elementHeight};
