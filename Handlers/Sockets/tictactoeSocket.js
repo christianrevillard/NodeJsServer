@@ -1,11 +1,12 @@
-var isConnected = false;
+// some stuff to extract to a twoPlayersGame/turnGame base class?
 var serverController = require('../../CreanvasModule/ServerController');
+
 var games = [];
 
 // called only for the first of all users
-var connect = function(io) {
+var startApplication = function(socketName) {
 
-	var tictactoe = io.of('/tictactoe')
+	var tictactoe = exports.applicationSocket = socketName;
 
 	console.log('Setting up tictactoe socket ');
 	
@@ -32,8 +33,6 @@ var connect = function(io) {
 			}
 		});
 	});
-
-	return tictactoe;
 };
 
 var TicTacToeGame = function(tictactoe, socket, gameName){
@@ -157,6 +156,5 @@ TicTacToeGame.prototype.join = function(socket){
 	);
 };
 
-
-exports.connect = connect;
-exports.isConnected = isConnected;
+exports.startApplication = startApplication;
+exports.applicationSocket = null;

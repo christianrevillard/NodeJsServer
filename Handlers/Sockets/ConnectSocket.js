@@ -9,14 +9,14 @@ var getHandle = function(globals)
 	
 		var socket = require('./' + pathLocation + 'Socket');
 		
-		if (socket.isConnected)
+		if (socket.applicationSocket)
 		{
-			console.log('Socket already set up');
+			console.log('Websocket application ' + pathLocation + ' is already started');
 		}
 		else
 		{
-			socket.connect(globals.io);
-			socket.isConnected = true;
+			console.log('Start Websocket application ' + pathLocation);
+			socket.startApplication(globals.io.of('/' + pathLocation));
 		}
 		
 		// just so the browser is happy !

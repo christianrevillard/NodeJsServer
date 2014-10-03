@@ -139,14 +139,26 @@ CreTictactoe.onload = function ()
 			gradient.addColorStop(1.0,"#F00");
 			context.fillStyle = gradient;
 			context.fill();
-		}
+		}			
+	);
+
+	controller.addTextDrawing(
+		'default',
+		function(context, textMessage){
+			var ctx = context;
+			ctx.font="30px Verdana";
+			// Create gradient
+			var gradient=ctx.createLinearGradient(0,0,context.canvas.width,0);
+			gradient.addColorStop("0","magenta");
+			gradient.addColorStop("0.5","blue");
+			gradient.addColorStop("1.0","red");
+			// Fill with gradient
+			ctx.fillStyle=gradient;
+			ctx.fillText(textMessage,10,90);					
+		},
+		5000
 	);
 	
-	controller.nodeSocket.on('textMessage', function(msg){
-		var data = JSON.parse(msg);
-		txtArea.value += data.message + '\n';
-	});	  	
-
 	// fix Galaxy Chrome scrolling bug
 	document.addEventListener(
 		"touchmove", function touchHandlerDummy(e)

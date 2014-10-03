@@ -1,11 +1,7 @@
-var isConnected = false;
+var startApplication = function(socketName) {
 
-var connect = function(io) {
-
-	var chat = io.of('/chat')
+	var chat = exports.applicationSocket = socketName;
 	
-	console.log('Setting up chat socket');
-
 	chat.on('connection', function(socket){
 		console.log('user connected');
 		
@@ -21,9 +17,7 @@ var connect = function(io) {
 			chat.emit('chat message', msg);
 		});
 	}); 
- 
-	return chat;
 };
 
-exports.connect = connect;
-exports.isConnected = isConnected;
+exports.startApplication = startApplication;
+exports.applicationSocket = null;
