@@ -29,9 +29,7 @@ var Controller  = function(applicationSocket, applicationInstance) {
 			angle: e.elementAngle,
 			scaleX: e.elementScaleX,
 			scaleY: e.elementScaleY,
-			drawingMethod:e.drawingMethod,
-			width:e.elementWidth,
-			height:e.elementHeight};
+			elementType:e.elementType};
 	};
 	
 	setInterval(
@@ -129,7 +127,7 @@ var Controller  = function(applicationSocket, applicationInstance) {
 				angle:element.elementAngle,
 				width:element.elementWidth,
 				height:element.elementHeight,
-				drawingMethod:element.drawingMethod});
+				elementType:element.elementType});
 */
 	return element;
 };

@@ -69,7 +69,7 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	this.controller.addElement
 	(
 		["name", "Xsource"],
-		["image", { "width":150,"height":150, "drawingMethod": 'X'}],
+		["image", { "width":150,"height":150, "elementType": 'X'}],
 		["position", {"x": 600, "y": 150, "angle": Math.PI / 4}],			
 		["duplicable", {"generatorCount":3, "isBlocked":function(element, originSocketId){return game.blockedX || originSocketId != game.playerX;}}],
 		["droppable", {ondrop: game.ondropX}],
@@ -79,7 +79,7 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	this.currentPlayer = this.controller.addElement
 	(
 		["name", "currentPlayer"],
-		["image", { "width":150,"height":150, "drawingMethod": 'currentPlayer'}],
+		["image", { "width":150,"height":150, "elementType": 'currentPlayer'}],
 		["position", {"x": 600, "y": 150, "z":-100}]
 	);
 
@@ -87,7 +87,7 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	{
 		return game.controller.addElement(
 			["name", 'case(' + x + ',' + y + ')'],
-			["image", { "top":0, "left":0, "width":150, "height":150, "drawingMethod":'case'}],
+			["image", { "top":0, "left":0, "width":150, "height":150, "elementType":'case'}],
 			["position", { x: 100 + x*150, y: 100 + y*150, z:-100 }],
 			["dropzone", { dropX: 100 + x*150, dropY: 100 + y*150, availableSpots:1 }] 
 		);
@@ -105,11 +105,11 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	}
 };
 
-TicTacToeGame.prototype.checkWin = function(drawingMethod){
+TicTacToeGame.prototype.checkWin = function(elementType){
 	var played = [];
 	
 	for (var i = 0; i<3; i++) { for (var j = 0; j<3; j++) {		
-		if (this.cases[i][j].droppedElementsList.length>0 && this.cases[i][j].droppedElementsList[0].drawingMethod == drawingMethod)
+		if (this.cases[i][j].droppedElementsList.length>0 && this.cases[i][j].droppedElementsList[0].elementType == elementType)
 		{
 			played.push({i:i, j:j, dropped: this.cases[i][j].droppedElementsList[0]});
 		}
@@ -119,18 +119,30 @@ TicTacToeGame.prototype.checkWin = function(drawingMethod){
 	
 	if ((played[0].i-played[1].i)*(played[0].j-played[2].j) == (played[0].j-played[1].j)*(played[0].i-played[2].i))
 	{
+		if (elementType == 'O')
+		{
 		for(var k=0; k<3; k++)
 		{
 			played[k].dropped.controller.addElement
 			(
 				["name", "winner"],
-				["image", { "width":150,"height":150, "drawingMethod": 'currentPlayer'}],
+				["image", { "width":150,"height":150, "elementType": 'currentPlayer'}],
 				["position", {"x": played[k].dropped.elementX, "y": played[k].dropped.elementY, "z":-50}]
 			);
 		}
-		this.currentPlayer.elementY = drawingMethod=='X'?150:325;
+		}
+		else
+		{
+			for(var k=0; k<3; k++)
+			{
+				played[k].dropped.elementType = 'XWin';
+				played[k].dropped.toUpdate = true;
+			}
+			
+		}
+		this.currentPlayer.elementY = elementType=='X'?150:325;
 		this.currentPlayer.toUpdate = true;
-		this.controller.applicationEmit('textMessage',  {message:drawingMethod + ' has won !!!'});
+		this.controller.applicationEmit('textMessage',  {message:elementType + ' has won !!!'});
 		this.blockedX = true;
 		this.blockedO = true;
 	}
@@ -149,7 +161,7 @@ TicTacToeGame.prototype.join = function(socket){
 	this.controller.addElement
 	(
 		["name", "Osource"],
-		["image", { "width":150,"height":150, "drawingMethod": 'O'}],
+		["image", { "width":150,"height":150, "elementType": 'O'}],
 		["position", {"x": 600, "y": 325, "scaleX": 0.8, "scaleY": 1.2}],			
 		["duplicable", {"generatorCount":3, "isBlocked":function(element, originSocketId){return game.blockedO || originSocketId != game.playerO;}}],
 		["droppable", {ondrop: game.ondropO}],

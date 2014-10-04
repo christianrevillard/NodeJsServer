@@ -24,36 +24,36 @@ CreTictactoe.onload = function ()
 	var controller = new CreJs.CreanvasNodeClient.NodeJsController({
 		"nodeSocket":socket,
 		"lengthScale":0.75,
-		"canvas":theCanvas, 
+		"canvas":theCanvas
 		//"log": new CreJs.Crelog.Logger().logMessage,
-		"drawBackground" : 
-			function (context) {
-				context.strokeStyle = "#000";
-				context.fillStyle = "#666";
-				context.fillRect(0,0,700,500);
-				var gradient = context.createLinearGradient(100,100,600,400);
-				gradient.addColorStop(0.0,"#EEE");
-				gradient.addColorStop(1.0,"#999");				
-				context.fillStyle = gradient;
-				context.fillRect(25,25,450,450);
-				context.fillRect(525,75,150,150);
-				context.fillRect(525,250,150,150);				
-				context.moveTo(25+150,25);
-				context.lineTo(25+150,25+450);
-				context.moveTo(25+300,25);
-				context.lineTo(25+300,25+450);
-				context.moveTo(25,25+150);
-				context.lineTo(25+450,25+150);
-				context.moveTo(25,25+300);
-				context.lineTo(25+450,25+300);
-				context.lineWidth=4;
-				context.lineCap='round';
-				context.stroke();
-			}						
-		}
-	);
-			
-	controller.addElementDrawing(
+		});
+
+	controller.addBackground(
+		function (context) {
+			context.strokeStyle = "#000";
+			context.fillStyle = "#666";
+			context.fillRect(0,0,700,500);
+			var gradient = context.createLinearGradient(100,100,600,400);
+			gradient.addColorStop(0.0,"#EEE");
+			gradient.addColorStop(1.0,"#999");				
+			context.fillStyle = gradient;
+			context.fillRect(25,25,450,450);
+			context.fillRect(525,75,150,150);
+			context.fillRect(525,250,150,150);				
+			context.moveTo(25+150,25);
+			context.lineTo(25+150,25+450);
+			context.moveTo(25+300,25);
+			context.lineTo(25+300,25+450);
+			context.moveTo(25,25+150);
+			context.lineTo(25+450,25+150);
+			context.moveTo(25,25+300);
+			context.lineTo(25+450,25+300);
+			context.lineWidth=4;
+			context.lineCap='round';
+			context.stroke();
+		});
+
+	controller.addElementType(
 		"currentPlayer",
 		function (context) {
 			var gradient = context.createLinearGradient(25,25,525,325);
@@ -65,7 +65,7 @@ CreTictactoe.onload = function ()
 		{width:150, height:150}		
 	);
 			
-	controller.addElementDrawing(
+	controller.addElementType(
 		"X",
 		function (context) {
 			var color1, color2;
@@ -98,10 +98,33 @@ CreTictactoe.onload = function ()
 			context.arc(0,0,50,0,2*Math.PI);
 		},
 		{width:150, height:150}		
-
 	);
+	
+	controller.addElementType(
+			"XWin",
+			function (context) {
+				context.lineCap='round';
+				context.lineWidth=40;
+				context.moveTo(-50,-50);
+				context.bezierCurveTo(50,0,0,50,50,50);
+				context.moveTo(-50,50);
+				context.bezierCurveTo(-20,0,30, -25, 50, -50);
+				var gradient = context.createLinearGradient(-45,-30,55,60);
+				gradient.addColorStop(0.0,"#FF0");
+				gradient.addColorStop(1.0,"#BBB");					
+				context.strokeStyle = gradient;
+				context.stroke();
+				context.moveTo(-50,-50);
+				context.lineTo(50,-50);
+				context.moveTo(50,50);
+				context.lineTo(-50,50);
+				
+				context.arc(0,0,50,0,2*Math.PI);
+			}
+		);
 
-	controller.addElementDrawing(
+
+	controller.addElementType(
 		'O',
 		function (context) {
 			var color1, color2;
@@ -125,7 +148,7 @@ CreTictactoe.onload = function ()
 		{width:150, height:150}		
 	);
 
-	controller.addElementDrawing(
+	controller.addElementType(
 		'case',
 		function (context) {
 			// 99% transparent!
@@ -135,7 +158,7 @@ CreTictactoe.onload = function ()
 		{width:150, height:150}		
 	);
 	
-	controller.addElementDrawing(
+	controller.addElementType(
 		'resetButton',
 		function (context) {
 			context.arc(0,0,25,0,2*Math.PI);

@@ -42,7 +42,7 @@ var setImage = function(element, imageData)
 	element.elementScaleX = imageData["scaleX"] || 1;
 	element.elementScaleY = imageData["scaleY"] || 1;
 	
-	element.drawingMethod = imageData["drawingMethod"];
+	element.elementType = imageData["elementType"];
 };
 	
 var setPosition = function(element, position)
