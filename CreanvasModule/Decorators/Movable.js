@@ -10,7 +10,7 @@ var applyTo = function(element, movableData)
 		console.log('startMoving: ' + this.id  + ' from (' + this.elementX +',' + this.elementY +')');
 		this.isMoving = true;
 		this.originalZ = this.elementZ;
-		this.elementZ += 100;
+		this.update('elementZ', this.elementZ + 100);
 	};
 	
 	element.addEventListener(
@@ -43,16 +43,12 @@ var applyTo = function(element, movableData)
 
 			if (!element.isMoving)
 			{
-//				console.log('is not moving');
 				return true;
 			};
 			
-			element.elementX = eventData.x;
-			element.elementY = eventData.y;
+			element.update('elementX', eventData.x);
+			element.update('elementY', eventData.y);
 
-//			console.log('Moving' + element.id  + ' to (' + element.elementX +',' + element.elementY +')');
-			
-			element.toUpdate = true;			
 			return false;
 		});
 
@@ -63,12 +59,11 @@ var applyTo = function(element, movableData)
 			if (isBlocked && isBlocked(element, eventData.originSocketId)) 
 				return;
 
-			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +',' + element.elementZ +')');
 			element.isMoving = false;
-			element.elementZ = element.originalZ;
-			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +',' + element.elementZ +')');
-			element.toUpdate = true;
+			element.update('elementZ', element.originalZ);
 			element.touchIdentifier = null;
+
+			console.log('StopMoving' + element.id  + ' at (' + element.elementX +',' + element.elementY +',' + element.elementZ +')');
 			return false;
 		});
 };

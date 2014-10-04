@@ -51,8 +51,7 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 		game.blockedO = false;
 		game.controller.applicationEmit('textMessage',  {message:'X has played !'});
 		game.controller.socketEmit(game.playerO, 'textMessage',  {message:'Your turn !'});
-		game.currentPlayer.elementY=325;
-		game.currentPlayer.toUpdate = true;
+		game.currentPlayer.update('elementY', 325);
 		game.checkWin('X');
 	};
 
@@ -61,15 +60,14 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 		game.blockedX = false;
 		game.controller.applicationEmit('textMessage',  {message:'O has played !'});
 		game.controller.socketEmit(game.playerX, 'textMessage',  {message:'Your turn !'});
-		game.currentPlayer.elementY=150;
-		game.currentPlayer.toUpdate = true;		
+		game.currentPlayer.update('elementY',150);
 		game.checkWin('O');
 	};
 
 	this.controller.addElement
 	(
 		["name", "Xsource"],
-		["image", { "width":150,"height":150, "elementType": 'X'}],
+		["image", { "width":150,"height":150, "typeName": 'X'}],
 		["position", {"x": 600, "y": 150, "angle": Math.PI / 4}],			
 		["duplicable", {"generatorCount":3, "isBlocked":function(element, originSocketId){return game.blockedX || originSocketId != game.playerX;}}],
 		["droppable", {ondrop: game.ondropX}],
@@ -79,7 +77,7 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	this.currentPlayer = this.controller.addElement
 	(
 		["name", "currentPlayer"],
-		["image", { "width":150,"height":150, "elementType": 'currentPlayer'}],
+		["image", { "width":150,"height":150, "typeName": 'currentPlayer'}],
 		["position", {"x": 600, "y": 150, "z":-100}]
 	);
 
@@ -87,7 +85,7 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	{
 		return game.controller.addElement(
 			["name", 'case(' + x + ',' + y + ')'],
-			["image", { "top":0, "left":0, "width":150, "height":150, "elementType":'case'}],
+			["image", { "top":0, "left":0, "width":150, "height":150, "typeName":'case'}],
 			["position", { x: 100 + x*150, y: 100 + y*150, z:-100 }],
 			["dropzone", { dropX: 100 + x*150, dropY: 100 + y*150, availableSpots:1 }] 
 		);
@@ -105,11 +103,11 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	}
 };
 
-TicTacToeGame.prototype.checkWin = function(elementType){
+TicTacToeGame.prototype.checkWin = function(typeName){
 	var played = [];
 	
 	for (var i = 0; i<3; i++) { for (var j = 0; j<3; j++) {		
-		if (this.cases[i][j].droppedElementsList.length>0 && this.cases[i][j].droppedElementsList[0].elementType == elementType)
+		if (this.cases[i][j].droppedElementsList.length>0 && this.cases[i][j].droppedElementsList[0].typeName == typeName)
 		{
 			played.push({i:i, j:j, dropped: this.cases[i][j].droppedElementsList[0]});
 		}
@@ -119,14 +117,14 @@ TicTacToeGame.prototype.checkWin = function(elementType){
 	
 	if ((played[0].i-played[1].i)*(played[0].j-played[2].j) == (played[0].j-played[1].j)*(played[0].i-played[2].i))
 	{
-		if (elementType == 'O')
+		if (typeName == 'O')
 		{
 		for(var k=0; k<3; k++)
 		{
 			played[k].dropped.controller.addElement
 			(
 				["name", "winner"],
-				["image", { "width":150,"height":150, "elementType": 'currentPlayer'}],
+				["image", { "width":150,"height":150, "typeName": 'currentPlayer'}],
 				["position", {"x": played[k].dropped.elementX, "y": played[k].dropped.elementY, "z":-50}]
 			);
 		}
@@ -135,14 +133,12 @@ TicTacToeGame.prototype.checkWin = function(elementType){
 		{
 			for(var k=0; k<3; k++)
 			{
-				played[k].dropped.elementType = 'XWin';
-				played[k].dropped.toUpdate = true;
+				played[k].dropped.update('typeName', 'XWin');
 			}
 			
 		}
-		this.currentPlayer.elementY = elementType=='X'?150:325;
-		this.currentPlayer.toUpdate = true;
-		this.controller.applicationEmit('textMessage',  {message:elementType + ' has won !!!'});
+		this.currentPlayer.update('elementY', typeName=='X'?150:325);
+		this.controller.applicationEmit('textMessage',  {message:typeName + ' has won !!!'});
 		this.blockedX = true;
 		this.blockedO = true;
 	}
@@ -156,12 +152,14 @@ TicTacToeGame.prototype.join = function(socket){
 	this.controller.socketEmit(socket.id, 'textMessage', {message:'New game, you are O'});
 	this.playerO = socket.id;
 
-	this.controller.elements.forEach(function(e){ e.toUpdate = true; });
+	this.controller.elements.forEach(function(e){ 
+		e.fullUpdate();
+	});
 	
 	this.controller.addElement
 	(
 		["name", "Osource"],
-		["image", { "width":150,"height":150, "elementType": 'O'}],
+		["image", { "width":150,"height":150, "typeName": 'O'}],
 		["position", {"x": 600, "y": 325, "scaleX": 0.8, "scaleY": 1.2}],			
 		["duplicable", {"generatorCount":3, "isBlocked":function(element, originSocketId){return game.blockedO || originSocketId != game.playerO;}}],
 		["droppable", {ondrop: game.ondropO}],

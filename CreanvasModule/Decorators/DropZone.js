@@ -29,13 +29,11 @@ var applyTo = function(element, dropzoneData)
 			
 			console.log('Dropping ' + dropped.id  + ' at (' + dropped.elementX +',' + dropped.elementY +')');
 			
-			if (dropX) dropped.elementX = dropX;
-			if (dropY) dropped.elementY = dropY;
+			if (dropX) dropped.update('elementX', dropX);
+			if (dropY) dropped.update('elementY', dropY);
 			
 			console.log('Adjusting ' + dropped.id + ' to (' + dropped.elementX + ',' + dropped.elementY + ')');
 
-			dropped.toUpdate = true;
-			
 			if (dropped.ondrop)
 				dropped.ondrop(element, dropped);
 			

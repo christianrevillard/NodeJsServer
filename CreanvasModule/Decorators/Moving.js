@@ -42,33 +42,34 @@ var applyTo = function(element, elementMoving)
 				element.elementScaleSpeed.x == 0 && element.elementScaleSpeed.y==0						
 				)))
 		{
-			console.log('Not moving');
 			return;
 		}
 		
+		/*
 		rollbackData = {
 				elementX:element.elementX, 
 				elementY:element.elementY, 
 				elementAngle:element.elementAngle,
 				elementScaleX:element.elementScaleX,
-				elementScaleY:element.elementScaleY};
+				elementScaleY:element.elementScaleY};*/
 
-		element.elementX += element.movingSpeed.x * dt;
-		element.elementY += element.movingSpeed.y * dt;				
-		element.elementAngle += element.omega * dt;
+		element.update('elementX', element.elementX + element.movingSpeed.x * dt);
+		element.update('elementY', element.elementY + element.movingSpeed.y * dt);				
 
-		while (element.elementAngle > Math.PI)
-			element.elementAngle-= 2* Math.PI
-
-		while (element.elementAngle < -Math.PI)
-			element.elementAngle+= 2* Math.PI
+		var newAngle = element.elementAngle + element.omega * dt;
+		while (newAngle > Math.PI)
+			newAngle-= 2* Math.PI
+		while (newAngle < -Math.PI)
+			newAngle+= 2* Math.PI
+		element.update('elementAngle', newAngle );
 
 		if (element.elementScaleSpeed)
 		{
-			element.elementScaleX += element.elementScaleSpeed.x * dt;	
-			element.elementScaleY += element.elementScaleSpeed.y * dt;	
+			element.update('elementScaleX', element.elementScaleX + element.elementScaleSpeed.x * dt);	
+			element.update('elementScaleY', element.elementScaleY + element.elementScaleSpeed.y * dt);	
 		}
 
+		/*
 		var preMoveOk = true;
 
 		if (element.preMove)
@@ -96,8 +97,12 @@ var applyTo = function(element, elementMoving)
 		}
 		else
 		{
-			element.toUpdate = true;
-		}
+			element.update('elementX');
+			element.update('elementY');
+			element.update('elementAngle');
+			element.update('elementScaleY');
+			element.update('elementScaleX');
+		}*/
 	}, 20);
 		
 };

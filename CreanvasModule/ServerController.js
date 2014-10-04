@@ -19,25 +19,13 @@ var Controller  = function(applicationSocket, applicationInstance) {
 	var moving = [];
 	
 	console.log('Setting up for Creanvas');
-
-	var getElementsClientDetails = function(e){
-		return {
-			id: e.id,
-			x: e.elementX,
-			y: e.elementY,
-			z : e.elementZ,			
-			angle: e.elementAngle,
-			scaleX: e.elementScaleX,
-			scaleY: e.elementScaleY,
-			elementType:e.elementType};
-	};
 	
 	setInterval(
 		function()
 		{
 			var toUpdate = controller
 				.elements
-				.filter(function(e){ return e.toUpdate; });
+				.filter(function(e){ return e.toUpdate != null; });
 
 			var toDelete = controller
 			.elements
@@ -48,10 +36,10 @@ var Controller  = function(applicationSocket, applicationInstance) {
 				controller.applicationEmit(
 						'updateClientElements', 
 						{
-							updates: toUpdate.map(function(e){ return getElementsClientDetails(e);}),
+							updates: toUpdate.map(function(e){ return e.toUpdate;}),
 							deletes: toDelete.map(function(e){ return {id: e.id};})
 						});
-				toUpdate.forEach(function(e){ e.toUpdate = false; });
+				toUpdate.forEach(function(e){ e.toUpdate = null; });
 				toDelete.forEach(function(e){ controller.removeElement(e); });
 			}
 		},
@@ -99,9 +87,6 @@ var Controller  = function(applicationSocket, applicationInstance) {
 	var positionData = args.filter(function(arg){ return arg && arg[0]=="position";})[0]; // mandatory
 	
 	var element = new serverElement.Element (controller, identificationData, imageData, positionData);
-
-	element.id = controller.elements.length + 1;
-//	console.log('New element : ' + element.id);
 	
 	var decoratorArguments = args.filter(function(arg){ return arg && arg[0]!="name" && arg[0]!="position" && arg[0]!="image";});
 	
@@ -111,8 +96,6 @@ var Controller  = function(applicationSocket, applicationInstance) {
 		element.applyElementDecorators.apply(element, decoratorArguments);
 	}
 	
-	element.toUpdate = true;
-
 	controller.elements.push(element);
 
 /*	// only on the current? or change the join process... to see...
