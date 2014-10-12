@@ -45,18 +45,27 @@ var applyTo = function(element, elementMoving)
 			return;
 		}
 		
-		/*
-		rollbackData = {
-				elementX:element.elementX, 
-				elementY:element.elementY, 
-				elementAngle:element.elementAngle,
-				elementScaleX:element.elementScaleX,
-				elementScaleY:element.elementScaleY};*/
+		// will need a real one here !
+		var updatedElement = {
+				elementX: element.elementX + element.movingSpeed.x * dt, 
+				elementY:element.elementY + element.movingSpeed.y * dt, 
+				elementAngle:element.elementAngle + element.omega * dt,
+				elementScaleX:element.elementScaleSpeed?element.elementScaleX + element.elementScaleSpeed.x * dt : element.elementScaleX,
+				elementScaleY:element.elementScaleSpeed?element.elementScaleY + element.elementScaleSpeed.y * dt : element.elementScaleY,
+				edges: element.edges,
+				getEdges: element.getEdges,
+				controller:element.controller,
+				getRealXYFromElementXY:element.getRealXYFromElementXY};
 
-		element.update('elementX', element.elementX + element.movingSpeed.x * dt);
-		element.update('elementY', element.elementY + element.movingSpeed.y * dt);				
+		if (element.preMove && !element.preMove(updatedElement))
+		{	
+			return;
+		}
 
-		var newAngle = element.elementAngle + element.omega * dt;
+		element.update('elementX', updatedElement.elementX);
+		element.update('elementY', updatedElement.elementY);				
+
+		var newAngle = updatedElement.elementAngle;
 		while (newAngle > Math.PI)
 			newAngle-= 2* Math.PI
 		while (newAngle < -Math.PI)
@@ -65,44 +74,10 @@ var applyTo = function(element, elementMoving)
 
 		if (element.elementScaleSpeed)
 		{
-			element.update('elementScaleX', element.elementScaleX + element.elementScaleSpeed.x * dt);	
-			element.update('elementScaleY', element.elementScaleY + element.elementScaleSpeed.y * dt);	
+			element.update('elementScaleX', updatedElement.elementScaleX);	
+			element.update('elementScaleY', updatedElement.elementScaleY);	
 		}
-
-		/*
-		var preMoveOk = true;
-
-		if (element.preMove)
-		{						
-			element.preMove.forEach(
-				function(preMoveFunction)
-				{
-					if (!preMoveOk)
-						return;
-					
-					if (!preMoveFunction.call(element))
-					{
-						preMoveOk = false;
-					}
-				}
-			);
-		}
-								
-		if (!preMoveOk) {
-			element.elementX = rollbackData.elementX;
-			element.elementY = rollbackData.elementY;
-			element.elementAngle = rollbackData.elementAngle;						
-			element.elementScaleX = rollbackData.elementScaleX;	
-			element.elementScaleY = rollbackData.elementScaleY;
-		}
-		else
-		{
-			element.update('elementX');
-			element.update('elementY');
-			element.update('elementAngle');
-			element.update('elementScaleY');
-			element.update('elementScaleX');
-		}*/
+		
 	}, 20);
 		
 };

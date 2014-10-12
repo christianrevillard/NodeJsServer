@@ -45,7 +45,7 @@ var setImage = function(element, imageData) {
 
 	// scaling decorator ?? => should be
 	element.update('elementScaleX', imageData["scaleX"] || 1);
-	element.update('elementScale', imageData["scaleY"] || 1);
+	element.update('elementScaleY', imageData["scaleY"] || 1);
 
 	element.update('typeName', imageData["typeName"]);
 };
@@ -165,6 +165,83 @@ Element.prototype.removeEventListener = function(id) {
 	}).forEach(function(e) {
 		e.action = null;
 	});
+};
+	
+Element.prototype.isPointInElementEdges = function(x, y) {
+		
+	var element = this;
+	
+	var realEdges = element.getRealEdges();
+
+	if (realEdges.length == 0)
+		return false;;
+
+	var edgeSegments = [];
+	
+	for(var i=0; i < realEdges.length; i++)
+	{
+		edgeSegments.push({A:realEdges[i], B:realEdges[i==realEdges.length-1?0:i+1], i:i});
+	}
+			
+	var intersections = edgeSegments
+		.filter(function(s){ 
+			return (s.A.y-y)*(s.B.y-y)<0 && 
+			(s.A.x > x || s.B.x > x) &&
+			((s.A.x > x && s.B.x > x) || s.A.x + (y-s.A.y)*(s.B.x - s.A.x)/(s.B.y-s.A.y) > x )
+			; });
+		
+	return intersections.length % 2 == 1;
+};
+
+Element.prototype.getRealXYFromElementXY  = function(elementXY)
+{	
+	var element= this;
+	
+	var xy = { 
+		x: (element.elementX + element.elementScaleX * (elementXY.x*Math.cos(element.elementAngle) - elementXY.y*Math.sin(element.elementAngle))),
+		y: (element.elementY + element.elementScaleY * (elementXY.x*Math.sin(element.elementAngle) + elementXY.y*Math.cos(element.elementAngle)))};
+	
+	//console.log ("("+ elementXY.x  +","+ elementXY.y+") => ("+ xy.x  +","+ xy.y+")");
+	return xy;
+};
+
+Element.prototype.getEdges = function()
+{
+	if (this.edges)
+		return this.edges;
+
+	var element = this;
+	
+	var elementType = element.controller.elementTypes.filter(function(t){ return t.typeName == element.typeName});
+	
+	if (elementType.length == 0 || !elementType[0].edges)
+		return [];
+
+	return this.edges = elementType[0].edges; 	
+}
+
+Element.prototype.getRealEdges  = function()
+{
+	var element = this;
+
+	if (!this.realEdges 
+			|| this.realEdges.x!=this.elementX 
+			|| this.realEdges.y!=this.elementY
+			|| this.realEdges.angle!=this.elementAngle
+			|| this.realEdges.scaleX!=this.elementScaleX
+			|| this.realEdges.scaleY!=this.elementScaleY)
+	{
+		this.realEdges = 
+			{	x: this.elementX,
+				y: this.elementY,
+				angle: this.elementAngle,
+				scaleX: this.elementScaleX,
+				scaleY: this.elementScaleY,
+				edges: this.getEdges().map(function(e){ return element.getRealXYFromElementXY(e);})
+			};
+	}
+
+	return this.realEdges.edges
 };
 
 exports.Element = Element;

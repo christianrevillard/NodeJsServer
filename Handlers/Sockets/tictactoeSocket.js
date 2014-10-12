@@ -15,9 +15,7 @@ var startApplication = function(socketName) {
 		console.log('user connected: ' + socket.id);
 				
 		socket.on('disconnect', function(){
-			socket.broadcast.emit('played', 'I am out !');
-			console.log('user disconnected');
-		});
+			console.log('user disconnected');});
   
 		socket.on('joinGame', function()
 		{
@@ -31,6 +29,11 @@ var startApplication = function(socketName) {
 				console.log('Joining a game' );
 				games[games.length-1].join(socket);
 			}
+			
+			socket.on('disconnect', function(){
+				games[games.length-1].controller.applicationInstanceBroadcast(
+					socket, 'textMessage', {message:'He has left !'});
+			});
 		});
 	});
 };
@@ -41,7 +44,7 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	this.controller = new serverController.Controller(tictactoe, gameName)
 	this.controller.addSocket(socket);	
 	this.playerX = socket.id;	
-	this.controller.socketEmit(socket.id, 'textMessage', {message:'New game, you are X'});
+	this.controller.emitToSocket(socket.id, 'textMessage', {message:'New game, you are X'});
 
 	this.blockedX = false;
 	this.blockedO = true;
@@ -49,8 +52,8 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	this.ondropX = function(dropzone, dropped){ 
 		game.blockedX = true; 
 		game.blockedO = false;
-		game.controller.applicationEmit('textMessage',  {message:'X has played !'});
-		game.controller.socketEmit(game.playerO, 'textMessage',  {message:'Your turn !'});
+		game.controller.applicationInstanceEmit('textMessage',  {message:'X has played !'});
+		game.controller.emitToSocket(game.playerO, 'textMessage',  {message:'Your turn !'});
 		game.currentPlayer.update('elementY', 325);
 		game.checkWin('X');
 	};
@@ -58,8 +61,8 @@ var TicTacToeGame = function(tictactoe, socket, gameName){
 	this.ondropO = function(dropzone, dropped){ 
 		game.blockedO = true; 
 		game.blockedX = false;
-		game.controller.applicationEmit('textMessage',  {message:'O has played !'});
-		game.controller.socketEmit(game.playerX, 'textMessage',  {message:'Your turn !'});
+		game.controller.applicationInstanceEmit('textMessage',  {message:'O has played !'});
+		game.controller.emitToSocket(game.playerX, 'textMessage',  {message:'Your turn !'});
 		game.currentPlayer.update('elementY',150);
 		game.checkWin('O');
 	};
@@ -138,7 +141,7 @@ TicTacToeGame.prototype.checkWin = function(typeName){
 			
 		}
 		this.currentPlayer.update('elementY', typeName=='X'?150:325);
-		this.controller.applicationEmit('textMessage',  {message:typeName + ' has won !!!'});
+		this.controller.applicationInstanceEmit('textMessage',  {message:typeName + ' has won !!!'});
 		this.blockedX = true;
 		this.blockedO = true;
 	}
@@ -148,8 +151,8 @@ TicTacToeGame.prototype.join = function(socket){
 	var game = this;
 	
 	this.controller.addSocket(socket);
-	this.controller.applicationBroadcast(socket, 'textMessage', {message:'O has joined'});
-	this.controller.socketEmit(socket.id, 'textMessage', {message:'New game, you are O'});
+	this.controller.applicationInstanceBroadcast(socket, 'textMessage', {message:'O has joined'});
+	this.controller.emitToSocket(socket.id, 'textMessage', {message:'New game, you are O'});
 	this.playerO = socket.id;
 
 	this.controller.elements.forEach(function(e){ 

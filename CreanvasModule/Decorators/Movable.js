@@ -2,7 +2,9 @@ var applyTo = function(element, movableData)
 {
 	var controller = element.controller;
 	var isBlocked =  movableData["isBlocked"];
-	
+
+	element.isMovable = true;
+
 	element.isMoving = false;
 	
 	element.startMoving = function()
@@ -46,6 +48,23 @@ var applyTo = function(element, movableData)
 				return true;
 			};
 			
+			// will need a real one here !
+			var updatedElement = {
+					elementX: eventData.x, 
+					elementY: eventData.y, 
+					elementAngle:element.elementAngle,
+					elementScaleX:element.elementScaleX,
+					elementScaleY:element.elementScaleY,
+					typeName: element.typeName,
+					getEdges: element.getEdges,
+					controller:element.controller,
+					getRealXYFromElementXY:element.getRealXYFromElementXY};
+			
+			if (element.preMove && !element.preMove(updatedElement))
+			{	
+				return false;
+			}
+						
 			element.update('elementX', eventData.x);
 			element.update('elementY', eventData.y);
 

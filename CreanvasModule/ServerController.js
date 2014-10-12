@@ -1,7 +1,5 @@
 var serverElement = require("./ServerElement");
 
-this.elements = [];
-
 var Controller  = function(applicationSocket, applicationInstance) {
 	
 	var controller = this;
@@ -15,6 +13,7 @@ var Controller  = function(applicationSocket, applicationInstance) {
 	controller.applicationInstance = applicationInstance;
 	
 	controller.elements = [];
+	controller.elementTypes = [];
 	var movable = [];
 	var moving = [];
 	
@@ -33,7 +32,7 @@ var Controller  = function(applicationSocket, applicationInstance) {
 
 			if (toUpdate.length>0 || toDelete.length>0)
 			{
-				controller.applicationEmit(
+				controller.applicationInstanceEmit(
 						'updateClientElements', 
 						{
 							updates: toUpdate.map(function(e){ return e.toUpdate;}),
@@ -46,17 +45,17 @@ var Controller  = function(applicationSocket, applicationInstance) {
 		50
 	);
 
-	this.applicationEmit = function(command, data)
+	this.applicationInstanceEmit = function(command, data)
 	{
 		applicationSocket.to(this.applicationInstance).emit(command, JSON.stringify(data));
 	}
 	
-	this.applicationBroadcast = function(socket, command, data)
+	this.applicationInstanceBroadcast = function(socket, command, data)
 	{
 		socket.broadcast.to(this.applicationInstance).emit(command, JSON.stringify(data));
 	}
 
-	this.socketEmit = function(socketId, command, data)
+	this.emitToSocket = function(socketId, command, data)
 	{
 		applicationSocket.to(socketId).emit(command, JSON.stringify(data));
 	}
@@ -69,7 +68,7 @@ var Controller  = function(applicationSocket, applicationInstance) {
 	  return els[0];
   };
 
-   Controller.prototype.getElementByTouchIdentifier = function(touchId)
+ Controller.prototype.getElementByTouchIdentifier = function(touchId)
    {
 		var byIdentifier = this.elements.filter(function(e){return e.touchIdentifier == touchId;});
 		return byIdentifier.length>0 ? byIdentifier[0] : null;
@@ -100,7 +99,7 @@ var Controller  = function(applicationSocket, applicationInstance) {
 
 /*	// only on the current? or change the join process... to see...
 	// should be: add on all. Have a system to add existing elment to application that can be joined after start.
-	controller.applicationEmit(
+	controller.applicationInstanceEmit(
 			'addElement', 
 			{
 				id:element.id, 
@@ -134,25 +133,32 @@ Controller.prototype.addSocket = function (socket)
 		{
 			eventData.identifierElement.triggerEvent(eventData);
 		}
-		
-		eventData.hits.forEach(function(hitId){
+				
+		var hits = controller
+			.elements
+			.filter(function(e){ return e.isPointInElementEdges(eventData.x, eventData.y);})
+			.sort(function(a,b){return (b.elementZ || 0 - a.elementZ || 0);});
+
+		hits.forEach(function(hit){
 			
 			if (!bubble)
 				return;
 			
-			if (eventData.identifierElement && hitId.id == eventData.identifierElement.id)
-				return;
-
-			var hit = controller.getElementById(hitId.id);
-
-			if (!hit)
+			if (eventData.identifierElement && hit.id == eventData.identifierElement.id)
 				return;
 			
 			bubble = hit.triggerEvent(eventData);
 		});
 	});
-
+		
+	socket.on('registerEdges', function(message){		
+		var edgesData= JSON.parse(message);
+		
+		if (controller.elementTypes.filter(function(t){return t.typeName == edgesData.typeName;}).length>0)
+			return;
+		
+		controller.elementTypes.push(edgesData);
+	});
 };
-
 
 exports.Controller = Controller;

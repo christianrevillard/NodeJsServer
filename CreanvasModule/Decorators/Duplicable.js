@@ -1,6 +1,8 @@
 var applyTo = function(element, duplicableData) {
 
 	var controller = element.controller;
+	
+	element.isDuplicable = true;
 
 	var isBlocked =  duplicableData["isBlocked"];
 	var generatorCount = duplicableData["generatorCount"] || Infinity;
