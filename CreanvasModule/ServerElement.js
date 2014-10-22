@@ -168,10 +168,11 @@ Element.prototype.removeEventListener = function(id) {
 };
 	
 Element.prototype.isPointInElementEdges = function(x, y) {
-		
+
 	var element = this;
 	
-	var realEdges = element.getRealEdges();
+	// borderline effect with y, just remove them ! (alt, map to 1.001 or something, or?)
+	var realEdges = element.getRealEdges().filter(function(realEdge){return realEdge.y != y });
 
 	if (realEdges.length == 0)
 		return false;;
@@ -182,14 +183,14 @@ Element.prototype.isPointInElementEdges = function(x, y) {
 	{
 		edgeSegments.push({A:realEdges[i], B:realEdges[i==realEdges.length-1?0:i+1], i:i});
 	}
-			
+	
 	var intersections = edgeSegments
 		.filter(function(s){ 
 			return (s.A.y-y)*(s.B.y-y)<0 && 
 			(s.A.x > x || s.B.x > x) &&
 			((s.A.x > x && s.B.x > x) || s.A.x + (y-s.A.y)*(s.B.x - s.A.x)/(s.B.y-s.A.y) > x )
 			; });
-		
+
 	return intersections.length % 2 == 1;
 };
 

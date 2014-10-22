@@ -58,7 +58,8 @@ var applyTo = function(element, elementMoving)
 				getRealXYFromElementXY:element.getRealXYFromElementXY};
 
 		if (element.preMove && !element.preMove(updatedElement))
-		{	
+		{
+//			console.log('Cannot move  '+ element.id);
 			return;
 		}
 

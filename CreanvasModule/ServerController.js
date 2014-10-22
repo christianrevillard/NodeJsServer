@@ -151,8 +151,11 @@ Controller.prototype.addSocket = function (socket)
 		});
 	});
 		
-	socket.on('registerEdges', function(message){		
+	socket.on('registerEdges', function(message){				
 		var edgesData= JSON.parse(message);
+		
+		
+		console.log("Registering edges for " + edgesData.typeName);
 		
 		if (controller.elementTypes.filter(function(t){return t.typeName == edgesData.typeName;}).length>0)
 			return;

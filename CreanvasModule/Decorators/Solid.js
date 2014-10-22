@@ -3,6 +3,8 @@ var applyTo = function(element, solidData) {
 	
 	element.isSolid = true;
 	
+	console.log('Applying solid');
+	
 	// TODO: can other type than Solid implement a Premove: change stuff here...
 	element.preMove = function(updatedElement)
 	{
@@ -19,7 +21,8 @@ var applyTo = function(element, solidData) {
 			function(other)
 			{				 
 				return realEdges
-					.every(function(realEdge){ return !other.isPointInElementEdges(realEdge.x, realEdge.y);});
+					.every(function(realEdge){ 
+						return !other.isPointInElementEdges(realEdge.x, realEdge.y);});
 			});
 	};
 };

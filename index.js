@@ -33,6 +33,7 @@ handlers.push(["/upload", alias.getHtml('./resources/html/uploadImage.html')]);
 handlers.push(["/upload/start", alias.getHtml('./resources/html/uploadImage.html')]);
 handlers.push(["/upload/upload", require("./Handlers/Pages/upload/UploadHandler")]);
 handlers.push(["/tictactoe", alias.getHtml('./resources/html/tictactoe.html')]);
+handlers.push(["/collision", alias.getHtml('./resources/html/collision.html')]);
 
 /* ajax requests */
 handlers.push(["/testAjax", require("./Handlers/Ajax/TestAjaxHandler")]);
