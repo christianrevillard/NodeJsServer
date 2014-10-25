@@ -59,6 +59,7 @@ var applyTo = function(element, elementMoving)
 
 		if (element.preMove && !element.preMove(updatedElement))
 		{
+			element.update('elementX', element.elementX);
 //			console.log('Cannot move  '+ element.id);
 			return;
 		}
