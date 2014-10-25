@@ -22,7 +22,7 @@ var applyTo = function(element, elementMoving)
 
 	lastUpdated = element.controller.getTime();
 
-	setInterval(function() {
+	element.controller.setInterval(function() {
 		
 		currentTime = element.controller.getTime();
 		dt = currentTime - lastUpdated;

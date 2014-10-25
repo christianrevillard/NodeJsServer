@@ -4,9 +4,18 @@ var Controller  = function(applicationSocket, applicationInstance) {
 	
 	var controller = this;
 
+	controller.socketCount = 0;
+
+	controller.intervals=[];
+
+	controller.setInterval = function(intervalFunction, time)
+	{
+		controller.intervals.push(setInterval(intervalFunction, time));
+	};
+
 	var timeScale = 1;
 	var time=0; // seconds
-	setInterval( function(){ time+=10*timeScale/1000;}, 10);
+	controller.setInterval( function(){ time+=10*timeScale/1000;}, 10);
 	this.getTime = function(){return time;};
 
 	controller.applicationSocket = applicationSocket;
@@ -19,7 +28,8 @@ var Controller  = function(applicationSocket, applicationInstance) {
 	
 	console.log('Setting up for Creanvas');
 	
-	setInterval(
+			
+	controller.setInterval(
 		function()
 		{
 			var toUpdate = controller
@@ -44,6 +54,15 @@ var Controller  = function(applicationSocket, applicationInstance) {
 		},
 		50
 	);
+	
+	controller.stop = function()
+	{
+		controller.intervals.forEach(function(interval){ 
+			console.log('stoping interval stuff');
+			clearInterval(interval);
+		});
+		controller.intervals = [];
+	};
 
 	this.applicationInstanceEmit = function(command, data)
 	{
@@ -74,7 +93,7 @@ var Controller  = function(applicationSocket, applicationInstance) {
 		return byIdentifier.length>0 ? byIdentifier[0] : null;
    };
 	  
-  Controller.prototype.addElement = function ()
+ Controller.prototype.addElement = function ()
  {
 //		console.log('Controller.addElement: ' + JSON.stringify(arguments));
 	  var controller = this;
@@ -114,11 +133,27 @@ var Controller  = function(applicationSocket, applicationInstance) {
 	return element;
 };
 
+Controller.prototype.removeSocket = function (socket){
+	var controller = this;
+
+	socket.leave(this.applicationInstance);
+	controller.socketCount-=1;
+	console.log('disconnecting socket ' + socket + ', remaining: ' + controller.socketCount);
+	
+	if (controller.socketCount==0)
+	{
+		console.log('Stopping all stuff.');
+		controller.stop();
+	}
+	
+};
+
 Controller.prototype.addSocket = function (socket)
 {
 	var controller = this;
 
 	socket.join(this.applicationInstance);
+	controller.socketCount+=1;
 
 	socket.on('pointerEvent', function(message){
 		

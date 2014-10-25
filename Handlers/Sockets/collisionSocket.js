@@ -12,12 +12,16 @@ var startApplication = function(socketName) {
 	collision.on('connection', function(socket){
 		
 		console.log('user connected: ' + socket.id);
-				
-		socket.on('disconnect', function(){
-			console.log('user disconnected');});
 
 		// single user room stuff 
-		new CollisionTest(collision, socket)
+		var myStuff = new CollisionTest(collision, socket)
+
+		socket.on('disconnect', function(){
+			console.log('user disconnected');
+			myStuff.controller.removeSocket(socket);
+		});
+		
+
 	});
 };
 
