@@ -30,6 +30,7 @@ var CollisionTest = function(collision, socket){
 	
 	// each user gets a new room
 	this.controller = new serverController.Controller(collision, socket.id)
+	console.log("joining a new room " + socket.id);
 	this.controller.addSocket(socket);	
 
 	this.controller.addElement

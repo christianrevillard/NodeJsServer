@@ -138,7 +138,8 @@ Controller.prototype.removeSocket = function (socket){
 
 	socket.leave(this.applicationInstance);
 	controller.socketCount-=1;
-	console.log('disconnecting socket ' + socket + ', remaining: ' + controller.socketCount);
+	console.log('disconnecting socket ' + socket.id + ', remaining: ' + controller.socketCount);
+	console.log('from ' + this.applicationInstance);
 	
 	if (controller.socketCount==0)
 	{
