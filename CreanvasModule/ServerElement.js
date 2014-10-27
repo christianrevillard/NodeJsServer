@@ -63,9 +63,6 @@ Element.prototype.update = function(field, value) {
 		id : this.id
 	};
 	this.toUpdate[field] = this[field] = value;
-	// juks
-	//console.log ('toUpdate speedX: ' + (this.movingSpeed ? this.movingSpeed.x : null));
-	this.toUpdate.speedX = this.movingSpeed ? this.movingSpeed.x : null;
 };
 
 Element.prototype.fullUpdate = function() {
@@ -77,7 +74,6 @@ Element.prototype.fullUpdate = function() {
 	this.toUpdate.elementScaleY = this.elementScaleY;
 	this.toUpdate.elementAngle = this.elementAngle;
 	this.toUpdate.typeName = this.typeName;
-	this.toUpdate.speedX = this.movingSpeed ? this.movingSpeed.x : null;
 };
 
 Element.prototype.applyElementDecorator = function(decoratorType,

@@ -2,7 +2,7 @@ var applyTo = function(element, customTimerData)
 {	
 	console.log('applying customTimer');
 	
-	element.controller.setInterval(
+	setInterval(
 		function()
 		{
 			customTimerData["action"].call(element);					

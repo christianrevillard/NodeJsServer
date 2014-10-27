@@ -12,16 +12,12 @@ var startApplication = function(socketName) {
 	collision.on('connection', function(socket){
 		
 		console.log('user connected: ' + socket.id);
+				
+		socket.on('disconnect', function(){
+			console.log('user disconnected');});
 
 		// single user room stuff 
-		var myStuff = new CollisionTest(collision, socket)
-
-		socket.on('disconnect', function(){
-			console.log('user disconnected');
-			myStuff.controller.removeSocket(socket);
-		});
-		
-
+		new CollisionTest(collision, socket)
 	});
 };
 
@@ -30,7 +26,6 @@ var CollisionTest = function(collision, socket){
 	
 	// each user gets a new room
 	this.controller = new serverController.Controller(collision, socket.id)
-	console.log("joining a new room " + socket.id);
 	this.controller.addSocket(socket);	
 
 	this.controller.addElement

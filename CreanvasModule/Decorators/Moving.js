@@ -22,7 +22,7 @@ var applyTo = function(element, elementMoving)
 
 	lastUpdated = element.controller.getTime();
 
-	element.controller.setInterval(function() {
+	setInterval(function() {
 		
 		currentTime = element.controller.getTime();
 		dt = currentTime - lastUpdated;
@@ -59,9 +59,7 @@ var applyTo = function(element, elementMoving)
 
 		if (element.preMove && !element.preMove(updatedElement))
 		{
-			element.movingSpeed.x = 0;
-			element.update('elementX', element.elementX);
-			console.log('Cannot move  '+ element.id);
+//			console.log('Cannot move  '+ element.id);
 			return;
 		}
 
@@ -81,7 +79,7 @@ var applyTo = function(element, elementMoving)
 			element.update('elementScaleY', updatedElement.elementScaleY);	
 		}
 		
-	}, 20);
+	}, 40);
 		
 };
 
