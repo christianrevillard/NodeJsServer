@@ -12,12 +12,14 @@ var startApplication = function(socketName) {
 	collision.on('connection', function(socket){
 		
 		console.log('user connected: ' + socket.id);
-				
-		socket.on('disconnect', function(){
-			console.log('user disconnected');});
 
 		// single user room stuff 
-		new CollisionTest(collision, socket)
+		var theStuff = new CollisionTest(collision, socket)
+
+		socket.on('disconnect', function(){
+			theStuff.disconnect();
+			console.log('user disconnected');});
+
 	});
 };
 
@@ -46,6 +48,12 @@ var CollisionTest = function(collision, socket){
 		["solid", {}],
 		["moving", {vx:-100}]
 	);
+	
+	this.disconnect = function()
+	{
+		game.controller.stop();
+		console.log("Stop called, all sever timers stopped");
+	};
 };
 
 exports.startApplication = startApplication;

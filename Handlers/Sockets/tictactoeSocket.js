@@ -19,6 +19,7 @@ var startApplication = function(socketName) {
 		console.log('user connected: ' + socket.id);
 				
 		socket.on('disconnect', function(){
+			
 			console.log('user disconnected');});
   
 		socket.on('joinGame', function()
