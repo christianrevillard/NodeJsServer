@@ -3,7 +3,7 @@ var CreCollision = CreCollision || {};
 CreCollision.onload = function ()
 {		
 	// openshift websocket on 8000
-	var socket = io("/collision:8000");
+	var socket = io("/collision");
 	 		
 	var theCanvas = document.getElementById('theCanvas');
 

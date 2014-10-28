@@ -5,8 +5,10 @@ var start = function(handlers) {
 
 	var server = express();
 	var http = require('http').Server(server);
-	var	io = require('socket.io').listen(http)
+	var	io = require('socket.io').listen(http);
  
+	console.log("Listening to port " + process.env.OPENSHIFT_NODEJS_PORT);
+	
 	http.listen(
 		process.env.OPENSHIFT_NODEJS_PORT || 8888, 
 		process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
