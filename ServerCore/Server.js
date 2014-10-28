@@ -4,7 +4,7 @@ var url = require("url");
 var start = function(handlers) {
 
 	var server = express();
-	var http = require('http').Server(server);
+	var http = require('http').createServer(server);
 	var	io = require('socket.io').listen(http);
  
 	console.log("Listening to port " + process.env.OPENSHIFT_NODEJS_PORT);
