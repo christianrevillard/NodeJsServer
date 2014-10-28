@@ -37,7 +37,7 @@ var CollisionTest = function(collision, socket){
 		["position", {"x": 100, "y": 250}],			
 		["solid", {}],
 		["clickable", {}],
-		["moving", {vx:100}]
+		["moving", {vx:0}]
 	);
 
 	this.controller.addElement
