@@ -1212,7 +1212,12 @@ var CreJs = CreJs || {};
         });
         if (els.length > 0) {
           var el = els[0];
-          el.updated = updated;
+          el.elementX = updated["elementX"] === undefined ? el.elementX : updated["elementX"];
+          el.elementY = updated["elementY"] === undefined ? el.elementY : updated["elementY"];
+          el.elementZ = updated["elementZ"] === undefined ? el.elementZ : updated["elementZ"];
+          el.elementScaleX = updated["elementScaleX"] === undefined ? el.elementScaleX : updated["elementScaleX"];
+          el.elementScaleY = updated["elementScaleY"] === undefined ? el.elementScaleY : updated["elementScaleY"];
+          el.elementAngle = updated["elementAngle"] === undefined ? el.elementAngle : updated["elementAngle"];
           if (updated["typeName"] && el.elementType.typeName != updated["typeName"]) {
             el.elementType = controller.elementTypes.filter(function(e) {
               return e.typeName == updated["typeName"];
@@ -1489,16 +1494,6 @@ var CreJs = CreJs || {};
     setIdentification(element, identificationData[1]);
     setImage(element, imageData[1]);
     setPosition(element, positionData[1]);
-    setInterval(function() {
-      if (element.updated) {
-        element.elementX += .1 * ((element.updated["elementX"] === undefined ? element.elementX : element.updated["elementX"]) - element.elementX);
-        element.elementY += .1 * ((element.updated["elementY"] === undefined ? element.elementY : element.updated["elementY"]) - element.elementY);
-        element.elementZ += .1 * ((element.updated["elementZ"] === undefined ? element.elementZ : element.updated["elementZ"]) - element.elementZ);
-        element.elementScaleX += .1 * ((element.updated["elementScaleX"] === undefined ? element.elementScaleX : element.updated["elementScaleX"]) - element.elementScaleX);
-        element.elementScaleY += .1 * ((element.updated["elementScaleY"] === undefined ? element.elementScaleY : element.updated["elementScaleY"]) - element.elementScaleY);
-        element.elementAngle += .1 * ((element.updated["elementAngle"] === undefined ? element.elementAngle : element.updated["elementAngle"]) - element.elementAngle);
-      }
-    }, 40);
     this.drawMyself = function() {
       var element = this;
       element.controller.context.translate(element.elementX, element.elementY);
