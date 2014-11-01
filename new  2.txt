@@ -1,6 +1,0 @@
-
-- image from image file
-
-- flipper
-
-refactor still...
