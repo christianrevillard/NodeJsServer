@@ -14,6 +14,7 @@ var sendFile = function(response, fileName, contentType, next) {
 			console.log("Serving '" + fileName + "'");	
 			response.writeHead(200, {"Content-Type":  contentType});
 			fs.createReadStream(fileName).pipe(response);					
+			response.end();				
 		});
 };
 
