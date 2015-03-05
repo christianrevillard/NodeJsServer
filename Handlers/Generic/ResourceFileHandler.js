@@ -9,7 +9,7 @@ var getHandler = function(fileLocations,contentType)
 
 			var fileName = url.parse(request.url).pathname;
 			
-			console.log("Resource file handler was called for '" + fileName + "', contentType '" + contentType + "'");	
+	//		console.log("Resource file handler was called for '" + fileName + "', contentType '" + contentType + "'");	
 		
 			var pathLocation = fileName.slice(0, fileName.indexOf('/',1));
 	
