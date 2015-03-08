@@ -15,7 +15,7 @@ var sendFile = function(response, fileName, contentType, next) {
 			
 			if (contentType == "content/html")
 			{
-				console.log("Transforming a content html,adding headers");	
+				console.log("Transforming a content html, adding headers");	
 				response.writeHead(200, {"Content-Type":  "text/html"});
 				// TODO extract/refactor heres...
 								
