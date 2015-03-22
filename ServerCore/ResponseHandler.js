@@ -15,14 +15,14 @@ var sendFile = function(response, fileName, contentType, next) {
 			
 			if (contentType == "text/html")
 			{
-				console.log("Transforming a html, adding common header");	
+				//console.log("Transforming a html, adding common header");	
 				response.writeHead(200, {"Content-Type":  "text/html"});
 								
 				var transform2 = require('stream').Transform;
 				
 				var builder = new transform2({ });
 
-				var stream = fs.createReadStream("./resources/html/commonHeader.html");
+				var stream = fs.createReadStream("./ClientFiles/common/html/commonHeader.html");
 				stream.setEncoding('utf8');
 				var commonHeader = ''
 				stream.on('data',function(buffer){
@@ -50,11 +50,11 @@ var sendFile = function(response, fileName, contentType, next) {
 						var headStart = chunkString.indexOf("<head>");
 						if (headStart>-1){
 							
-							console.log("Found <head> tag in " + chunkString);	
+							//console.log("Found <head> tag in " + chunkString);	
 							var beforeInsert = chunkString.slice(0, headStart + 6);
 							var afterInsert = chunkString.slice(headStart + 7);
 							chunk = beforeInsert + commonHeader + afterInsert;
-							console.log("Chunk updated to  " + chunk);	
+							//console.log("Chunk updated to  " + chunk);	
 							doneHeader = true;
 						}
 					}
