@@ -9,14 +9,4 @@ var getHtml = function(fileName)
 	};	
 };	
 
-var getContentHtml = function(fileName) 
-{
-	return {
-		handle:function(request, response, next){					
-			responseHandler.sendFile(response, fileName, 'content/html', next); 
-		}
-	};	
-};	
-
 exports.getHtml = getHtml;
-exports.getContentHtml = getContentHtml;

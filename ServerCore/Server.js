@@ -4,6 +4,7 @@ var url = require("url");
 var start = function(handlers) {
 
 	var server = express();
+	
 	var http = require('http').createServer(server);
 	var	io = require('socket.io')(http);
 

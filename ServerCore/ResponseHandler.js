@@ -13,60 +13,60 @@ var sendFile = function(response, fileName, contentType, next) {
 			
 //			console.log("Serving '" + fileName + "' '" + contentType + "'");	
 			
-			if (contentType == "content/html")
+			if (contentType == "text/html")
 			{
-				console.log("Transforming a content html, adding headers");	
+				console.log("Transforming a html, adding common header");	
 				response.writeHead(200, {"Content-Type":  "text/html"});
-				// TODO extract/refactor heres...
 								
-				var transform = require('stream').Transform;
+				var transform2 = require('stream').Transform;
 				
-				var masterPageBuilder = new transform({ });
+				var builder = new transform2({ });
 
-				var masterPageStream = fs.createReadStream("./resources/html/masterPage.html");
-				masterPageStream.setEncoding('utf8');
-				var masterPage = ''
-				masterPageStream.on('data',function(buffer){
-				  masterPage += buffer;
+				var stream = fs.createReadStream("./resources/html/commonHeader.html");
+				stream.setEncoding('utf8');
+				var commonHeader = ''
+				stream.on('data',function(buffer){
+					commonHeader += buffer;
 				});
 
-				var intro;
-				var outro;
+				var doneHeader = false;
+				var commonHeaderOK = false;
 
-				var doneIntro = false;
-				var introOK = false;
-
-				masterPageStream.on('end',function(){
-					intro = masterPage.slice(0, masterPage.indexOf("{{Content}}"));
-					outro = masterPage.slice(masterPage.indexOf("{{Content}}")+11);
-					introOK = true;
+				stream.on('end',function(){
+					commonHeaderOK = true;
 				});
 
 				var doTransform  =function(obj, chunk, encoding, callback){
-					if (!introOK)
+					if (!commonHeaderOK)
 					{
+						// should be cached in some way...
 						setTimeout(function(){doTransform(obj, chunk, encoding, callback);}, 10);
 						return;
 					}
-					if (!doneIntro)
+					if (!doneHeader)
 					{
-						doneIntro = true;
-						obj.push(intro);
+
+						var chunkString = chunk.toString();
+						var headStart = chunkString.indexOf("<head>");
+						if (headStart>-1){
+							
+							console.log("Found <head> tag in " + chunkString);	
+							var beforeInsert = chunkString.slice(0, headStart + 6);
+							var afterInsert = chunkString.slice(headStart + 7);
+							chunk = beforeInsert + commonHeader + afterInsert;
+							console.log("Chunk updated to  " + chunk);	
+							doneHeader = true;
+						}
 					}
 					obj.push(chunk); // no transform. 
 					callback();
 				};
 				
-				masterPageBuilder._transform = function(chunk, encoding, callback){
+				builder._transform = function(chunk, encoding, callback){
 					doTransform(this, chunk, encoding, callback);
 				};
 				
-				masterPageBuilder._flush = function(callback){
-					response.write(outro);
-					callback();
-				};
-
-				fs.createReadStream(fileName).pipe(masterPageBuilder).pipe(response);					
+				fs.createReadStream(fileName).pipe(builder).pipe(response);					
 			}
 			else
 			{
