@@ -2,7 +2,7 @@
   "author": "Christian Revillard",
   "name": "cre-nodejs-server",
   "description": "node.js server",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "repository": {
     "url": ""
   },
