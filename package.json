@@ -6,7 +6,7 @@
   "repository": {
     "url": ""
   },
-  "main": "./lib/creNodeJsServer.js",
+  "main": "./creNodeJsServer.js",
   "keywords": [
     "node.js",
     "server",

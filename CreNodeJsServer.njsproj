@@ -16,18 +16,17 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Compile Include="lib\creNodeJsServer.js" />
-    <Compile Include="lib\creServer\commonHeaderTransform.js" />
-    <Compile Include="lib\creServer\connectSocket.js" />
-    <Compile Include="lib\creServer\defaultHandlers.js" />
-    <Compile Include="lib\creServer\pageNotFoundHandler.js" />
-    <Compile Include="lib\creServer\resourceFileHandler.js" />
-    <Compile Include="lib\creServer\responseHandler.js" />
-    <Compile Include="lib\creServer\server.js" />
+    <Compile Include="creNodeJsServer.js" />
+    <Compile Include="creServer\commonHeaderTransform.js" />
+    <Compile Include="creServer\connectSocket.js" />
+    <Compile Include="creServer\defaultHandlers.js" />
+    <Compile Include="creServer\pageNotFoundHandler.js" />
+    <Compile Include="creServer\resourceFileHandler.js" />
+    <Compile Include="creServer\responseHandler.js" />
+    <Compile Include="creServer\server.js" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="lib\" />
-    <Folder Include="lib\creServer\" />
+    <Folder Include="creServer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="package.json" />
