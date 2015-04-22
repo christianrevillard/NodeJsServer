@@ -18,6 +18,7 @@
   <ItemGroup>
     <Content Include="npm_install\package.json" />
     <Content Include="npm_install\README.md" />
+    <Compile Include="npm_install\creNodeJsServer.js" />
     <Compile Include="npm_install\creServer\commonHeaderTransform.js" />
     <Compile Include="npm_install\creServer\connectSocket.js" />
     <Compile Include="npm_install\creServer\defaultHandlers.js" />
