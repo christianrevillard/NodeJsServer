@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{98333091-9b18-4ef6-a8e3-3c79e8110ef7}</ProjectGuid>
+    <ProjectGuid>{6a806e4a-0426-4bc9-8a08-182d3cacab2d}</ProjectGuid>
     <ProjectHome />
     <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile />
@@ -16,21 +16,19 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Compile Include="creNodeJsServer.js" />
-    <Compile Include="creServer\commonHeaderTransform.js" />
-    <Compile Include="creServer\connectSocket.js" />
-    <Compile Include="creServer\defaultHandlers.js" />
-    <Compile Include="creServer\pageNotFoundHandler.js" />
-    <Compile Include="creServer\resourceFileHandler.js" />
-    <Compile Include="creServer\responseHandler.js" />
-    <Compile Include="creServer\server.js" />
+    <Content Include="npm_install\package.json" />
+    <Content Include="npm_install\README.md" />
+    <Compile Include="npm_install\creServer\commonHeaderTransform.js" />
+    <Compile Include="npm_install\creServer\connectSocket.js" />
+    <Compile Include="npm_install\creServer\defaultHandlers.js" />
+    <Compile Include="npm_install\creServer\pageNotFoundHandler.js" />
+    <Compile Include="npm_install\creServer\resourceFileHandler.js" />
+    <Compile Include="npm_install\creServer\responseHandler.js" />
+    <Compile Include="npm_install\creServer\server.js" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="creServer\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="package.json" />
-    <Content Include="README.md" />
+    <Folder Include="npm_install\creServer\" />
+    <Folder Include="npm_install\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
