@@ -1,5 +1,5 @@
 var fs = require("fs");
-var headerTransform = require("./commonHeaderTransform");
+var headerTransform = require("./pageHeaderTransform");
 
 var sendFile = function(response, fileName, contentType, next) {
 	fs.exists(
@@ -12,12 +12,9 @@ var sendFile = function(response, fileName, contentType, next) {
 				next();
 				return;
 			}
-			
-			//console.log("Serving '" + fileName + "' '" + contentType + "'");	
-			
+						
 			if (contentType == "text/html")
 			{
-				//console.log("Transforming a html, adding common header");	
 				response.writeHead(200, {"Content-Type":  "text/html"});								
 		
 				fs

@@ -1,8 +1,8 @@
 var responseHandler = require("./responseHandler");
 
-var handle = function (request,response) {
+var handle = function (request, response) {
 	responseHandler.sendError404(response);
-	console.log('Done 404 page');
+	console.log('pageNotFoundHandler is handling the request');
 };	
 
-exports.handle = handle;
+module.exports = handle;

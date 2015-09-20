@@ -6,7 +6,7 @@
     <ProjectGuid>{6a806e4a-0426-4bc9-8a08-182d3cacab2d}</ProjectGuid>
     <ProjectHome />
     <ProjectView>ShowAllFiles</ProjectView>
-    <StartupFile />
+    <StartupFile>npm_install\examples\socketRemoteClient\index.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
@@ -16,20 +16,55 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="npm_install\backup\commonHeaderTransform.js" />
+    <Compile Include="npm_install\backup\connectSocket.js" />
+    <Compile Include="npm_install\backup\defaultHandlers.js" />
+    <Compile Include="npm_install\backup\pageNotFoundHandler.js" />
+    <Compile Include="npm_install\backup\resourceFileHandler.js" />
+    <Compile Include="npm_install\backup\responseHandler.js" />
+    <Compile Include="npm_install\backup\server.js" />
+    <Compile Include="npm_install\creNodeJsServer - Copy.js" />
+    <Compile Include="npm_install\creServer\sockets.js" />
+    <Compile Include="npm_install\examples\chat\Client\index.js" />
+    <Compile Include="npm_install\examples\chat\index.js" />
+    <Compile Include="npm_install\examples\chat\Socket\chat.js" />
+    <Compile Include="npm_install\examples\socket\Client\index.js" />
+    <Compile Include="npm_install\examples\socket\index.js" />
+    <Compile Include="npm_install\examples\socket\Socket\socketCustom.js" />
+    <Compile Include="npm_install\examples\socketRemoteClient\Client\index.js" />
+    <Compile Include="npm_install\examples\socketRemoteClient\index.js" />
+    <Compile Include="npm_install\examples\web\Client\sum.js" />
+    <Compile Include="npm_install\examples\web\calculate.js" />
+    <Compile Include="npm_install\examples\web\index.js" />
+    <Content Include="npm_install\examples\chat\Client\index.html" />
+    <Content Include="npm_install\examples\socket\Client\index.html" />
+    <Content Include="npm_install\examples\socketRemoteClient\Client\index.html" />
+    <Content Include="npm_install\examples\web\Client\index.html" />
+    <Content Include="npm_install\examples\web\Client\sum.html" />
     <Content Include="npm_install\package.json" />
     <Content Include="npm_install\README.md" />
-    <Compile Include="npm_install\creNodeJsServer.js" />
-    <Compile Include="npm_install\creServer\commonHeaderTransform.js" />
-    <Compile Include="npm_install\creServer\connectSocket.js" />
-    <Compile Include="npm_install\creServer\defaultHandlers.js" />
+    <Compile Include="npm_install\creServer\pageHeaderTransform.js" />
+    <Compile Include="npm_install\creServer\defaultRoutes.js" />
     <Compile Include="npm_install\creServer\pageNotFoundHandler.js" />
-    <Compile Include="npm_install\creServer\resourceFileHandler.js" />
+    <Compile Include="npm_install\creServer\clientFileHandler.js" />
     <Compile Include="npm_install\creServer\responseHandler.js" />
-    <Compile Include="npm_install\creServer\server.js" />
+    <Compile Include="npm_install\server.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="npm_install\creServer\" />
     <Folder Include="npm_install\" />
+    <Folder Include="npm_install\examples\" />
+    <Folder Include="npm_install\examples\chat\" />
+    <Folder Include="npm_install\examples\chat\Client\" />
+    <Folder Include="npm_install\examples\chat\Socket\" />
+    <Folder Include="npm_install\examples\socket\Client\" />
+    <Folder Include="npm_install\examples\socket\Socket\" />
+    <Folder Include="npm_install\examples\socketRemoteClient\" />
+    <Folder Include="npm_install\examples\socketRemoteClient\Client\" />
+    <Folder Include="npm_install\examples\socket\" />
+    <Folder Include="npm_install\examples\web\" />
+    <Folder Include="npm_install\examples\web\Client\" />
+    <Folder Include="npm_install\backup\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
