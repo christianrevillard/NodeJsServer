@@ -45,8 +45,8 @@ List of socket paths that will be initialized at server start. This makes sure t
 
 File that will be included in the head section of all html files.
 
-## contentTypes: mapping between file extensions and content-types, in case something is missing in the default list.
-
+## contentTypes
+Mapping between file extensions and content-types, in case something is missing in the default list.
 
 # Standard route handlers
 
