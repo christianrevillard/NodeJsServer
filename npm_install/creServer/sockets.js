@@ -13,7 +13,7 @@ var socket = function (socketName) {
   var existing = server.io.nsps[socketName]
   
   if (existing) {
-    return existing
+    return existing;
   };
   
   console.log('Setting up a new socket: ' + socketName);
@@ -25,7 +25,7 @@ var socket = function (socketName) {
   catch (e) { }
   
   var socket = server.io.of(socketName);
-  socket.on("connection", socketHandler || function (socket) { console.log( socket.id + ' connected to ' + socketName); })     
+  socket.on("connection", socketHandler || function (socket) { console.log( socket.id + ' is connected to ' + socketName); })     
   
   return socket;
 }

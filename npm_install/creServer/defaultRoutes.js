@@ -8,6 +8,7 @@ var addDefaultRoutes = function (routes) {
   .filter(function (route) { return route.route !== '*'; })
   .concat(
     { route: '*/Client/*', handler: clientFileHandler()},
+    { route: '/temp/*', handler: clientFileHandler() },
     { route: '/', handler: clientFileHandler('./Client/index.html') }
   )
   .concat(defaultRoute)

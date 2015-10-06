@@ -1,8 +1,7 @@
-﻿//var server = require('cre-nodejs-server');
-var server = require('../../server.js');
+﻿var server = require('cre-nodejs-server');
 
 server.start({
-  rootDirectory: require('path').resolve(__dirname)
+  port:80,
+  rootDirectory: require('path').resolve(__dirname),
+  sockets:['/Socket/chat']
 });
-
-server.socket('/Socket/chat');

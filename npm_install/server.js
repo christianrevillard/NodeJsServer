@@ -2,24 +2,24 @@ var express = require("express");
 var url = require("url");
 var defaultRoutes = require('./creServer/defaultRoutes');
 var sockets = require('./creServer/sockets');
+var events = new (require('events').EventEmitter)();
+var defaultTempFolder = '/tmp';
 
 var start = function (parameters) {
   
-  exports.applicationRoot = parameters ? parameters.rootDirectory : null;
-  exports.pageHeader = parameters ? parameters.pageHeader : null;
+  exports.applicationRoot = parameters.rootDirectory;
+  exports.pageHeader = parameters.pageHeader;
+  exports.tempFolder = (parameters ? parameters.tempFolder : []) || defaultTempFolder;
+  exports.contentTypes = parameters.contentTypes;
   
-  var server = express();
-  
-  var http = require('http').createServer(server);
-  exports.io = require('socket.io')(http);
-  
-  var port = (parameters  ? parameters.port : null )  || process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8888;
+  var port = (parameters  ? parameters.port : null) || process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8888;
   var ip = process.env.OPENSHIFT_NODEJS_IP || "0.0.0.0"; //127.0.0.1
-
-	console.log("Listening to " + ip + ":" + port);
+  console.log("Listening to " + ip + ":" + port);
+    
+  var app = express();
+  var server = app.listen(port, ip);
+  exports.io = require('socket.io').listen(server);
 	
-	http.listen(port, ip); 
-  
   var routes =  parameters ? parameters.routes || [] : [];
 
   routes = defaultRoutes.addDefaultRoutes(routes);
@@ -27,14 +27,16 @@ var start = function (parameters) {
   routes.forEach(
     function (route, index) {
       console.log('Registering route', route.route);
-      server.all(route.route, route.handler);
+      app.all(route.route, route.handler);
     });
   
+  if (parameters.sockets) {
+    parameters.sockets.forEach(function (socket) { sockets.socket(socket); });
+  }
+
   console.log("Server has started.");
   
-  if (parameters.onStarted) {
-    parameters.onStarted();
-  }
+  events.emit('serverStarted');
 }
 
 var socket = function (socketName) {
@@ -44,3 +46,4 @@ var socket = function (socketName) {
 exports.start = start;
 exports.socket = socket;
 exports.clientFileHandler = require('./creServer/clientFileHandler');
+exports.events = events;

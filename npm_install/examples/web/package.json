@@ -1,0 +1,10 @@
+{
+  "name": "test-cre-nodejs-server-web",
+  "version": "0.0.0",
+  "dependencies": {
+    "cre-nodejs-server": ">2.0"
+  },
+  "engines": {
+    "node": "*"
+  }
+}

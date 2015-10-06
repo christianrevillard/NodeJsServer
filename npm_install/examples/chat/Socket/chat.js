@@ -12,7 +12,6 @@
   
   socket.on('message', function (msg) {
     console.log('message: ' + msg);
-//    socket.nsp.emit('message', socket.id + ' says: ' + msg);
     socket.broadcast.emit('message', socket.id + ' says: ' + msg);
     socket.emit('message', 'You said: ' + msg);
   });
